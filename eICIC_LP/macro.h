@@ -12,7 +12,7 @@ public:
 	int mobile[MOBILE_NUM];
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
-	
+
 	double location_x;
 	double location_y;
 

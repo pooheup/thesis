@@ -57,7 +57,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 	{
 
 //		for (int i = 0; i < MOBILE_NUM; i++)printf("%d\t\t%d\n", _state_best[i], _state_temp[i]);
-		
+
 		int feasibility = 0; //되!
 
 		if (user_state == 1) // macro 로부터 할당 받았을 때
@@ -98,7 +98,6 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 
 }
 
-
 void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, mobile *_mobile, pico *_pico, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	int i;
@@ -119,7 +118,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	for (i = 0; i < PICO_NUM; i++)
 	{
 		int ABS_indicator = 0; // 0 ABS, 1 non-ABS, 2 non-ABS & second user
-		
+
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
 			if ((_pico[i].macro_neighbor[j] == 1) && (_state_temp[j] == 1))
@@ -129,7 +128,6 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 		}
 
 		if (ABS_indicator == 1 && _pico[i].nA_user1_PA1 != -1 && _macro[_mobile[_pico[i].nA_user1_PA1].macro_service].selected_user_PA1 == _pico[i].nA_user1_PA1) ABS_indicator = 2;
-
 
 		if (ABS_indicator == 0)
 		{
@@ -148,11 +146,10 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 						_user_state_temp[_pico[i].ABS_user2_PA1] = 2;
 					}
 				}
-			
+
 			}
 
 
-			
 		}
 		else if (ABS_indicator == 1)
 		{
@@ -160,7 +157,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 			{
 				_objective_temp = _objective_temp + _lambda[_pico[i].nA_user1_PA1] * _thrpt_nonABS[_pico[i].nA_user1_PA1];
 				_user_state_temp[_pico[i].nA_user1_PA1] = 3;
-			}			
+			}
 		}
 		else
 		{
@@ -168,7 +165,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 			{
 				_objective_temp = _objective_temp + _lambda[_pico[i].nA_user2_PA1] * _thrpt_nonABS[_pico[i].nA_user2_PA1];
 				_user_state_temp[_pico[i].nA_user2_PA1] = 4;
-			}			
+			}
 		}
 	}
 	if (_objective_temp > *_best_value)
@@ -181,7 +178,6 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	//_state_temp 초기화
 	// for (i = 0; i < MACRO_NUM; i++) _state_temp[i] = 0;
 }
-
 
 void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, mobile *_mobile, pico *_pico, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {

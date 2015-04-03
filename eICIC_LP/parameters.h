@@ -8,7 +8,7 @@
 #define SIMULATION_TIME		2000001  /* 전체 simulation 수행 횟수 */
 #define PRINTF_TIME			10000	/* 결과 값 출력 주기 */
 
-#define MOBILE_NUM          50		/* Number of User */ 
+#define MOBILE_NUM          50		/* Number of User */
 #define MACRO_NUM			7		/* Number of macro BS */
 #define PICO_NUM			15	/* Number of pico BS */
 
@@ -20,7 +20,6 @@
 #define NEIGHBOR_DIST_P		1000		// 모바일과 피코
 #define MP_INT_DIST			1000		// 매크로와 피코
 
-
 #define QOS					-10.0		// 각 유저가 갖는 utility의 QoS 값
 #define STEPSIZE2			0.0005
 #define STEPSIZE3			0.0001
@@ -31,8 +30,8 @@
 
 #define NOISE				-174	/* dB */
 
-#define	MACRO_TX_POWER		40		/* watt */ 
-#define PICO_TX_POWER		1		/* watt */ 
+#define	MACRO_TX_POWER		40		/* watt */
+#define PICO_TX_POWER		1		/* watt */
 
 #define LN_SHAD				8		/* log-normal shadowing (dB)*/
 #define S_AWGN				-30		/* Standard Derivation for AWGN (dB) */

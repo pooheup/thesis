@@ -1,6 +1,5 @@
 #include "mobile.h"
 
-
 mobile::mobile()
 {
 	location_x	= 0;
@@ -14,7 +13,7 @@ mobile::mobile()
 	service_BS	= 0;					// 0: macro 1:pico
 
 	num_interferer_macro	= 0;
-	
+
 	macro_service			= -1;
 	pico_service			= -1;
 
@@ -29,7 +28,6 @@ mobile::mobile()
 	{
 		pico_neighbor[i]	= -1;
 	}
-
 
 	for ( i = 0; i < MACRO_NUM; i ++ )
 	{
@@ -52,7 +50,7 @@ mobile::mobile(double loc_x, double loc_y, double qos)
 	service_BS	= 0;					// 0: macro 1:pico
 
 	num_interferer_macro	= 0;
-	
+
 	macro_service			= -1;
 	pico_service			= -1;
 
@@ -67,7 +65,6 @@ mobile::mobile(double loc_x, double loc_y, double qos)
 	{
 		pico_neighbor[i]	= -1;
 	}
-
 
 	for ( i = 0; i < MACRO_NUM; i ++ )
 	{
@@ -94,13 +91,11 @@ void mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_p
 	channel_gain_macro[cell_num]	= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
 
-
 void mobile::mobile_set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_pico[cell_num]			= dist_temp;
 	channel_gain_pico[cell_num]		= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
-
 
 void mobile::mobile_set_num_int_macro(int num_macro_temp)
 {
@@ -112,7 +107,6 @@ void mobile::mobile_set_num_int_pico(int num_pico_temp)
 	num_interferer_pico  = num_pico_temp;
 }
 
-
 void mobile::mobile_set_serviceBS (int _serviceBS )
 {
 	service_BS = _serviceBS;
@@ -122,7 +116,7 @@ void mobile::mobile_set_serviceBS_macro (int macro_temp)
 {
 	macro_service				= macro_temp;
 }
-	
+
 void mobile::mobile_set_serviceBS_pico (int pico_temp)
 {
 	pico_service = pico_temp;

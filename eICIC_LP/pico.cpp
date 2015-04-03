@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 
-
 pico::pico()
 {
 	location_x	= 0;
@@ -18,7 +17,7 @@ pico::pico()
 	}
 
 	for ( i = 0; i < MOBILE_NUM; i++ )
-	{		
+	{
 		mobile[i]			= -1;
 		service_mobile[i]	= -1;
 	}
@@ -39,7 +38,7 @@ pico::pico(double loc_x, double loc_y, double t_pow)
 	}
 
 	for ( i = 0; i < MOBILE_NUM; i++ )
-	{		
+	{
 		mobile[i]			= -1;
 		service_mobile[i]	= -1;
 	}
@@ -64,7 +63,7 @@ void pico::set_neighbor()
 	int mobile_temp	= -1;
 	double mobile_dist_temp = 0.0;
 	double mobile_dist_best_temp = AREA_DIST * 2;
-	
+
 	for ( int j = 0; j < num_service_mobile; j++ )
 	{
 		mobile_temp	= -1;

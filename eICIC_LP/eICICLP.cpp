@@ -148,7 +148,6 @@ int main()
 		pico_loc_temp[4][1] = 1194;
 
 
-
 		mobile_loc_temp[0][0] = 1938;
 		mobile_loc_temp[0][1] = 1012;
 
@@ -661,7 +660,6 @@ int main()
 //		for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / (1 + t));
 //		for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] / (1 + t);
 
-
 //		for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / 1000000 / (1 + t));
 //		for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] /1000000 / (1 + t);
 		*/
@@ -824,7 +822,6 @@ int main()
 		// 현재까지 얻은 throughput 입력
 		for (i = 0; i < MOBILE_NUM; i++) thrp_result_PA1[i] = thrp_result_PA1[i] + thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i];
 
-
 /*		// proposed algorithm update
 		// dual variable, lambda, mu 업데이트
 		for (i = 0; i < MOBILE_NUM; i++)
@@ -855,7 +852,6 @@ int main()
 			//			else rate_user[i] = 0.8* rate_user[i] + 0.2 * (weight[i] + mu[i]) / lambda[i];
 			else rate_user_PA1[i] = 0.8 * rate_user_PA1[i] + 0.2 * (1.0 + mu[i]) / lambda[i];
 		}
-
 
 		// 각 유저 어느 기지국 사용했는지 count
 		for (i = 0; i < MOBILE_NUM; i++)
@@ -955,7 +951,6 @@ int main()
 			printf("\n%s\t\t", "mu");
 			Savefile << std::endl << "mu" << "\t" << "\t";
 
-
 			for (i = 0; i < MOBILE_NUM; i++)
 			{
 				printf("%f\t", mu[i]);
@@ -991,7 +986,6 @@ int main()
 			printf("\n\n");
 			Savefile << std::endl << std::endl;
 
-
 		}*/
 
 		if ((t >=10000) && (t%PRINTF_TIME == 0))
@@ -1025,7 +1019,6 @@ int main()
 			}
 			printf("\n%s\t\t", "mu");
 			Savefile << std::endl << "mu" << "\t" << "\t";
-
 
 			for (i = 0; i < MOBILE_NUM; i++)
 			{

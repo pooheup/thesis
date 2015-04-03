@@ -27,7 +27,7 @@ public:
 
 	double channel_gain_service_macro;
 	double channel_gain_service_pico;
-	
+
 	double pico_interference;
 	double macro_interference;
 

@@ -22,7 +22,7 @@ public:
 
 	double distance_mobile[MOBILE_NUM];
 
-	double channel_gain_ratio[MOBILE_NUM]; 
+	double channel_gain_ratio[MOBILE_NUM];
 
 	double distance_macro[MACRO_NUM];
 
@@ -46,4 +46,3 @@ public:
 	void set_user_PA1(int _ABS_user_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
 };
 
-	

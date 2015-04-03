@@ -1,7 +1,6 @@
 #include "macro.h"
 
 
-
 macro::macro()
 {
 	location_x	= 0;
@@ -17,7 +16,7 @@ macro::macro()
 	}
 
 	for ( i = 0; i < MOBILE_NUM; i++ )
-	{		
+	{
 		mobile[i]			= -1;
 		mobile_service[i]	= -1;
 		mobile_service_01[i]= 0;
@@ -39,7 +38,7 @@ macro::macro(double loc_x, double loc_y, double t_pow)
 	}
 
 	for ( i = 0; i < MOBILE_NUM; i++ )
-	{		
+	{
 		mobile[i]			= -1;
 	}
 }

@@ -6,14 +6,13 @@
 #include "parameters.h"
 
 
-
 double uniform(void)
 {
 	return ((double)(rand() & RAND_MAX)/(double)RAND_MAX);
 }
 
 double uniform1(void)								// uniform random variable(0,1)
-{	
+{
 	int ran_num = RAND_MAX+1;
 	double v0 = (double)(rand())+0.5;
 	double v1 = (double)(rand())*(double)(ran_num);
@@ -50,19 +49,19 @@ double gaussian(void)
 		ready = 0;
 		gaus = qstore;
 	}
-	return(gaus);	
+	return(gaus);
 }
 
 double gaussian_1(double mean, double var){
 	double x=0,tmp1,tmp2;
-		
+
 	while(1){
 		tmp1=(double)uniform1();
 		if (tmp1!=0.0)
 			break;
 	}
 	tmp2=(double)uniform1();
-		
+
 	x=sqrt((-2*log(tmp1))) *cos(2*PI*tmp2) *  sqrt(var) + mean;
 
 	return x;
