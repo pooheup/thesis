@@ -15,13 +15,9 @@
 int main()
 {
 	time_t starttime;
-	time_t checktime;
 	time(&starttime);
 	
 	srand(starttime);
-
-	// 초기화	
-	double step_size = 1.0;
 
 	// 출력 파일들
 	std::ofstream Savefile("eICIC.txt");
@@ -545,7 +541,7 @@ int main()
 	for (int t = 0; t < SIMULATION_TIME; t++)
 	{
 		double step_size2;
-		step_size = 1.0 / ((double)(t + 1));
+		double step_size = 1.0 / ((double)(t + 1));
 		//step_size2 = STEPSIZE2;
 		step_size2 = (t < 10000) ? STEPSIZE2 : STEPSIZE3;
 		if (t > 100000) step_size2 = STEPSIZE4;
@@ -992,6 +988,7 @@ int main()
 
 		if ((t >=10000) && (t%PRINTF_TIME == 0))
 		{
+			time_t checktime;
 			time(&checktime);
 			int timeep = checktime - starttime;
 			printf("\n\n");
