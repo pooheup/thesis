@@ -12,7 +12,7 @@
 #include "mobile.h"
 #include "eICIC.h"
 
-void main()
+int main()
 {
 	time_t starttime;
 	time_t checktime;
@@ -1091,4 +1091,6 @@ void main()
 		}
 	}
 	system("pause");
+
+	return 0;
 }
