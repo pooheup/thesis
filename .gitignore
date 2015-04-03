@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+
+# Artifact directories
+Debug
+Release
+x64
