@@ -17,10 +17,10 @@ int main()
 	time_t starttime;
 	time_t checktime;
 	time(&starttime);
-
+	
 	srand(starttime);
 
-	// 초기화
+// 초기화	
 	int    i, j, t;
 	double step_size = 1.0;
 
@@ -29,13 +29,13 @@ int main()
 	std::ofstream savel("lambda.txt");
 	std::ofstream savem("mu.txt");
 	std::ofstream results("results.txt");
-	//std::ifstream node("node.txt");
+//	std::ifstream node("node.txt");
 	std::ifstream node("node_1.txt");
 	std::ifstream pico_loc("pico.txt");
 	savel.precision(5);
 	savem.precision(5);
 	results.precision(5);
-
+	
 	// noise
 	double no = BW_PER_RB * powl(10, (NOISE / 10));
 
@@ -43,7 +43,7 @@ int main()
 	double macro_loc_temp[MACRO_NUM][2];
 	double pico_loc_temp[PICO_NUM][2];
 	double mobile_loc_temp[MOBILE_NUM][2];
-	/*
+/*
 	for (i = 0; i < MACRO_NUM; i++)
 	{
 		for (j = 0; j<2; j++)
@@ -67,7 +67,7 @@ int main()
 			mobile_loc_temp[i][j] = uniform() * AREA_DIST;
 		}
 	}
-	*/
+*/
 	for (i = 0; i < MACRO_NUM; i++)
 	{
 		double radius	= uniform() * AREA_RADIUS;
@@ -99,7 +99,7 @@ int main()
 	if (LOC_SETUP == 1)
 	{
 	//	double bias_x = 1000;
-		//double bias_y = 500;
+//		double bias_y = 500;
 		macro_loc_temp[0][0] = 0.0;
 		macro_loc_temp[0][1] = 0.0;
 
@@ -121,7 +121,7 @@ int main()
 		macro_loc_temp[6][0] = -500.0;
 		macro_loc_temp[6][1] = -866.0;
 
-		////
+////
 		for (i = 0; i < PICO_NUM; i++)
 		{
 			pico_loc >> pico_loc_temp[i][0] >> pico_loc_temp[i][1];
@@ -185,7 +185,7 @@ int main()
 		mobile_loc_temp[11][1] = 809;
 		*/
 
-
+		
 	}
 
 	for (i = 0; i < PICO_NUM; i++)
@@ -202,7 +202,7 @@ int main()
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
 	int mobile_num_neighborBS_temp[MOBILE_NUM];
 	int mobile_service_macro_temp[MOBILE_NUM];
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 	double mobile_macro_dist_temp[MOBILE_NUM][MACRO_NUM];
 	double mobile_service_macro_dist_temp[MOBILE_NUM];
 
@@ -258,7 +258,7 @@ int main()
 		for (j = 0; j < MOBILE_NUM; j++) pico_servicemobile_01_temp[j][i] = 0;
 	}
 
-	// 모바일 pico 거리, 이웃노드 수, service 설정
+	// 모바일 pico 거리, 이웃노드 수, service 설정		
 	// pico class에 저장하기 위해 pico 관련 데이터도 위의 temp data를 이용하여 동시에 처리
 	// 모두에 대해 0,1로 간섭유무 표현 1이면 간섭. 다 더해야 한다.
 	int mobile_num_neighborBS_temp_pico[MOBILE_NUM];
@@ -305,7 +305,7 @@ int main()
 		mobile_service_pico_temp[i]			= service_pico_temp;
 	}
 
-	// 매크로 피코 거리, 이웃노드 수
+	// 매크로 피코 거리, 이웃노드 수					
 	int macro_num_neighborBS_temp_pico[MOBILE_NUM];
 
 	double macro_pico_dist_temp[MACRO_NUM][PICO_NUM];
@@ -335,12 +335,12 @@ int main()
 		macro_num_neighborBS_temp_pico[i] = neighbor_temp;
 	}
 
-	// class 생성: macro, pico, mobile
+// class 생성: macro, pico, mobile
 	macro macro[MACRO_NUM];
 	pico pico[PICO_NUM];
 	mobile mobile[MOBILE_NUM];
 
-	// initial setting 각 클래스 초기화,
+	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 	for (i = 0; i < MACRO_NUM; i++)
 	{
@@ -365,7 +365,7 @@ int main()
 		macro[mobile_service_macro_temp[i]].mobile_service_01[i] = 1;
 	}
 
-	// 위치관계에 따른 채널 정립. 이웃 찾기.  거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
+// 위치관계에 따른 채널 정립. 이웃 찾기.  거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
 	// 채널 계산
 	for (i = 0; i < MOBILE_NUM; i++)
 	{
@@ -422,7 +422,7 @@ int main()
 	}
 
 	// pico의 이웃 정보.
-	//for (i = 0; i < PICO_NUM; i++) pico[i].set_neighbor();
+//	for (i = 0; i < PICO_NUM; i++) pico[i].set_neighbor();
 	for (i = 0; i < PICO_NUM; i++) pico[i].set_neighbor_1();
 	for (i = 0; i < MACRO_NUM; i++) macro[i].macro_set_neighbor();
 
@@ -433,8 +433,8 @@ int main()
 		mobile[i].mobile_set_pico_interference(PICO_NUM);
 		mobile[i].mobile_set_macro_interference(MACRO_NUM);
 	}
-
-	// 시뮬레이션에서 필요한 각 변수들 선언
+	
+// 시뮬레이션에서 필요한 각 변수들 선언
 	// 매 timeslot에서의 평균 throughput
 	double thrpt_macro[MOBILE_NUM];
 	double thrpt_ABS[MOBILE_NUM];
@@ -529,7 +529,7 @@ int main()
 		lambda_static_2[i]		= 1.0;
 		rate_user_static_2[i]		= 0.0;
 	}
-
+	
 	// static_3
 	double thrp_result_static_3[MOBILE_NUM];
 	double lambda_static_3[MOBILE_NUM];
@@ -542,16 +542,16 @@ int main()
 		rate_user_static_3[i]		= 0.0;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////  알고리즘 따라 연산  //////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////  알고리즘 따라 연산  //////////////////////////////////////////////////////////////////////
 	for (t = 0; t < SIMULATION_TIME; t++)
 	{
 		double step_size2;
 		step_size = 1.0 / ((double)(t + 1));
-		//step_size2 = STEPSIZE2;
+//		step_size2 = STEPSIZE2;
 		step_size2 = (t < 10000) ? STEPSIZE2 : STEPSIZE3;
 		if (t > 100000) step_size2 = STEPSIZE4;
 
-		//step_size2 = step_size;
+//		step_size2 = step_size;
 
 		double signal_temp;
 		double interference_temp;
@@ -570,7 +570,7 @@ int main()
 			thrpt_ABS[i] = thrpt_ABS[i] / 10.0;
 
 			// pico non-ABS 평균 thrpt 계산
-			//signal_temp			= mobile[i].channel_gain_pico[mobile[i].pico_service] *rayleigh() * log_normal();
+//			signal_temp			= mobile[i].channel_gain_pico[mobile[i].pico_service] *rayleigh() * log_normal();
 			interference_temp	= interference_temp + (mobile[i].macro_interference ) *rayleigh() * log_normal();
 			thrpt_nonABS[i]		= cal_thrpt_i(signal_temp, interference_temp, no) / 1000000.0;
 			thrpt_nonABS[i] = thrpt_nonABS[i] / 10.0;
@@ -617,7 +617,7 @@ int main()
 
 		// 최적의 할당을 exhaustive 방식으로 찾으며, 다음의 함수를 호출
 		exhaustive_search_call_next_user(user_num, objective_value_temp, &objective_value_best, state_temp, state_best, mobile, macro, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
-
+		
 		// best state 즉, 구한 자원 할당 값 입력
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
@@ -651,19 +651,19 @@ int main()
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
 			if (lambda[i] == 0.0) rate_user[i] = RATE_MAX;
-			//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (weight[i] + mu[i]) / lambda[i];
+//			else rate_user[i] = 0.8* rate_user[i] + 0.2 * (weight[i] + mu[i]) / lambda[i];
 			else rate_user[i] = (weight[i] + mu[i]) / lambda[i];
 		}
 
 		// object 값 계산
-		//double object_value_es = 0.0;
-		//for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / (1 + t));
-		//for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] / (1 + t);
+//		double object_value_es = 0.0;
+//		for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / (1 + t));
+//		for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] / (1 + t);
 
-		//for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / 1000000 / (1 + t));
-		//for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] /1000000 / (1 + t);
+//		for (i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / 1000000 / (1 + t));
+//		for (i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] /1000000 / (1 + t);
 		*/
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////  제안하는 알고리즘을 바탕으로 솔루션 찾기.
 		// 변수 선언
 		int macro_user_PA[MACRO_NUM];
@@ -703,7 +703,7 @@ int main()
 
 					temp_pico_ABS_PA		= lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]];
 					temp_pico_ABS_PA_user	= pico[i].service_mobile[j];
-				}
+				} 
 				else // non-ABS second 찾기
 				{
 					if (lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]] > temp_pico_ABS_PA2)
@@ -716,12 +716,12 @@ int main()
 				// non-ABS first 찾기
 				if (lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]] > temp_pico_nA_PA1)
 				{
-					//if (temp_pico_nA_PA1 >= temp_pico_nA_PA2)
-					//{
+//					if (temp_pico_nA_PA1 >= temp_pico_nA_PA2)
+//					{
 					temp_pico_nA_PA2		= temp_pico_nA_PA1;
-					temp_pico_nA_PA2_user	= temp_pico_nA_PA1_user;
-					//}
-
+					temp_pico_nA_PA2_user	= temp_pico_nA_PA1_user; 
+//					}
+						
 					temp_pico_nA_PA1		= lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]];
 					temp_pico_nA_PA1_user	= pico[i].service_mobile[j];
 				}
@@ -783,7 +783,7 @@ int main()
 		int state_temp_PA1[MACRO_NUM];
 		int state_best_PA1[MACRO_NUM];
 		int user_state_best_PA1[MOBILE_NUM];
-
+		
 		for (i = 0; i < MACRO_NUM; i++)
 		{
 			state_temp_PA1[i] = 0;
@@ -797,7 +797,7 @@ int main()
 		// exhaustive 값과 비교
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
-
+			
 			std::cout << t << "\t" << i << "\t" << user_state_best_PA1[i] << "\t" << state_best[i] << std::endl;
 		}
 		std::cout << objective_value_best_PA1 << "\t" << objective_value_best << std::endl;
@@ -822,8 +822,7 @@ int main()
 		// 현재까지 얻은 throughput 입력
 		for (i = 0; i < MOBILE_NUM; i++) thrp_result_PA1[i] = thrp_result_PA1[i] + thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i];
 
-		/*
-		// proposed algorithm update
+/*		// proposed algorithm update
 		// dual variable, lambda, mu 업데이트
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
@@ -844,7 +843,7 @@ int main()
 				mu_temp = mu[i] - step_size2 * (log(rate_user_PA1[i]) - mobile[i].QoS);
 			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
-		*/
+*/
 
 		// 평균 rate Ru, rate_user[i], 업데이트
 		for (i = 0; i < MOBILE_NUM; i++)
@@ -873,11 +872,11 @@ int main()
 			if (resource_used_temp == 0) abs_count_macro[i]++;
 		}
 
+		
 
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// dual update
-		/*	// exhaustive search update
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// dual update
+/*	// exhaustive search update
 		// dual variable, lambda, mu 업데이트
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
@@ -889,21 +888,21 @@ int main()
 				lambda_temp = lambda[i] - step_size2 * (thrpt_macro[i] * resource_macro[i] + thrpt_ABS[i] * resource_ABS[i] + thrpt_nonABS[i] * resource_nonABS[i] - rate_user[i]);
 			lambda[i] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
-			if ((log(rate_user[i]) >= mobile[i].QoS)
+			if ((log(rate_user[i]) >= mobile[i].QoS) 
 				&& ((log(rate_user[i]) - mobile[i].QoS) * mu[i] < 0.001))
 				mu_temp = mu[i] - step_size* (log(rate_user[i]) - mobile[i].QoS);
 			else
 				mu_temp = mu[i] - step_size2 * (log(rate_user[i]) - mobile[i].QoS);
 			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
-		*/
-		// proposed algorithm update
+*/
+	// proposed algorithm update
 		// dual variable, lambda, mu 업데이트
 		for (i = 0; i < MOBILE_NUM; i++)
 		{
 			double lambda_temp, mu_temp;
-			//if ((thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i] >= 0.0)	//feasilbity
-				//&& (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
+//			if ((thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i] >= 0.0)	//feasilbity
+//				&& (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
 			if ( (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
 				lambda_temp = lambda[i] - step_size  * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
 			else
@@ -919,13 +918,12 @@ int main()
 			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 		/////////////////////////////////////////////////  값들 출력
 		if (t % 1000 == 0) printf("%s", ">");
-
+		
 		// PIINTF_TIME 주기로 출력. // 화면, eICIC.txt, lambda.txt, mu.txt 출력
-		/*
-		if (t%PRINTF_TIME == 0)
+/*		if (t%PRINTF_TIME == 0)
 		{
 			printf("\n\n");
 			printf("\n%s\t%d\n", "simulation time\t", t);
@@ -997,20 +995,19 @@ int main()
 			printf("\n\n");
 			printf("\n%s\t%d\n", "simulation time\t", t);
 			printf("%d seconds elapsed \n", timeep);
-			//Savefile << "simulation time\t" << t << std::endl;
+//			Savefile << "simulation time\t" << t << std::endl;
 			printf("%s\t\t%s\n", "rate Ru", "throughput");
 
-			//Savefile << "rate RU\t\t thoroughput" << std::endl;
+//			Savefile << "rate RU\t\t thoroughput" << std::endl;
 
 			double function_result = 0.0;
 			for (i = 0; i < MOBILE_NUM; i++)
 			{
-				//printf("%f\t%f\t%f\t%f\n", rate_user_PA1[i], log(rate_user_PA1[i]), (thrp_result_PA1[i] / (1 + t)), log(thrp_result_PA1[i] / (1 + t)));
+//				printf("%f\t%f\t%f\t%f\n", rate_user_PA1[i], log(rate_user_PA1[i]), (thrp_result_PA1[i] / (1 + t)), log(thrp_result_PA1[i] / (1 + t)));
 				printf("%f\t%f\t%f\t%f\t%f\t%f\n", rate_user_PA1[i], (thrp_result_PA1[i] / (1 + t)), log(rate_user_PA1[i]), log(thrp_result_PA1[i] / (1 + t)), lambda[i], mu[i] );
-				//Savefile << rate_user[i] << "\t" << log(rate_user[i]) << "\t" << (thrp_result[i] / (1 + t)) << "\t" << log(thrp_result[i] / (1 + t)) << std::endl;
+//				Savefile << rate_user[i] << "\t" << log(rate_user[i]) << "\t" << (thrp_result[i] / (1 + t)) << "\t" << log(thrp_result[i] / (1 + t)) << std::endl;
 			}
-			/*
-			printf("\n%s\t\t", "lambda");
+/*			printf("\n%s\t\t", "lambda");
 			Savefile << std::endl << "lambda" << "\t" << "\t";
 			savel << t << "\t"; // Number of Simulation
 			savem << t << "\t"; // Number of Simulation
@@ -1038,19 +1035,18 @@ int main()
 			printf("\n%s\t%s\t%s\n", "macro", "ABS", "non-ABS");
 			Savefile << "macro\t" << "ABS\t" << "non-ABS" << std::endl;
 
-			/*
-			for (i = 0; i < MOBILE_NUM; i++)
+/*			for (i = 0; i < MOBILE_NUM; i++)
 			{
 				printf("%d\t%d\t%d\n", resource_macro_PA1[i], resource_ABS_PA1[i], resource_nonABS_PA1[i]);
-				//Savefile << resource_macro[i] << "\t" << resource_ABS[i] << "\t" << resource_nonABS[i] << std::endl;
+//				Savefile << resource_macro[i] << "\t" << resource_ABS[i] << "\t" << resource_nonABS[i] << std::endl;
 
 			}
-			*/
-			//for (i = 0; i < MOBILE_NUM; i++)
-			//{
-				//printf("%d\t%d\t%d\n", num_allocated_macro[i], num_allocated_ABS[i], num_allocated_nonABS[i]);
-				//Savefile << num_allocated_macro[i] << "\t" << num_allocated_ABS[i] << "\t" << num_allocated_nonABS[i] << std::endl;
-			//}
+*/
+//			for (i = 0; i < MOBILE_NUM; i++)
+//			{
+//				printf("%d\t%d\t%d\n", num_allocated_macro[i], num_allocated_ABS[i], num_allocated_nonABS[i]);
+//				Savefile << num_allocated_macro[i] << "\t" << num_allocated_ABS[i] << "\t" << num_allocated_nonABS[i] << std::endl;
+//			}
 
 			printf("\n");
 			for (i = 0; i < MACRO_NUM; i++)
@@ -1075,7 +1071,7 @@ int main()
 			printf("%s\t%f\n", "sum utility", sum_utility_temp);
 
 		}
-
+		
 		// 최종 결과 출력 results.txt 출력
 		if (t == (SIMULATION_TIME-1)){
 			results << "R E S U L T S" << std::endl;
