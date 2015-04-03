@@ -6,7 +6,12 @@
 #include "macro.h"
 #include "pico.h"
 
-double mobile_set_dist_BS_temp ( double location_x, double location_y, double loc_x, double loc_y );
+typedef struct {
+	int x;
+	int y;
+} point;
+
+double mobile_set_dist_BS_temp(point src, point dst);
 
 double cal_thrpt_s(double _sinr, double _BW);
 

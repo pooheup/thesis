@@ -35,9 +35,9 @@ int main()
 	double no = BW_PER_RB * powl(10, (NOISE / 10));
 
 	// 위치 설정
-	double macro_loc_temp[MACRO_NUM][2];
-	double pico_loc_temp[PICO_NUM][2];
-	double mobile_loc_temp[MOBILE_NUM][2];
+	point macro_loc_temp[MACRO_NUM];
+	point pico_loc_temp[PICO_NUM];
+	point mobile_loc_temp[MOBILE_NUM];
 	/*
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
@@ -68,8 +68,8 @@ int main()
 		double radius	= uniform() * AREA_RADIUS;
 		double angle	= uniform() * 2 * PI;
 
-		macro_loc_temp[i][0] = radius * cos(angle);
-		macro_loc_temp[i][1] = radius * sin(angle);
+		macro_loc_temp[i].x = radius * cos(angle);
+		macro_loc_temp[i].y = radius * sin(angle);
 	}
 
 	for (int i = 0; i < PICO_NUM; i++)
@@ -77,8 +77,8 @@ int main()
 		double radius	= uniform() * AREA_RADIUS;
 		double angle	= uniform() * 2 * PI;
 
-		pico_loc_temp[i][0] = radius * cos(angle);
-		pico_loc_temp[i][1] = radius * sin(angle);
+		pico_loc_temp[i].x = radius * cos(angle);
+		pico_loc_temp[i].y = radius * sin(angle);
 	}
 
 	for (int i = 0; i < MOBILE_NUM; i++)
@@ -86,8 +86,8 @@ int main()
 		double radius	= uniform() * AREA_RADIUS;
 		double angle	= uniform() * 2 * PI;
 
-		mobile_loc_temp[i][0] = radius * cos(angle);
-		mobile_loc_temp[i][1] = radius * sin(angle);
+		mobile_loc_temp[i].x = radius * cos(angle);
+		mobile_loc_temp[i].y = radius * sin(angle);
 	}
 
 	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
@@ -95,89 +95,89 @@ int main()
 	{
 		//double bias_x = 1000;
 		//double bias_y = 500;
-		macro_loc_temp[0][0] = 0.0;
-		macro_loc_temp[0][1] = 0.0;
+		macro_loc_temp[0].x = 0.0;
+		macro_loc_temp[0].y = 0.0;
 
-		macro_loc_temp[1][0] = 1000.0;
-		macro_loc_temp[1][1] = 0.0;
+		macro_loc_temp[1].x = 1000.0;
+		macro_loc_temp[1].y = 0.0;
 
-		macro_loc_temp[2][0] = -1000.0;
-		macro_loc_temp[2][1] = 0.0;
+		macro_loc_temp[2].x = -1000.0;
+		macro_loc_temp[2].y = 0.0;
 
-		macro_loc_temp[3][0] = 500.0;
-		macro_loc_temp[3][1] = 866.0;
+		macro_loc_temp[3].x = 500.0;
+		macro_loc_temp[3].y = 866.0;
 
-		macro_loc_temp[4][0] = 500.0;
-		macro_loc_temp[4][1] = -866.0;
+		macro_loc_temp[4].x = 500.0;
+		macro_loc_temp[4].y = -866.0;
 
-		macro_loc_temp[5][0] = -500.0;
-		macro_loc_temp[5][1] = 866.0;
+		macro_loc_temp[5].x = -500.0;
+		macro_loc_temp[5].y = 866.0;
 
-		macro_loc_temp[6][0] = -500.0;
-		macro_loc_temp[6][1] = -866.0;
+		macro_loc_temp[6].x = -500.0;
+		macro_loc_temp[6].y = -866.0;
 
 		////
 		for (int i = 0; i < PICO_NUM; i++)
 		{
-			pico_loc >> pico_loc_temp[i][0] >> pico_loc_temp[i][1];
+			pico_loc >> pico_loc_temp[i].x >> pico_loc_temp[i].y;
 		}
 
 		for (int i = 0; i < MOBILE_NUM; i++)
 		{
-			node >> mobile_loc_temp[i][0] >> mobile_loc_temp[i][1];
+			node >> mobile_loc_temp[i].x >> mobile_loc_temp[i].y;
 		}
 		/*
-		pico_loc_temp[0][0] = 1429;
-		pico_loc_temp[0][1] = 1059;
+		pico_loc_temp[0].x = 1429;
+		pico_loc_temp[0].y = 1059;
 
-		pico_loc_temp[1][0] = 1086;
-		pico_loc_temp[1][1] = 694;
+		pico_loc_temp[1].x = 1086;
+		pico_loc_temp[1].y = 694;
 
-		pico_loc_temp[2][0] = 880;
-		pico_loc_temp[2][1] = 1770;
+		pico_loc_temp[2].x = 880;
+		pico_loc_temp[2].y = 1770;
 
-		pico_loc_temp[3][0] = 1600;
-		pico_loc_temp[3][1] = 1600;
+		pico_loc_temp[3].x = 1600;
+		pico_loc_temp[3].y = 1600;
 
-		pico_loc_temp[4][0] = 606;
-		pico_loc_temp[4][1] = 1194;
+		pico_loc_temp[4].x = 606;
+		pico_loc_temp[4].y = 1194;
 
 
-		mobile_loc_temp[0][0] = 1938;
-		mobile_loc_temp[0][1] = 1012;
+		mobile_loc_temp[0].x = 1938;
+		mobile_loc_temp[0].y = 1012;
 
-		mobile_loc_temp[1][0] = 265;
-		mobile_loc_temp[1][1] = 1356;
+		mobile_loc_temp[1].x = 265;
+		mobile_loc_temp[1].y = 1356;
 
-		mobile_loc_temp[2][0] = 933;
-		mobile_loc_temp[2][1] = 453;
+		mobile_loc_temp[2].x = 933;
+		mobile_loc_temp[2].y = 453;
 
-		mobile_loc_temp[3][0] = 1418;
-		mobile_loc_temp[3][1] = 1255;
+		mobile_loc_temp[3].x = 1418;
+		mobile_loc_temp[3].y = 1255;
 
-		mobile_loc_temp[4][0] = 1119;
-		mobile_loc_temp[4][1] = 1097;
+		mobile_loc_temp[4].x = 1119;
+		mobile_loc_temp[4].y = 1097;
 
-		mobile_loc_temp[5][0] = 108;
-		mobile_loc_temp[5][1] = 748;
+		mobile_loc_temp[5].x = 108;
+		mobile_loc_temp[5].y = 748;
 
-		mobile_loc_temp[6][0] = 477;
-		mobile_loc_temp[6][1] = 1713;
+		mobile_loc_temp[6].x = 477;
+		mobile_loc_temp[6].y = 1713;
 		//
-		mobile_loc_temp[7][0] = 1796;
-		mobile_loc_temp[7][1] = 1248;
+		mobile_loc_temp[7].x = 1796;
+		mobile_loc_temp[7].y = 1248;
 		//
-		mobile_loc_temp[8][0] = 1792;
-		mobile_loc_temp[8][1] = 542;
+		mobile_loc_temp[8].x = 1792;
+		mobile_loc_temp[8].y = 542;
 
-		mobile_loc_temp[9][0] = 1245;
-		mobile_loc_temp[9][1] = 1527;
+		mobile_loc_temp[9].x = 1245;
+		mobile_loc_temp[9].y = 1527;
 
-		mobile_loc_temp[10][0] = 1738;
-		mobile_loc_temp[10][1] = 1827;
+		mobile_loc_temp[10].x = 1738;
+		mobile_loc_temp[10].y = 1827;
 
-		mobile_loc_temp[11][0] = 1384;
-		mobile_loc_temp[11][1] = 809;
+		mobile_loc_temp[11].x = 1384;
+		mobile_loc_temp[11].y = 809;
 		*/
 
 		
@@ -185,12 +185,12 @@ int main()
 
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		printf("%f\t%f\n", pico_loc_temp[i][0], pico_loc_temp[i][1]);
+		printf("%f\t%f\n", pico_loc_temp[i].x, pico_loc_temp[i].y);
 	}
 	printf("\n");
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		printf("%f\t%f\n", mobile_loc_temp[i][0], mobile_loc_temp[i][1]);
+		printf("%f\t%f\n", mobile_loc_temp[i].x, mobile_loc_temp[i].y);
 	}
 	printf("\n");
 
@@ -212,7 +212,7 @@ int main()
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobile_macro_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i][0], mobile_loc_temp[i][1], macro_loc_temp[j][0], macro_loc_temp[j][1]);
+			mobile_macro_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i], macro_loc_temp[j]);
 
 			if (mobile_macro_dist_temp[i][j] < NEIGHBOR_DIST_M)
 			{
@@ -272,7 +272,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i][0], mobile_loc_temp[i][1], pico_loc_temp[j][0], pico_loc_temp[j][1]);
+			mobile_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i], pico_loc_temp[j]);
 
 			if (mobile_pico_dist_temp[i][j] < NEIGHBOR_DIST_P)
 			{
@@ -315,7 +315,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			macro_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(macro_loc_temp[i][0], macro_loc_temp[i][1], pico_loc_temp[j][0], pico_loc_temp[j][1]);
+			macro_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(macro_loc_temp[i], pico_loc_temp[j]);
 
 			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
 			{
@@ -339,17 +339,17 @@ int main()
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
-		macro[i].macro_set_initial(macro_loc_temp[i][0], macro_loc_temp[i][1], MACRO_TX_POWER);
+		macro[i].macro_set_initial(macro_loc_temp[i].x, macro_loc_temp[i].y, MACRO_TX_POWER);
 	}
 
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		pico[i].pico_set_initial(pico_loc_temp[i][0], pico_loc_temp[i][1], PICO_TX_POWER);
+		pico[i].pico_set_initial(pico_loc_temp[i].x, pico_loc_temp[i].y, PICO_TX_POWER);
 	}
 
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		mobile[i].mobile_set_initial(mobile_loc_temp[i][0], mobile_loc_temp[i][1], QOS);
+		mobile[i].mobile_set_initial(mobile_loc_temp[i].x, mobile_loc_temp[i].y, QOS);
 
 		mobile[i].mobile_set_num_int_macro(mobile_num_neighborBS_temp[i]);
 		mobile[i].mobile_set_serviceBS_macro(mobile_service_macro_temp[i]);
@@ -1089,10 +1089,9 @@ int main()
 	return 0;
 }
 
-double mobile_set_dist_BS_temp ( double location_x, double location_y, double loc_x, double loc_y )
+double mobile_set_dist_BS_temp(point src, point dst)
 {
-	double dist_temp = sqrt( pow( (location_x - loc_x), 2) + pow( (location_y - loc_y), 2) );
-
+	double dist_temp = sqrt(pow((src.x - dst.x), 2) + pow((src.y - dst.y), 2));
 	return dist_temp;
 }
 
