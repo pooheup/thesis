@@ -40,23 +40,23 @@ public:
 	mobile();
 	mobile(double loc_x, double loc_y, double qos);
 
-	void mobile::mobile_set_initial(double loc_x, double loc_y, double qos);
+	void mobile_set_initial(double loc_x, double loc_y, double qos);
 
-	void mobile::mobile_set_dist_macro(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
-	void mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no);
-	void mobile::mobile_set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
-	void mobile::mobile_set_dist_pico_1 ( int cell_num, double dist_temp, double tx_pow, double no);
+	void mobile_set_dist_macro(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
+	void mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no);
+	void mobile_set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
+	void mobile_set_dist_pico_1 ( int cell_num, double dist_temp, double tx_pow, double no);
 
-	void mobile::mobile_set_pico_interference(int pico_num);
-	void mobile::mobile_set_macro_interference(int macro_num);
+	void mobile_set_pico_interference(int pico_num);
+	void mobile_set_macro_interference(int macro_num);
 
-	void mobile::mobile_set_num_int_macro(int num_macro_temp);
-	void mobile::mobile_set_num_int_pico(int num_pico_temp);
+	void mobile_set_num_int_macro(int num_macro_temp);
+	void mobile_set_num_int_pico(int num_pico_temp);
 
-	void mobile::mobile_set_serviceBS (int _serviceBS );
-	void mobile::mobile_set_serviceBS_macro (int macro_temp);
-	void mobile::mobile_set_serviceBS_pico (int pico_temp);
+	void mobile_set_serviceBS (int _serviceBS );
+	void mobile_set_serviceBS_macro (int macro_temp);
+	void mobile_set_serviceBS_pico (int pico_temp);
 
-	void mobile::mobile_cell_association_static(double _cre_bias);
+	void mobile_cell_association_static(double _cre_bias);
 };
 
