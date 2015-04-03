@@ -1,0 +1,62 @@
+#pragma once
+
+#include "parameters.h"
+#include <math.h>
+
+class mobile
+{
+public:
+
+	double location_x;
+	double location_y;
+
+	double QoS;
+
+	int service_BS;					// 0: macro 1:pico
+
+	int num_interferer_macro;
+	int num_interferer_pico;
+
+	int macro_neighbor[MACRO_NUM];
+	int pico_neighbor[PICO_NUM];
+
+	int macro_service;
+	int pico_service;
+
+	int associated_BS_static;		// 0: macro 1: pico
+
+	double channel_gain_service_macro;
+	double channel_gain_service_pico;
+	
+	double pico_interference;
+	double macro_interference;
+
+	double distance_macro[MACRO_NUM];
+	double distance_pico[PICO_NUM];
+
+	double channel_gain_macro[MACRO_NUM];
+	double channel_gain_pico[PICO_NUM];
+
+	mobile();
+	mobile(double loc_x, double loc_y, double qos);
+
+	void mobile::mobile_set_initial(double loc_x, double loc_y, double qos);
+
+	void mobile::mobile_set_dist_macro(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
+	void mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no);
+	void mobile::mobile_set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
+	void mobile::mobile_set_dist_pico_1 ( int cell_num, double dist_temp, double tx_pow, double no);
+
+	void mobile::mobile_set_pico_interference(int pico_num);
+	void mobile::mobile_set_macro_interference(int macro_num);
+
+	void mobile::mobile_set_num_int_macro(int num_macro_temp);
+	void mobile::mobile_set_num_int_pico(int num_pico_temp);
+
+	void mobile::mobile_set_serviceBS (int _serviceBS );
+	void mobile::mobile_set_serviceBS_macro (int macro_temp);
+	void mobile::mobile_set_serviceBS_pico (int pico_temp);
+
+	void mobile::mobile_cell_association_static(double _cre_bias);
+};
+
