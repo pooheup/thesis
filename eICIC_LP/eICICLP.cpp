@@ -55,8 +55,6 @@ int main()
 
 			mobiles[mob]->set_dist_macro(mac, distance, macros[mac]->getTxPower(), NOISE);
 			mobiles[mob]->macro_neighbor[mac] = is_neighbor;
-			macros[mac]->mobile[mob] = is_neighbor;
-
 		}
 
 		mobiles[mob]->macro_service = service_macro;

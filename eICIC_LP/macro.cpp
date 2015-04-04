@@ -3,15 +3,7 @@
 Macro::Macro(point location, double t_pow)
 {
 	this->location = location;
-
 	tx_power	= t_pow;
-
-	int i;
-
-	for ( i = 0; i < MOBILE_NUM; i++ )
-	{
-		mobile[i]			= -1;
-	}
 }
 
 void Macro::set_neighbor()

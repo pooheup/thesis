@@ -14,7 +14,6 @@ private:
 public:
 
 	int num_mobile;
-	int mobile[MOBILE_NUM];
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
 
