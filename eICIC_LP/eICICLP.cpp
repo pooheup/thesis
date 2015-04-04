@@ -122,7 +122,7 @@ int main()
 				: STEPSIZE3
 				)
 		;
-		//step_size2 = STEP_SIZE;
+		//STEP_SIZE2 = STEP_SIZE;
 
 		// 매 timeslot에서의 평균 throughput
 		double thrpt_macro[MOBILE_NUM];
@@ -402,7 +402,7 @@ int main()
 			if (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05)
 				lambda_temp = lambda[mob] - STEP_SIZE  * TODO1;
 			else
-				lambda_temp = lambda[mob] - step_size2 * TODO1;
+				lambda_temp = lambda[mob] - STEP_SIZE2 * TODO1;
 			lambda[mob] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
 			//if ((log(rate_user_PA1[mob]) >= mobiles[mob]->QoS)
@@ -623,13 +623,13 @@ void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 		//double bias_x = 1000;
 		//double bias_y = 500;
 
-		macros[0] = new Macro({ 0.0, 0.0 }, MACRO_TX_POWER);
-		macros[1] = new Macro({ 1000.0, 0.0 }, MACRO_TX_POWER);
-		macros[2] = new Macro({ -1000.0, 0.0 }, MACRO_TX_POWER);
-		macros[3] = new Macro({ 500.0, 866.0 }, MACRO_TX_POWER);
-		macros[4] = new Macro({ 500.0, -866.0 }, MACRO_TX_POWER);
-		macros[5] = new Macro({ -500.0, 866.0 }, MACRO_TX_POWER);
-		macros[6] = new Macro({ -500.0, -866.0 }, MACRO_TX_POWER);
+		macros[0] = new Macro({     0.0,    0.0 }, MACRO_TX_POWER);
+		macros[1] = new Macro({  1000.0,    0.0 }, MACRO_TX_POWER);
+		macros[2] = new Macro({ -1000.0,    0.0 }, MACRO_TX_POWER);
+		macros[3] = new Macro({   500.0,  866.0 }, MACRO_TX_POWER);
+		macros[4] = new Macro({   500.0, -866.0 }, MACRO_TX_POWER);
+		macros[5] = new Macro({  -500.0,  866.0 }, MACRO_TX_POWER);
+		macros[6] = new Macro({  -500.0, -866.0 }, MACRO_TX_POWER);
 
 		std::ifstream pico_loc("pico.txt");
 		for (int pic = 0; pic < PICO_NUM; pic++)
@@ -819,7 +819,9 @@ void PA1_call_next_pico(int _macro_num, double *_best_value, int *_state_temp, i
 	for (int i = 0; i < 2; i++)
 	{
 		_state_temp[_macro_num] = i;
-		if ((_macro_num + 1) < MACRO_NUM) PA1_call_next_pico((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
-		else PA1_calculation((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+		if ((_macro_num + 1) < MACRO_NUM)
+			PA1_call_next_pico((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+		else
+			PA1_calculation((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
 	}
 }
