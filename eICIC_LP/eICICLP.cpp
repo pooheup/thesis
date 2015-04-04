@@ -35,57 +35,6 @@ int main()
 	point macro_loc_temp[MACRO_NUM];
 	point pico_loc_temp[PICO_NUM];
 	point mobile_loc_temp[MOBILE_NUM];
-	/*
-	for (int i = 0; i < MACRO_NUM; i++)
-	{
-		for (int j = 0; j<2; j++)
-		{
-			macro_loc_temp[i][j] = uniform() * AREA_DIST;
-		}
-	}
-
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		for (int j = 0; j<2; j++)
-		{
-			pico_loc_temp[i][j] = uniform() * AREA_DIST;
-		}
-	}
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		for (int j = 0; j<2; j++)
-		{
-			mobile_loc_temp[i][j] = uniform() * AREA_DIST;
-		}
-	}
-	*/
-	for (int i = 0; i < MACRO_NUM; i++)
-	{
-		double radius	= uniform() * AREA_RADIUS;
-		double angle	= uniform() * 2 * PI;
-
-		macro_loc_temp[i].x = radius * cos(angle);
-		macro_loc_temp[i].y = radius * sin(angle);
-	}
-
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		double radius	= uniform() * AREA_RADIUS;
-		double angle	= uniform() * 2 * PI;
-
-		pico_loc_temp[i].x = radius * cos(angle);
-		pico_loc_temp[i].y = radius * sin(angle);
-	}
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		double radius	= uniform() * AREA_RADIUS;
-		double angle	= uniform() * 2 * PI;
-
-		mobile_loc_temp[i].x = radius * cos(angle);
-		mobile_loc_temp[i].y = radius * sin(angle);
-	}
 
 	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
 	if (LOC_SETUP == 1)
@@ -113,71 +62,40 @@ int main()
 		macro_loc_temp[6].x = -500.0;
 		macro_loc_temp[6].y = -866.0;
 
-		////
+		for (int i = 0; i < PICO_NUM; i++)
+			pico_loc >> pico_loc_temp[i].x >> pico_loc_temp[i].y;
+
+		for (int i = 0; i < MOBILE_NUM; i++)
+			node >> mobile_loc_temp[i].x >> mobile_loc_temp[i].y;
+
+	}
+	else
+	{
+
+		for (int i = 0; i < MACRO_NUM; i++)
+		{
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			macro_loc_temp[i].x = radius * cos(angle);
+			macro_loc_temp[i].y = radius * sin(angle);
+		}
+
 		for (int i = 0; i < PICO_NUM; i++)
 		{
-			pico_loc >> pico_loc_temp[i].x >> pico_loc_temp[i].y;
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			pico_loc_temp[i].x = radius * cos(angle);
+			pico_loc_temp[i].y = radius * sin(angle);
 		}
 
 		for (int i = 0; i < MOBILE_NUM; i++)
 		{
-			node >> mobile_loc_temp[i].x >> mobile_loc_temp[i].y;
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			mobile_loc_temp[i].x = radius * cos(angle);
+			mobile_loc_temp[i].y = radius * sin(angle);
 		}
-		/*
-		pico_loc_temp[0].x = 1429;
-		pico_loc_temp[0].y = 1059;
 
-		pico_loc_temp[1].x = 1086;
-		pico_loc_temp[1].y = 694;
-
-		pico_loc_temp[2].x = 880;
-		pico_loc_temp[2].y = 1770;
-
-		pico_loc_temp[3].x = 1600;
-		pico_loc_temp[3].y = 1600;
-
-		pico_loc_temp[4].x = 606;
-		pico_loc_temp[4].y = 1194;
-
-
-		mobile_loc_temp[0].x = 1938;
-		mobile_loc_temp[0].y = 1012;
-
-		mobile_loc_temp[1].x = 265;
-		mobile_loc_temp[1].y = 1356;
-
-		mobile_loc_temp[2].x = 933;
-		mobile_loc_temp[2].y = 453;
-
-		mobile_loc_temp[3].x = 1418;
-		mobile_loc_temp[3].y = 1255;
-
-		mobile_loc_temp[4].x = 1119;
-		mobile_loc_temp[4].y = 1097;
-
-		mobile_loc_temp[5].x = 108;
-		mobile_loc_temp[5].y = 748;
-
-		mobile_loc_temp[6].x = 477;
-		mobile_loc_temp[6].y = 1713;
-		//
-		mobile_loc_temp[7].x = 1796;
-		mobile_loc_temp[7].y = 1248;
-		//
-		mobile_loc_temp[8].x = 1792;
-		mobile_loc_temp[8].y = 542;
-
-		mobile_loc_temp[9].x = 1245;
-		mobile_loc_temp[9].y = 1527;
-
-		mobile_loc_temp[10].x = 1738;
-		mobile_loc_temp[10].y = 1827;
-
-		mobile_loc_temp[11].x = 1384;
-		mobile_loc_temp[11].y = 809;
-		*/
-
-		
 	}
 
 	for (int i = 0; i < PICO_NUM; i++)
