@@ -55,17 +55,6 @@ int main()
 
 	}
 
-	// pico-mobile 간 data를 취합하기 위한 pico temp data 초기화
-	int pico_servicemobile_01_temp[MOBILE_NUM][PICO_NUM];
-
-	// pico!
-	// pico--mobile
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		for (int j = 0; j < MOBILE_NUM; j++)
-			pico_servicemobile_01_temp[j][i] = 0;
-	}
-
 	// 모바일 pico 거리, 이웃노드 수, service 설정		
 	// pico class에 저장하기 위해 pico 관련 데이터도 위의 temp data를 이용하여 동시에 처리
 	// 모두에 대해 0,1로 간섭유무 표현 1이면 간섭. 다 더해야 한다.
@@ -99,7 +88,7 @@ int main()
 		}
 
 		picos[service_pico]->num_service_mobile++;
-		pico_servicemobile_01_temp[i][service_pico] = 1;
+		picos[service_pico]->service_mobile_01[i] = 1;
 
 		mobiles[i]->set_num_int_pico(neighbor_count);
 		mobiles[i]->set_serviceBS_pico(service_pico);
@@ -122,22 +111,6 @@ int main()
 	// static 을 위해 cre bias를 통한 cell association
 	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
 	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->cell_association_static(cre_bias);
-
-	// pico 정보 넣기.
-	// pico--mobile
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		// mobile 이웃 정보
-
-		printf("%d\n", picos[i]->num_service_mobile);
-
-		for (int j = 0; j < MOBILE_NUM; j++)
-		{
-			picos[i]->service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
-		}
-	}
-
-	return 0;
 
 	// /////////////////////////////////////////////////////////////////////////
 	// 초기값이 모두 주어진 다음, 각 macro/pico/mobile 연결 상태와 간섭 등을 계산

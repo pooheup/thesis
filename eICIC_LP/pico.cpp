@@ -9,17 +9,14 @@ Pico::Pico(point location, double t_pow)
 
 	num_service_mobile = 0;
 
-	int i;
-
-	for ( i = 0; i < MACRO_NUM; i++ )
-	{
+	for (int i = 0; i < MACRO_NUM; i++)
 		macro_neighbor[i]	= -1;
-	}
 
-	for ( i = 0; i < MOBILE_NUM; i++ )
+	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		mobile[i]			= -1;
 		service_mobile[i]	= -1;
+		service_mobile_01[i] = 0;
 	}
 
 }
