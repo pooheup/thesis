@@ -11,9 +11,10 @@ private:
 	point location;
 	double tx_power;
 
+	int num_mobile;
+
 public:
 
-	int num_mobile;
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
 
@@ -29,6 +30,8 @@ public:
 
 	point getLocation();
 	double getTxPower();
+
+	int getMobileCount();
 
 };
 

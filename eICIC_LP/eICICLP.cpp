@@ -330,7 +330,7 @@ int main()
 		{
 			int temp_macro_PA_user = -1;
 			double temp_macro_PA = -1000.0;
-			for (int j = 0; j < macros[mac]->num_mobile; j++)
+			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
 				if (macros[mac]->mobile_service[j] == pico_nA_user1_PA[mobiles[macros[mac]->mobile_service[j]]->pico_service])
 				{
@@ -446,7 +446,7 @@ int main()
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
 			int resource_used_temp = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
-			for (int j = 0; j < macros[mac]->num_mobile; j++)
+			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
 				if (resource_macro_PA1[macros[mac]->mobile_service[j]] == 1) resource_used_temp = 1;
 			}
