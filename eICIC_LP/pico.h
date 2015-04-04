@@ -1,6 +1,7 @@
 #pragma once
 
 #include "parameters.h"
+#include "point.h"
 
 class Pico
 {
@@ -15,8 +16,7 @@ public:
 	int service_mobile_01[MOBILE_NUM]; // 1이 서비스
 	int service_mobile[MOBILE_NUM]; // 위에서 가져옴
 
-	double location_x;
-	double location_y;
+	point location;
 
 	double tx_power;
 
@@ -35,9 +35,9 @@ public:
 	////
 
 	Pico();
-	Pico(double loc_x, double loc_y, double t_pow);
+	Pico(point location, double t_pow);
 
-	void pico_set_initial(double loc_x, double loc_y, double t_pow);
+	void pico_set_initial(point location, double t_pow);
 
 	void set_channel_ratio(int mobile_num, double dist_macro, double macro_pow ,double no);
 	void set_neighbor();

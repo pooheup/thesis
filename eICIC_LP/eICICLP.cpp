@@ -243,7 +243,7 @@ int main()
 
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		pico[i].pico_set_initial(pico_loc_temp[i].x, pico_loc_temp[i].y, PICO_TX_POWER);
+		pico[i].pico_set_initial(pico_loc_temp[i], PICO_TX_POWER);
 	}
 
 	for (int i = 0; i < MOBILE_NUM; i++)
