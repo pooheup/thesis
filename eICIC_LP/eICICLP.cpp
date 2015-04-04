@@ -59,7 +59,7 @@ int main()
 
 		}
 
-		mobiles[i]->set_serviceBS_macro(service_macro);
+		mobiles[i]->macro_service = service_macro;
 		macros[mobiles[i]->macro_service]->mobile_service_01[i] = 1;
 
 	}

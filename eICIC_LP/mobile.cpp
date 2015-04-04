@@ -56,11 +56,6 @@ void Mobile::set_serviceBS (int _serviceBS )
 	service_BS = _serviceBS;
 }
 
-void Mobile::set_serviceBS_macro (int macro_temp)
-{
-	macro_service				= macro_temp;
-}
-
 void Mobile::set_serviceBS_pico (int pico_temp)
 {
 	pico_service = pico_temp;
