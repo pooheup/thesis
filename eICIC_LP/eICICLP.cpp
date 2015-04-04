@@ -169,9 +169,6 @@ int main()
 			resource_nonABS_PA1[mob] = 0;
 		}
 
-		double object_value_es = 0.0;
-		double sum_rate_es     = 0.0;
-
 		// /////////////////////////////////////////////////////////////////////
 		// 제안하는 알고리즘을 바탕으로 솔루션 찾기.
 
@@ -190,19 +187,15 @@ int main()
 		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
-			int temp_pico_ABS_PA_user;
-			int temp_pico_nA_PA1_user;
-			int temp_pico_nA_PA2_user;
-			int temp_pico_ABS_PA_user2;
+			int temp_pico_ABS_PA_user  = -1;
+			int temp_pico_nA_PA1_user  = -1;
+			int temp_pico_nA_PA2_user  = -1;
+			int temp_pico_ABS_PA_user2 = -1;
+
 			double temp_pico_ABS_PA = -10.0; // ABS best
 			double temp_pico_ABS_PA2 = -11.0; // ABS best
 			double temp_pico_nA_PA1 = -10.0; // non-ABS first
 			double temp_pico_nA_PA2 = -11.0; // non-ABS second
-
-			temp_pico_nA_PA1_user = -1;
-			temp_pico_nA_PA2_user = -1;
-			temp_pico_ABS_PA_user = -1;
-			temp_pico_ABS_PA_user2 = -1;
 
 			for (int j = 0; j < picos[pic]->num_service_mobile; j++)
 			{
