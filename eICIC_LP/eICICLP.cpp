@@ -83,7 +83,7 @@ int main()
 		picos[service_pico]->service_mobile_01[mob] = 1;
 
 		mobiles[mob]->set_num_int_pico(neighbor_count);
-		mobiles[mob]->set_serviceBS_pico(service_pico);
+		mobiles[mob]->pico_service = service_pico;
 
 	}
 

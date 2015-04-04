@@ -55,7 +55,6 @@ public:
 	void set_num_int_pico(int num_pico_temp);
 
 	void set_serviceBS(int _serviceBS );
-	void set_serviceBS_pico(int pico_temp);
 
 	void cell_association_static(double _cre_bias);
 };

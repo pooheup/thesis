@@ -63,11 +63,6 @@ void Mobile::set_serviceBS (int _serviceBS )
 	service_BS = _serviceBS;
 }
 
-void Mobile::set_serviceBS_pico (int pico_temp)
-{
-	pico_service = pico_temp;
-}
-
 void Mobile::set_pico_interference(int pico_num)
 {
 	pico_interference = 0.0;
