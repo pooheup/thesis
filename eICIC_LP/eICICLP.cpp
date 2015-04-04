@@ -100,7 +100,6 @@ int main()
 	}
 
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
-	int mobile_num_neighborBS_temp[MOBILE_NUM];
 	int mobile_service_macro_temp[MOBILE_NUM];
 
 	double mobile_macro_dist_temp[MOBILE_NUM][MACRO_NUM];
@@ -109,7 +108,6 @@ int main()
 
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		int neighbor_temp = 0;
 		int service_macro_temp;
 
 		double service_dist_temp = AREA_DIST * 2;
@@ -120,7 +118,6 @@ int main()
 
 			if (mobile_macro_dist_temp[i][j] < NEIGHBOR_DIST_M)
 			{
-				neighbor_temp++;
 				mobile_macro_neighbor_temp[i][j] = 1;
 			}
 			else
@@ -134,7 +131,6 @@ int main()
 				service_macro_temp = j;
 			}
 		}
-		mobile_num_neighborBS_temp[i] = neighbor_temp;
 		mobile_service_macro_temp[i] = service_macro_temp;
 	}
 
@@ -238,7 +234,6 @@ int main()
 
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		mobiles[i]->mobile_set_num_int_macro(mobile_num_neighborBS_temp[i]);
 		mobiles[i]->mobile_set_serviceBS_macro(mobile_service_macro_temp[i]);
 
 		mobiles[i]->mobile_set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);

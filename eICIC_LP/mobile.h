@@ -15,7 +15,6 @@ public:
 
 	int service_BS;					// 0: macro 1:pico
 
-	int num_interferer_macro;
 	int num_interferer_pico;
 
 	int macro_neighbor[MACRO_NUM];
@@ -51,7 +50,6 @@ public:
 	void mobile_set_pico_interference(int pico_num);
 	void mobile_set_macro_interference(int macro_num);
 
-	void mobile_set_num_int_macro(int num_macro_temp);
 	void mobile_set_num_int_pico(int num_pico_temp);
 
 	void mobile_set_serviceBS (int _serviceBS );
