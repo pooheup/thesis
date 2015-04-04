@@ -56,8 +56,6 @@ int main()
 	}
 
 	// pico-mobile 간 data를 취합하기 위한 pico temp data 초기화
-	int pico_num_neighborMacro_temp[PICO_NUM];
-
 	int pico_num_servicemobile_temp[PICO_NUM];
 
 	int pico_servicemobile_01_temp[MOBILE_NUM][PICO_NUM];
@@ -66,8 +64,6 @@ int main()
 	// pico--mobile
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		pico_num_neighborMacro_temp[i] = 0;
-
 		pico_num_servicemobile_temp[i] = 0;
 
 		for (int j = 0; j < MOBILE_NUM; j++) pico_servicemobile_01_temp[j][i] = 0;
@@ -130,7 +126,6 @@ int main()
 
 			if (picos[j]->distance_macro[i] < MP_INT_DIST)
 			{
-				pico_num_neighborMacro_temp[j]++;
 				macro_pico_neighbor_01_temp[i][j] = 1;
 			}
 			else
@@ -172,8 +167,6 @@ int main()
 	// pico--macro
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		picos[i]->num_macro = pico_num_neighborMacro_temp[i];
-
 		// mobile 이웃 정보
 		picos[i]->num_service_mobile = pico_num_servicemobile_temp[i];
 

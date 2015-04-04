@@ -7,7 +7,6 @@ class Pico
 {
 public:
 
-	int num_macro;
 	int macro_neighbor[MACRO_NUM];
 	int mobile[MOBILE_NUM];
 
