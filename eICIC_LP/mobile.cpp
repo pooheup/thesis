@@ -11,6 +11,8 @@ Mobile::Mobile(point location, double qos)
 	this->macro_service = -1;
 	this->pico_service  = -1;
 
+	this->num_interferer_pico = 0;
+
 	for (int mac = 0; mac < MACRO_NUM; mac++)
 	{
 		macro_neighbor[mac] = -1;
@@ -51,11 +53,6 @@ void Mobile::set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, dou
 {
 	distance_pico[cell_num]         = dist_temp;
 	channel_gain_pico[cell_num]     = tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
-}
-
-void Mobile::set_num_int_pico(int num_pico_temp)
-{
-	num_interferer_pico = num_pico_temp;
 }
 
 void Mobile::set_serviceBS (int _serviceBS )

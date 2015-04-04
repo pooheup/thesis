@@ -56,15 +56,13 @@ int main()
 	// mobile--pico
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
 	{
-		int neighbor_count = 0;
-
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
 			double distance = POINT_DISTANCE(mobiles[mob]->location, picos[pic]->location);
 			int is_neighbor = distance < NEIGHBOR_DIST_P;
 
 			if (is_neighbor)
-				neighbor_count++;
+				mobiles[mob]->num_interferer_pico++;
 
 			if (mobiles[mob]->pico_service < 0)
 			{
@@ -85,8 +83,6 @@ int main()
 
 		picos[mobiles[mob]->pico_service]->num_service_mobile++;
 		picos[mobiles[mob]->pico_service]->service_mobile_01[mob] = 1;
-
-		mobiles[mob]->set_num_int_pico(neighbor_count);
 
 	}
 

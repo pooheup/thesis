@@ -52,8 +52,6 @@ public:
 	void set_pico_interference(int pico_num);
 	void set_macro_interference(int macro_num);
 
-	void set_num_int_pico(int num_pico_temp);
-
 	void set_serviceBS(int _serviceBS );
 
 	void cell_association_static(double _cre_bias);
