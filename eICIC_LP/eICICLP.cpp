@@ -28,10 +28,6 @@ int main()
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
 	int mobile_service_macro_temp[MOBILE_NUM];
 
-	double mobile_macro_dist_temp[MOBILE_NUM][MACRO_NUM];
-
-	int mobile_macro_neighbor_temp[MOBILE_NUM][MACRO_NUM];
-
 	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
@@ -41,22 +37,19 @@ int main()
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobile_macro_dist_temp[i][j] = POINT_DISTANCE(mobiles[i]->location, macros[j]->getLocation());
+			double distance = POINT_DISTANCE(mobiles[i]->location, macros[j]->getLocation());
+			int is_neighbor = distance < NEIGHBOR_DIST_M;
 
-			if (mobile_macro_dist_temp[i][j] < NEIGHBOR_DIST_M)
+			if (distance < service_dist_temp)
 			{
-				mobile_macro_neighbor_temp[i][j] = 1;
-			}
-			else
-			{
-				mobile_macro_neighbor_temp[i][j] = 0;
-			}
-
-			if (mobile_macro_dist_temp[i][j] < service_dist_temp)
-			{
-				service_dist_temp = mobile_macro_dist_temp[i][j];
+				service_dist_temp = distance;
 				service_macro_temp = j;
 			}
+
+			mobiles[i]->set_dist_macro(j, distance, macros[j]->getTxPower(), NOISE);
+			mobiles[i]->macro_neighbor[j] = is_neighbor;
+			macros[j]->mobile[i] = is_neighbor;
+
 		}
 		mobile_service_macro_temp[i] = service_macro_temp;
 	}
@@ -167,12 +160,6 @@ int main()
 	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		for (int j = 0; j < MACRO_NUM; j++)
-		{
-			mobiles[i]->set_dist_macro(j, mobile_macro_dist_temp[i][j], macros[j]->getTxPower(), NOISE);
-			mobiles[i]->macro_neighbor[j] = mobile_macro_neighbor_temp[i][j];
-			macros[j]->mobile[i] = mobile_macro_neighbor_temp[i][j];
-		}
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
