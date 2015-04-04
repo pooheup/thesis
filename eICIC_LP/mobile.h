@@ -5,6 +5,7 @@
 #include "parameters.h"
 #include "point.h"
 #include "macro.h"
+#include "pico.h"
 
 class Mobile
 {
@@ -45,6 +46,7 @@ public:
 	Mobile(point location, double qos);
 
 	void locate_on_macro_of(int mac, Macro *macro);
+	void locate_on_pico_of(int pic, Pico *pico);
 
 	void set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
 	void set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no);

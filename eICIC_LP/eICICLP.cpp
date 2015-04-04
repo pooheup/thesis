@@ -42,9 +42,7 @@ int main()
 		{
 			mobiles[mob]->locate_on_macro_of(mac, macros[mac]);
 		}
-
 		macros[mobiles[mob]->macro_service]->register_mobile_to_service(mob);
-
 	}
 
 	// 모바일 pico 거리, 이웃노드 수, service 설정      
@@ -58,32 +56,10 @@ int main()
 	{
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
-			double distance = POINT_DISTANCE(mobiles[mob]->location, picos[pic]->location);
-			int is_neighbor = distance < NEIGHBOR_DIST_P;
-
-			if (is_neighbor)
-				mobiles[mob]->num_interferer_pico++;
-
-			if (mobiles[mob]->pico_service < 0)
-			{
-				mobiles[mob]->pico_service = pic;
-			}
-			else
-			{
-				if (distance < mobiles[mob]->distance_pico[mobiles[mob]->pico_service])
-				{
-					mobiles[mob]->pico_service = pic;
-				}
-			}
-
-			mobiles[mob]->set_dist_pico_1(pic, distance, picos[pic]->tx_power, NOISE);
-			mobiles[mob]->pico_neighbor[pic] = is_neighbor;
-
+			mobiles[mob]->locate_on_pico_of(pic, picos[pic]);
 		}
-
 		picos[mobiles[mob]->pico_service]->num_service_mobile++;
 		picos[mobiles[mob]->pico_service]->service_mobile_01[mob] = 1;
-
 	}
 
 	// initial setting 각 클래스 초기화, 

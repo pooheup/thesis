@@ -49,6 +49,30 @@ void Mobile::locate_on_macro_of(int mac, Macro *macro)
 	this->channel_gain_macro[mac] = macro->getTxPower() * pow( (1/distance), PATH_LOSS_EXPO );
 }
 
+void Mobile::locate_on_pico_of(int pic, Pico *pico)
+{
+	double distance = POINT_DISTANCE(pico->location, this->location);
+	int is_neighbor = distance < NEIGHBOR_DIST_P;
+
+	if (is_neighbor)
+		this->num_interferer_pico++;
+
+	if (this->pico_service < 0)
+	{
+		this->pico_service = pic;
+	}
+	else
+	{
+		if (distance < this->distance_pico[this->pico_service])
+		{
+			this->pico_service = pic;
+		}
+	}
+
+	this->set_dist_pico_1(pic, distance, pico->tx_power, NOISE);
+	this->pico_neighbor[pic] = is_neighbor;
+}
+
 void Mobile::set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_pico[cell_num]         = dist_temp;
