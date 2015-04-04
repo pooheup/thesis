@@ -2,48 +2,38 @@
 
 Mobile::Mobile(point location, double qos)
 {
-	this->location = location;
+	this->location      = location;
+	this->QoS           = qos;
 
-	QoS			= qos;
+	// 0: macro 1:pico
+	this->service_BS    = 0;
 
-	service_BS	= 0;					// 0: macro 1:pico
+	this->macro_service = -1;
+	this->pico_service  = -1;
 
-	macro_service			= -1;
-	pico_service			= -1;
-
-	int i;
-
-	for ( i = 0; i < MACRO_NUM; i ++ )
+	for (int mac = 0; mac < MACRO_NUM; mac++)
 	{
-		macro_neighbor[i]	= -1;
+		macro_neighbor[mac] = -1;
+		distance_macro[mac] = -1.0;
 	}
 
-	for ( i = 0; i < PICO_NUM; i ++ )
+	for (int pic = 0; pic < PICO_NUM; pic++)
 	{
-		pico_neighbor[i]	= -1;
-	}
-
-	for ( i = 0; i < MACRO_NUM; i ++ )
-	{
-		distance_macro[i]	= -1.0;
-	}
-
-	for ( i = 0; i < PICO_NUM; i ++ )
-	{
-		distance_pico[i]	= -1.0;
+		pico_neighbor[pic] = -1;
+		distance_pico[pic] = -1.0;
 	}
 }
 
 void Mobile::set_dist_macro(int cell_num, double dist_temp, double tx_pow, double no)
 {
-	distance_macro[cell_num]		= dist_temp;
-	channel_gain_macro[cell_num]	= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
+	distance_macro[cell_num]        = dist_temp;
+	channel_gain_macro[cell_num]    = tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
 
 void Mobile::set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
 {
-	distance_pico[cell_num]			= dist_temp;
-	channel_gain_pico[cell_num]		= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
+	distance_pico[cell_num]         = dist_temp;
+	channel_gain_pico[cell_num]     = tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
 
 void Mobile::set_num_int_pico(int num_pico_temp)
