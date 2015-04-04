@@ -20,15 +20,6 @@ int main()
 	
 	srand(starttime);
 
-	// 출력 파일들
-	std::ofstream Savefile("eICIC.txt");
-	std::ofstream savel("lambda.txt");
-	std::ofstream savem("mu.txt");
-	std::ofstream results("results.txt");
-	savel.precision(5);
-	savem.precision(5);
-	results.precision(5);
-
 	Macro **macros = (Macro **) malloc(sizeof(Macro *) * MACRO_NUM);
 	Pico **picos = (Pico **) malloc(sizeof(Pico *) * PICO_NUM);
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
@@ -354,6 +345,16 @@ int main()
 	}
 
 	//////////////////////////////////////////////////////////////////////////////  알고리즘 따라 연산  //////////////////////////////////////////////////////////////////////
+
+	// 출력 파일들
+	std::ofstream Savefile("eICIC.txt");
+	std::ofstream savel("lambda.txt");
+	std::ofstream savem("mu.txt");
+	std::ofstream results("results.txt");
+	savel.precision(5);
+	savem.precision(5);
+	results.precision(5);
+
 	for (int t = 0; t < SIMULATION_TIME; t++)
 	{
 		double step_size2;
