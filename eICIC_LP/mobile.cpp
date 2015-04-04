@@ -2,8 +2,7 @@
 
 Mobile::Mobile()
 {
-	location_x	= 0;
-	location_y	= 0;
+	location = { 0.0d, 0.0d };
 
 	QoS			= 0.0;
 
@@ -40,10 +39,9 @@ Mobile::Mobile()
 	}
 }
 
-Mobile::Mobile(double loc_x, double loc_y, double qos)
+Mobile::Mobile(point location, double qos)
 {
-	location_x	= loc_x;
-	location_y	= loc_y;
+	this->location = location;
 
 	QoS			= qos;
 
@@ -77,10 +75,9 @@ Mobile::Mobile(double loc_x, double loc_y, double qos)
 	}
 }
 
-void Mobile::mobile_set_initial(double loc_x, double loc_y, double qos)
+void Mobile::mobile_set_initial(point location, double qos)
 {
-	location_x	= loc_x;
-	location_y	= loc_y;
+	this->location = location;
 
 	QoS			= qos;
 }
