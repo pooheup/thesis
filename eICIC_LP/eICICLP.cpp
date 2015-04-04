@@ -95,13 +95,13 @@ int main()
 
 	}
 
-	// macro--pico
-	for (int i = 0; i < MACRO_NUM; i++)
+	// pico--macro
+	for (int i = 0; i < PICO_NUM; i++)
 	{
-		for (int j = 0; j < PICO_NUM; j++)
+		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			picos[j]->distance_macro[i] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
-			picos[j]->macro_neighbor[i] = picos[j]->distance_macro[i] < MP_INT_DIST;
+			picos[i]->distance_macro[j] = POINT_DISTANCE(macros[j]->getLocation(), picos[i]->location);
+			picos[i]->macro_neighbor[j] = picos[i]->distance_macro[j] < MP_INT_DIST;
 		}
 	}
 
