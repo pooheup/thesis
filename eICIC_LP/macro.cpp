@@ -8,11 +8,6 @@ Macro::Macro(point location, double t_pow)
 
 	int i;
 
-	for ( i = 0; i < PICO_NUM; i++ )
-	{
-		pico_neighbor[i]	= -1;
-	}
-
 	for ( i = 0; i < MOBILE_NUM; i++ )
 	{
 		mobile[i]			= -1;

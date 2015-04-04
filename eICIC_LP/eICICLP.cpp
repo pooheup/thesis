@@ -190,16 +190,6 @@ int main()
 	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
 	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->mobile_cell_association_static(cre_bias);
 
-	// macro 정보 넣기. 이웃 수, 이웃 명단
-	// mobile-pico
-	for (int i = 0; i < MACRO_NUM; i++)
-	{
-		for (int j = 0; j < PICO_NUM; j++)
-		{
-			macros[i]->pico_neighbor[j] = macro_pico_neighbor_01_temp[i][j];
-		}
-	}
-
 	// pico 정보 넣기.
 	// pico-mobile
 	// pico-macro
