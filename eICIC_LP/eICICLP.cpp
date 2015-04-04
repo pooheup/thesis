@@ -75,44 +75,39 @@ int main()
 	int mobile_num_neighborBS_temp_pico[MOBILE_NUM];
 	int mobile_service_pico_temp[MOBILE_NUM];
 
-	double mobile_pico_dist_temp[MOBILE_NUM][PICO_NUM];
-
-	int mobile_pico_neighbor_temp[MOBILE_NUM][PICO_NUM];
-
+	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
+	// 채널 계산
 	// mobile--pico
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		int neighbor_temp = 0;
-		int service_pico_temp;
-
-		double service_dist_temp = AREA_DIST * 2;
+		int neighbor_count = 0;
+		int service_pico = -1;
+		double service_distance = DBL_MAX;
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile_pico_dist_temp[i][j] = POINT_DISTANCE(mobiles[i]->location, picos[j]->location);
+			double distance = POINT_DISTANCE(mobiles[i]->location, picos[j]->location);
+			int is_neighbor = distance < NEIGHBOR_DIST_P;
 
-			if (mobile_pico_dist_temp[i][j] < NEIGHBOR_DIST_P)
+			if (is_neighbor)
+				neighbor_count++;
+
+			if (distance < service_distance)
 			{
-				neighbor_temp++;
-				mobile_pico_neighbor_temp[i][j] = 1;
-			}
-			else
-			{
-				mobile_pico_neighbor_temp[i][j] = 0;
+				service_distance = distance;
+				service_pico = j;
 			}
 
-			if (mobile_pico_dist_temp[i][j] < service_dist_temp)
-			{
-				service_dist_temp = mobile_pico_dist_temp[i][j];
-				service_pico_temp = j;
-			}
+			mobiles[i]->set_dist_pico_1(j, distance, picos[j]->tx_power, NOISE);
+			mobiles[i]->pico_neighbor[j] = is_neighbor;
+
 		}
-		pico_num_servicemobile_temp[service_pico_temp]++;
 
-		pico_servicemobile_01_temp[i][service_pico_temp] = 1;
+		pico_num_servicemobile_temp[service_pico]++;
+		pico_servicemobile_01_temp[i][service_pico] = 1;
 
-		mobile_num_neighborBS_temp_pico[i]	= neighbor_temp;
-		mobile_service_pico_temp[i]			= service_pico_temp;
+		mobile_num_neighborBS_temp_pico[i]	= neighbor_count;
+		mobile_service_pico_temp[i]			= service_pico;
 	}
 
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
@@ -143,19 +138,6 @@ int main()
 		mobiles[i]->set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);
 		mobiles[i]->set_serviceBS_pico(mobile_service_pico_temp[i]);
 
-	}
-
-	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
-	// 채널 계산
-	// mobile--macro
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-
-		for (int j = 0; j < PICO_NUM; j++)
-		{
-			mobiles[i]->set_dist_pico_1(j, mobile_pico_dist_temp[i][j], picos[j]->tx_power, NOISE);
-			mobiles[i]->pico_neighbor[j] = mobile_pico_neighbor_temp[i][j];
-		}
 	}
 
 	// static 을 위해 cre bias를 통한 cell association
