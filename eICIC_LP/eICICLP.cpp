@@ -150,19 +150,26 @@ int main()
 		}
 	}
 
-	// pico의 이웃 정보.
-	for (int i = 0; i < PICO_NUM; i++) picos[i]->set_neighbor();
-	for (int i = 0; i < MACRO_NUM; i++) macros[i]->macro_set_neighbor();
+	// /////////////////////////////////////////////////////////////////////////
+	// 초기값이 모두 주어진 다음, 각 macro/pico/mobile 연결 상태와 간섭 등을 계산
 
+	for (int i = 0; i < PICO_NUM; i++)
+		picos[i]->set_neighbor();
+
+	for (int i = 0; i < MACRO_NUM; i++)
+		macros[i]->macro_set_neighbor();
+
+	// TODO 시간 반복문 안으로 이동해야 함
 	// 각 모바일이 겪는 interference calculation
 	// 모든 기지국에 대한 간섭을 계산. 실제 이용시 자신이 할당받는 기지국의 신호는 제해야 함.
-	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		mobiles[i]->set_pico_interference(PICO_NUM);
 		mobiles[i]->set_macro_interference(MACRO_NUM);
 	}
-	
+
+	// /////////////////////////////////////////////////////////////////////////
+
 	// 시뮬레이션에서 필요한 각 변수들 선언
 	// 매 timeslot에서의 평균 throughput
 	double thrpt_macro[MOBILE_NUM];
