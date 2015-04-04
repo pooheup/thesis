@@ -352,82 +352,7 @@ int main()
 
 		double object_value_es  = 0.0;
 		double sum_rate_es		= 0.0;
-		/*
-		/////////////////////////////////////////////////////  exhaustive search
-		// allocation을 찾기 위한 변수들
-		int macro_allocation[MACRO_NUM];
-		int pico_ABS_allocation[PICO_NUM];
-		int pico_nonABS_allocation[PICO_NUM];
-		int user_allocated[MOBILE_NUM];
 
-		for (int i = 0; i < MACRO_NUM; i++)	macro_allocation[i] = -1;
-		for (int i = 0; i < PICO_NUM; i++)
-		{
-			pico_ABS_allocation[i] = -1;
-			pico_nonABS_allocation[i] = -1;
-		}
-		for (int i = 0; i < MOBILE_NUM; i++) user_allocated[i] = 0;
-
-		int user_num = 0;
-		double objective_value_temp = 0.0;
-		double objective_value_best = -1.0;
-		int state_temp[MOBILE_NUM];
-		int state_best[MOBILE_NUM];
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			state_temp[i] = 0;
-			state_best[i] = 0;
-		}
-
-		// 최적의 할당을 exhaustive 방식으로 찾으며, 다음의 함수를 호출
-		exhaustive_search_call_next_user(user_num, objective_value_temp, &objective_value_best, state_temp, state_best, mobile, macro, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
-		
-		// best state 즉, 구한 자원 할당 값 입력
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			if (state_best[i] == 1)	resource_macro[i]		= 1;
-			else if (state_best[i] == 2) resource_ABS[i]	= 1;
-			else if (state_best[i] == 3) resource_nonABS[i]	= 1;
-		}
-
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			if (state_best[i] == 1)	num_allocated_macro[i]			= num_allocated_macro[i] + 1;
-			else if (state_best[i] == 2) num_allocated_ABS[i]		= num_allocated_ABS[i] + 1;
-			else if (state_best[i] == 3) num_allocated_nonABS[i]	= num_allocated_nonABS[i]+ 1;
-		}
-
-		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
-		for (int i=0; i < MACRO_NUM; i++)
-		{
-			int resource_used_temp = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
-			for (int j = 0; j < macro[i].num_mobile; j++)
-			{
-				if (resource_macro[macro[i].mobile_service[j]] == 1) resource_used_temp = 1;
-			}
-			if (resource_used_temp == 0) abs_count_macro[i]++;
-		}
-
-		// 현재까지 얻은 throughput 입력
-		for (int i = 0; i < MOBILE_NUM; i++) thrp_result[i] = thrp_result[i] + thrpt_macro[i] * resource_macro[i] + thrpt_ABS[i] * resource_ABS[i] + thrpt_nonABS[i] * resource_nonABS[i];
-
-		// 평균 rate Ru, rate_user[i], 업데이트
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			if (lambda[i] == 0.0) rate_user[i] = RATE_MAX;
-			//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (1.0 + mu[i]) / lambda[i];
-			else rate_user[i] = (1.0 + mu[i]) / lambda[i];
-		}
-
-		// object 값 계산
-		//double object_value_es = 0.0;
-		//for (int i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / (1 + t));
-		//for (int i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] / (1 + t);
-
-		//for (int i = 0; i < MOBILE_NUM; i++) 		object_value_es = object_value_es + log(thrp_result[i] / 1000000 / (1 + t));
-		//for (int i = 0; i < MOBILE_NUM; i++)		sum_rate_es		= sum_rate_es + thrp_result[i] /1000000 / (1 + t);
-		*/
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////  제안하는 알고리즘을 바탕으로 솔루션 찾기.
 		// 변수 선언
 		int macro_user_PA[MACRO_NUM];
@@ -557,23 +482,7 @@ int main()
 
 		// macro 들의 모든 조합에 대하여 최적의 값 선택
 		PA1_call_next_pico(_macro_num, &objective_value_best_PA1, state_temp_PA1, state_best_PA1, user_state_best_PA1, mobiles, picos, macros, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
-		/*
-		// exhaustive 값과 비교
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			
-			std::cout << t << "\t" << i << "\t" << user_state_best_PA1[i] << "\t" << state_best[i] << std::endl;
-		}
-		std::cout << objective_value_best_PA1 << "\t" << objective_value_best << std::endl;
-		Savefile << objective_value_best_PA1 << "\t" << objective_value_best << std::endl;
-		if (abs(objective_value_best - objective_value_best_PA1) > 0.0001)
-		{
-			std::cout << "Proposed Algorithm error occurred" << std::endl;
-			//Savefile << "Proposed Algorithm error occurred" << std::endl;
 
-		}
-		// 구한 값 update
-		*/
 		// resource 정보 입력
 		// best state 즉, 구한 자원 할당 값 입력
 		for (int i = 0; i < MOBILE_NUM; i++)
