@@ -56,17 +56,14 @@ int main()
 	}
 
 	// pico-mobile 간 data를 취합하기 위한 pico temp data 초기화
-	int pico_num_servicemobile_temp[PICO_NUM];
-
 	int pico_servicemobile_01_temp[MOBILE_NUM][PICO_NUM];
 
 	// pico!
 	// pico--mobile
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		pico_num_servicemobile_temp[i] = 0;
-
-		for (int j = 0; j < MOBILE_NUM; j++) pico_servicemobile_01_temp[j][i] = 0;
+		for (int j = 0; j < MOBILE_NUM; j++)
+			pico_servicemobile_01_temp[j][i] = 0;
 	}
 
 	// 모바일 pico 거리, 이웃노드 수, service 설정		
@@ -101,7 +98,7 @@ int main()
 
 		}
 
-		pico_num_servicemobile_temp[service_pico]++;
+		picos[service_pico]->num_service_mobile++;
 		pico_servicemobile_01_temp[i][service_pico] = 1;
 
 		mobiles[i]->set_num_int_pico(neighbor_count);
@@ -131,13 +128,16 @@ int main()
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		// mobile 이웃 정보
-		picos[i]->num_service_mobile = pico_num_servicemobile_temp[i];
+
+		printf("%d\n", picos[i]->num_service_mobile);
 
 		for (int j = 0; j < MOBILE_NUM; j++)
 		{
 			picos[i]->service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
 		}
 	}
+
+	return 0;
 
 	// /////////////////////////////////////////////////////////////////////////
 	// 초기값이 모두 주어진 다음, 각 macro/pico/mobile 연결 상태와 간섭 등을 계산
