@@ -11,7 +11,6 @@
 #include "pico.h"
 #include "mobile.h"
 #include "eICIC.h"
-#include "point.h"
 
 int main()
 {
