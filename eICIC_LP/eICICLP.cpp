@@ -221,7 +221,7 @@ int main()
 	}
 
 	// pico의 이웃 정보.
-	for (int i = 0; i < PICO_NUM; i++) picos[i]->set_neighbor_1();
+	for (int i = 0; i < PICO_NUM; i++) picos[i]->set_neighbor();
 	for (int i = 0; i < MACRO_NUM; i++) macros[i]->macro_set_neighbor();
 
 	// 각 모바일이 겪는 interference calculation

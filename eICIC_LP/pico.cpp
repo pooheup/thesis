@@ -50,7 +50,7 @@ void Pico::pico_set_initial(point location, double t_pow)
 	tx_power	= t_pow;
 }
 
-void Pico::set_neighbor_1()
+void Pico::set_neighbor()
 {
 	int num_mobile_temp = 0;
 	for (int i = 0; i < MOBILE_NUM; i++)
