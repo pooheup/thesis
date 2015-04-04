@@ -32,7 +32,7 @@ int main()
 
 	int mobile_macro_neighbor_temp[MOBILE_NUM][MACRO_NUM];
 
-	// mobile-macro
+	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		int service_macro_temp;
@@ -69,7 +69,8 @@ int main()
 
 	int pico_servicemobile_01_temp[MOBILE_NUM][PICO_NUM];
 
-	// pico, pico-mobile
+	// pico!
+	// pico--mobile
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		pico_num_neighbormobile_temp[i] = 0;
@@ -90,7 +91,7 @@ int main()
 
 	int mobile_pico_neighbor_temp[MOBILE_NUM][PICO_NUM];
 
-	// mobile-pico
+	// mobile--pico
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		int neighbor_temp = 0;
@@ -130,7 +131,7 @@ int main()
 
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
-	// macro-pico
+	// macro--pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
 		for (int j = 0; j < PICO_NUM; j++)
@@ -163,12 +164,11 @@ int main()
 
 	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
 	// 채널 계산
-	// mobile-macro
+	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			// mobiles[i]->mobile_set_dist_macro( j, macro[j].location_x, macro[j].location_y, macro[j].tx_power, NOISE );
 			mobiles[i]->mobile_set_dist_macro_1(j, mobile_macro_dist_temp[i][j], macros[j]->tx_power, NOISE);
 			mobiles[i]->macro_neighbor[j] = mobile_macro_neighbor_temp[i][j];
 			macros[j]->mobile[i] = mobile_macro_neighbor_temp[i][j];
@@ -186,8 +186,8 @@ int main()
 	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->mobile_cell_association_static(cre_bias);
 
 	// pico 정보 넣기.
-	// pico-mobile
-	// pico-macro
+	// pico--mobile
+	// pico--macro
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		picos[i]->num_macro = pico_num_neighborMacro_temp[i];
