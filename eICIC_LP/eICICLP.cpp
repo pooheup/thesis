@@ -104,8 +104,6 @@ int main()
 		pico_num_servicemobile_temp[service_pico]++;
 		pico_servicemobile_01_temp[i][service_pico] = 1;
 
-		mobile_num_neighborBS_temp_pico[i]	= neighbor_count;
-		mobile_service_pico_temp[i]			= service_pico;
 		mobiles[i]->set_num_int_pico(neighbor_count);
 		mobiles[i]->set_serviceBS_pico(service_pico);
 
