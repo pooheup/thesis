@@ -8,6 +8,14 @@
 
 class Mobile
 {
+
+private:
+
+	double distance_macro[MACRO_NUM];
+	int macro_neighbor[MACRO_NUM];
+	double channel_gain_service_macro;
+	double macro_interference;
+
 public:
 
 	point location;
@@ -18,7 +26,6 @@ public:
 
 	int num_interferer_pico;
 
-	int macro_neighbor[MACRO_NUM];
 	int pico_neighbor[PICO_NUM];
 
 	int macro_service;
@@ -26,13 +33,10 @@ public:
 
 	int associated_BS_static;		// 0: macro 1: pico
 
-	double channel_gain_service_macro;
 	double channel_gain_service_pico;
 
 	double pico_interference;
-	double macro_interference;
 
-	double distance_macro[MACRO_NUM];
 	double distance_pico[PICO_NUM];
 
 	double channel_gain_macro[MACRO_NUM];
