@@ -9,6 +9,7 @@ class Macro
 private:
 
 	point location;
+	double tx_power;
 
 public:
 
@@ -16,8 +17,6 @@ public:
 	int mobile[MOBILE_NUM];
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
-
-	double tx_power;
 
 	// proposed algorithm 1
 	int selected_user_PA1;
@@ -30,6 +29,7 @@ public:
 	void set_user_PA1(int _selected_user, int _covered_pico);
 
 	point getLocation();
+	double getTxPower();
 
 };
 

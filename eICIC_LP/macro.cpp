@@ -38,3 +38,8 @@ point Macro::getLocation()
 {
 	return location;
 }
+
+double Macro::getTxPower()
+{
+	return tx_power;
+}
