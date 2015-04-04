@@ -128,9 +128,6 @@ int main()
 		mobile_service_pico_temp[i]			= service_pico_temp;
 	}
 
-	// 매크로 피코 거리, 이웃노드 수
-	int macro_num_neighborBS_temp_pico[MACRO_NUM];
-
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
 	// macro-pico
@@ -151,7 +148,7 @@ int main()
 			}
 			else macro_pico_neighbor_01_temp[i][j] = 0;
 		}
-		macro_num_neighborBS_temp_pico[i] = neighbor_temp;
+		macros[i]->num_pico = neighbor_temp;
 	}
 
 	// initial setting 각 클래스 초기화, 
@@ -196,8 +193,6 @@ int main()
 	// mobile-pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
-		macros[i]->num_pico = macro_num_neighborBS_temp_pico[i];
-
 		for (int j = 0; j < PICO_NUM; j++)
 		{
 			macros[i]->pico_neighbor[j] = macro_pico_neighbor_01_temp[i][j];
