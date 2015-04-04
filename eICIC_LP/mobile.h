@@ -42,7 +42,6 @@ public:
 
 	void locate_on_macro_of(int mac, Macro *macro);
 
-	void set_dist_macro(int cell_num, double dist_temp, double tx_pow, double no);
 	void set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
 	void set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no);
 
