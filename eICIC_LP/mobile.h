@@ -37,10 +37,7 @@ public:
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
 
-	Mobile();
 	Mobile(point location, double qos);
-
-	void mobile_set_initial(point location, double qos);
 
 	void mobile_set_dist_macro(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
 	void mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no);

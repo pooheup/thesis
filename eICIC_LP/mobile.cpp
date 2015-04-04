@@ -1,42 +1,5 @@
 #include "mobile.h"
 
-Mobile::Mobile()
-{
-	location = { 0.0, 0.0 };
-
-	QoS			= 0.0;
-
-	pico_interference	= 0.0;
-	macro_interference	= 0.0;
-
-	service_BS	= 0;					// 0: macro 1:pico
-
-	macro_service			= -1;
-	pico_service			= -1;
-
-	int i;
-
-	for ( i = 0; i < MACRO_NUM; i ++ )
-	{
-		macro_neighbor[i]	= -1;
-	}
-
-	for ( i = 0; i < PICO_NUM; i ++ )
-	{
-		pico_neighbor[i]	= -1;
-	}
-
-	for ( i = 0; i < MACRO_NUM; i ++ )
-	{
-		distance_macro[i]	= -1.0;
-	}
-
-	for ( i = 0; i < PICO_NUM; i ++ )
-	{
-		distance_pico[i]	= -1.0;
-	}
-}
-
 Mobile::Mobile(point location, double qos)
 {
 	this->location = location;
@@ -69,13 +32,6 @@ Mobile::Mobile(point location, double qos)
 	{
 		distance_pico[i]	= -1.0;
 	}
-}
-
-void Mobile::mobile_set_initial(point location, double qos)
-{
-	this->location = location;
-
-	QoS			= qos;
 }
 
 void Mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no)
