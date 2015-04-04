@@ -25,9 +25,6 @@ int main()
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
 	initialize(macros, picos, mobiles);
 
-	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
-	int mobile_service_macro_temp[MOBILE_NUM];
-
 	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
@@ -51,7 +48,10 @@ int main()
 			macros[j]->mobile[i] = is_neighbor;
 
 		}
-		mobile_service_macro_temp[i] = service_macro_temp;
+
+		mobiles[i]->set_serviceBS_macro(service_macro_temp);
+		macros[mobiles[i]->macro_service]->mobile_service_01[i] = 1;
+
 	}
 
 	// pico-mobile 간 data를 취합하기 위한 pico temp data 초기화
@@ -147,12 +147,10 @@ int main()
 	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		mobiles[i]->set_serviceBS_macro(mobile_service_macro_temp[i]);
 
 		mobiles[i]->set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);
 		mobiles[i]->set_serviceBS_pico(mobile_service_pico_temp[i]);
 
-		macros[mobile_service_macro_temp[i]]->mobile_service_01[i] = 1;
 	}
 
 	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
