@@ -7,8 +7,8 @@
 #include "pico.h"
 
 typedef struct {
-	int x;
-	int y;
+	double x;
+	double y;
 } point;
 
 double mobile_set_dist_BS_temp(point src, point dst);
