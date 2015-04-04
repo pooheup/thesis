@@ -110,21 +110,14 @@ int main()
 		mobile_service_pico_temp[i]			= service_pico;
 	}
 
-	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
-
 	// macro--pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
 		for (int j = 0; j < PICO_NUM; j++)
 		{
 			picos[j]->distance_macro[i] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
-
-			if (picos[j]->distance_macro[i] < MP_INT_DIST)
-			{
-				macro_pico_neighbor_01_temp[i][j] = 1;
-			}
-			else
-				macro_pico_neighbor_01_temp[i][j] = 0;
+			picos[j]->macro_neighbor[i] = is_neighbor;
+				= picos[j]->distance_macro[i] < MP_INT_DIST;
 		}
 	}
 
@@ -146,7 +139,6 @@ int main()
 
 	// pico 정보 넣기.
 	// pico--mobile
-	// pico--macro
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		// mobile 이웃 정보
@@ -155,11 +147,6 @@ int main()
 		for (int j = 0; j < MOBILE_NUM; j++)
 		{
 			picos[i]->service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
-		}
-		// 매크로 이웃 정보
-		for (int j = 0; j < MACRO_NUM; j++)
-		{
-			picos[i]->macro_neighbor[j] = macro_pico_neighbor_01_temp[j][i];
 		}
 	}
 
