@@ -57,8 +57,6 @@ int main()
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
 	{
 		int neighbor_count = 0;
-		int service_pico = -1;
-		double service_distance = DBL_MAX;
 
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
@@ -68,10 +66,16 @@ int main()
 			if (is_neighbor)
 				neighbor_count++;
 
-			if (distance < service_distance)
+			if (mobiles[mob]->pico_service < 0)
 			{
-				service_distance = distance;
-				service_pico = pic;
+				mobiles[mob]->pico_service = pic;
+			}
+			else
+			{
+				if (distance < mobiles[mob]->distance_pico[mobiles[mob]->pico_service])
+				{
+					mobiles[mob]->pico_service = pic;
+				}
 			}
 
 			mobiles[mob]->set_dist_pico_1(pic, distance, picos[pic]->tx_power, NOISE);
@@ -79,11 +83,10 @@ int main()
 
 		}
 
-		picos[service_pico]->num_service_mobile++;
-		picos[service_pico]->service_mobile_01[mob] = 1;
+		picos[mobiles[mob]->pico_service]->num_service_mobile++;
+		picos[mobiles[mob]->pico_service]->service_mobile_01[mob] = 1;
 
 		mobiles[mob]->set_num_int_pico(neighbor_count);
-		mobiles[mob]->pico_service = service_pico;
 
 	}
 
