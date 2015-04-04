@@ -50,33 +50,6 @@ void Pico::pico_set_initial(point location, double t_pow)
 	tx_power	= t_pow;
 }
 
-void Pico::set_neighbor()
-{
-	int mobile_temp	= -1;
-	double mobile_dist_temp = 0.0;
-	double mobile_dist_best_temp = AREA_DIST * 2;
-
-	for ( int j = 0; j < num_service_mobile; j++ )
-	{
-		mobile_temp	= -1;
-		mobile_dist_best_temp = AREA_DIST * 2;
-		for (int k = 0; k < MOBILE_NUM; k++ )
-		{
-			if ( ( distance_mobile[k] > mobile_dist_temp )  && ( distance_mobile[k] < mobile_dist_best_temp ) && ( service_mobile_01[k] == 1 ) )
-			{
-				mobile_dist_best_temp	= distance_mobile[k];
-				mobile_temp				= k;
-			}
-		}
-		if (mobile_temp == -1) ;
-		else
-		{
-			service_mobile[j]	= mobile_temp;
-			mobile_dist_temp	= mobile_dist_best_temp;
-		}
-	}
-}
-
 void Pico::set_neighbor_1()
 {
 	int num_mobile_temp = 0;

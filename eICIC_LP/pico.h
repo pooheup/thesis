@@ -36,7 +36,6 @@ public:
 
 	void pico_set_initial(point location, double t_pow);
 
-	void set_neighbor();
 	void set_neighbor_1();
 
 	void set_user_PA1(int _ABS_user_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
