@@ -5,6 +5,11 @@
 
 class Macro
 {
+
+private:
+
+	point location;
+
 public:
 
 	int num_pico;
@@ -13,8 +18,6 @@ public:
 	int mobile[MOBILE_NUM];
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
-
-	point location;
 
 	double tx_power;
 
@@ -29,5 +32,8 @@ public:
 	void macro_set_neighbor();
 
 	void set_user_PA1(int _selected_user, int _covered_pico);
+
+	point getLocation();
+
 };
 
