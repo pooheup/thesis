@@ -116,8 +116,7 @@ int main()
 		for (int j = 0; j < PICO_NUM; j++)
 		{
 			picos[j]->distance_macro[i] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
-			picos[j]->macro_neighbor[i] = is_neighbor;
-				= picos[j]->distance_macro[i] < MP_INT_DIST;
+			picos[j]->macro_neighbor[i] = picos[j]->distance_macro[i] < MP_INT_DIST;
 		}
 	}
 
