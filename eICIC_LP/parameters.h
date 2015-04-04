@@ -5,7 +5,7 @@
 
 #define PI					3.141592653589793238462643383279
 
-#define LOC_SETUP			0			/* 각 노드의 위치 지정에 대한 설정, 0: random 1: 직접 설정, 1일경우 eICIC.cpp에서 위치를 지정해주어야 함 */
+#define LOC_SETUP			1			/* 각 노드의 위치 지정에 대한 설정, 0: random 1: 직접 설정, 1일경우 eICIC.cpp에서 위치를 지정해주어야 함 */
 
 #define SIMULATION_TIME		2000001 /* 전체 simulation 수행 횟수 */
 #define PRINTF_TIME			10000	/* 결과 값 출력 주기 */

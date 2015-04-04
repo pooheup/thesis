@@ -5,8 +5,9 @@
 Pico::Pico(point location, double t_pow)
 {
 	this->location = location;
-
 	tx_power	= t_pow;
+
+	num_service_mobile = 0;
 
 	int i;
 
