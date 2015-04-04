@@ -33,35 +33,23 @@ int main()
 	results.precision(5);
 
 	// 위치 설정
-	point macro_loc_temp[MACRO_NUM];
 	point pico_loc_temp[PICO_NUM];
 	point mobile_loc_temp[MOBILE_NUM];
+
+	Macro *macros[MACRO_NUM];
 
 	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
 	if (LOC_SETUP == 1)
 	{
 		//double bias_x = 1000;
 		//double bias_y = 500;
-		macro_loc_temp[0].x = 0.0;
-		macro_loc_temp[0].y = 0.0;
-
-		macro_loc_temp[1].x = 1000.0;
-		macro_loc_temp[1].y = 0.0;
-
-		macro_loc_temp[2].x = -1000.0;
-		macro_loc_temp[2].y = 0.0;
-
-		macro_loc_temp[3].x = 500.0;
-		macro_loc_temp[3].y = 866.0;
-
-		macro_loc_temp[4].x = 500.0;
-		macro_loc_temp[4].y = -866.0;
-
-		macro_loc_temp[5].x = -500.0;
-		macro_loc_temp[5].y = 866.0;
-
-		macro_loc_temp[6].x = -500.0;
-		macro_loc_temp[6].y = -866.0;
+		macros[0] = new Macro({ 0.0, 0.0 }, MACRO_TX_POWER);
+		macros[1] = new Macro({ 1000.0, 0.0 }, MACRO_TX_POWER);
+		macros[2] = new Macro({ -1000.0, 0.0 }, MACRO_TX_POWER);
+		macros[3] = new Macro({ 500.0, 866.0 }, MACRO_TX_POWER);
+		macros[4] = new Macro({ 500.0, -866.0 }, MACRO_TX_POWER);
+		macros[5] = new Macro({ -500.0, 866.0 }, MACRO_TX_POWER);
+		macros[6] = new Macro({ -500.0, -866.0 }, MACRO_TX_POWER);
 
 		for (int i = 0; i < PICO_NUM; i++)
 			pico_loc >> pico_loc_temp[i].x >> pico_loc_temp[i].y;
@@ -77,8 +65,10 @@ int main()
 		{
 			double radius	= uniform() * AREA_RADIUS;
 			double angle	= uniform() * 2 * PI;
-			macro_loc_temp[i].x = radius * cos(angle);
-			macro_loc_temp[i].y = radius * sin(angle);
+			macros[i] = new Macro({
+				radius * cos(angle),
+				radius * sin(angle)
+			}, MACRO_TX_POWER);
 		}
 
 		for (int i = 0; i < PICO_NUM; i++)
@@ -98,6 +88,8 @@ int main()
 		}
 
 	}
+
+	return 0;
 
 	for (int i = 0; i < PICO_NUM; i++)
 	{
@@ -127,7 +119,7 @@ int main()
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobile_macro_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], macro_loc_temp[j]);
+			mobile_macro_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], macros[j]->location);
 
 			if (mobile_macro_dist_temp[i][j] < NEIGHBOR_DIST_M)
 			{
@@ -229,7 +221,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macro_loc_temp[i], pico_loc_temp[j]);
+			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macros[i]->location, pico_loc_temp[j]);
 
 			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
 			{
@@ -253,7 +245,7 @@ int main()
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
-		macro[i].macro_set_initial(macro_loc_temp[i], MACRO_TX_POWER);
+		macro[i].macro_set_initial(macros[i]->location, MACRO_TX_POWER);
 	}
 
 	for (int i = 0; i < PICO_NUM; i++)
