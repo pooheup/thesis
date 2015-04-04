@@ -58,8 +58,7 @@ int main()
 		{
 			mobiles[mob]->locate_on_pico_of(pic, picos[pic]);
 		}
-		picos[mobiles[mob]->pico_service]->num_service_mobile++;
-		picos[mobiles[mob]->pico_service]->service_mobile_01[mob] = 1;
+		picos[mobiles[mob]->pico_service]->register_mobile_to_service(mob);
 	}
 
 	// initial setting 각 클래스 초기화, 
@@ -72,10 +71,6 @@ int main()
 		mobiles[mob]->cell_association_static(cre_bias);
 
 	// /////////////////////////////////////////////////////////////////////////
-	// 초기값이 모두 주어진 다음, 각 macro/pico/mobile 연결 상태와 간섭 등을 계산
-
-	for (int pic = 0; pic < PICO_NUM; pic++)
-		picos[pic]->set_neighbor();
 
 	// TODO 시간 반복문 안으로 이동해야 함
 	// 각 모바일이 겪는 interference calculation

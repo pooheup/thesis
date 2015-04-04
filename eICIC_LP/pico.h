@@ -17,7 +17,6 @@ public:
 	int mobile[MOBILE_NUM];
 
 	int num_service_mobile; // # of set
-	int service_mobile_01[MOBILE_NUM]; // 1이 서비스
 	int service_mobile[MOBILE_NUM]; // 위에서 가져옴
 
 	point location;
@@ -37,7 +36,7 @@ public:
 	void locate_on_macro_of(int mac, Macro *macro);
 	int is_neighbor_macro(int mac);
 
-	void set_neighbor();
+	void register_mobile_to_service(int mob);
 
 	void set_user_PA1(int _ABS_user_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
 };

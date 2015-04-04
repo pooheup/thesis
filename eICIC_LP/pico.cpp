@@ -9,14 +9,13 @@ Pico::Pico(point location, double t_pow)
 
 	this->num_service_mobile = 0;
 
-	for (int i = 0; mac < MACRO_NUM; mac++)
+	for (int mac = 0; mac < MACRO_NUM; mac++)
 		macro_neighbor[mac] = -1;
 
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
 	{
-		mobile[mob]            = -1;
-		service_mobile[mob]    = -1;
-		service_mobile_01[mob] = 0;
+		mobile[mob]         = -1;
+		service_mobile[mob] = -1;
 	}
 
 }
@@ -33,17 +32,9 @@ int Pico::is_neighbor_macro(int i)
 }
 
 
-void Pico::set_neighbor()
+void Pico::register_mobile_to_service(int mob)
 {
-	this->num_service_mobile = 0;
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
-		if (service_mobile_01[mob] == 1)
-		{
-			this->service_mobile[this->num_service_mobile] = i;
-			this->num_service_mobile++;
-		}
-	}
+	this->service_mobile[this->num_service_mobile++] = mob;
 }
 
 void Pico::set_user_PA1(int _ABS_user_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode)
