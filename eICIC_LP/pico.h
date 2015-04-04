@@ -9,7 +9,6 @@ public:
 
 	int num_macro;
 	int macro_neighbor[MACRO_NUM];
-	int num_mobile;
 	int mobile[MOBILE_NUM];
 
 	int num_service_mobile; // # of set
