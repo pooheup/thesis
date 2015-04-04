@@ -48,7 +48,7 @@ void Mobile::mobile_set_dist_pico_1( int cell_num, double dist_temp, double tx_p
 
 void Mobile::mobile_set_num_int_pico(int num_pico_temp)
 {
-	num_interferer_pico  = num_pico_temp;
+	num_interferer_pico = num_pico_temp;
 }
 
 void Mobile::mobile_set_serviceBS (int _serviceBS )

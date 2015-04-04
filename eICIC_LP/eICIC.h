@@ -20,4 +20,4 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 
 void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS);
 
-void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS);
+void PA1_call_next_pico(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS);

@@ -146,7 +146,8 @@ int main()
 
 				macro_pico_neighbor_01_temp[i][j] = 1;
 			}
-			else macro_pico_neighbor_01_temp[i][j] = 0;
+			else
+				macro_pico_neighbor_01_temp[i][j] = 0;
 		}
 		macros[i]->num_pico = neighbor_temp;
 	}
@@ -165,7 +166,7 @@ int main()
 		macros[mobile_service_macro_temp[i]]->mobile_service_01[i] = 1;
 	}
 
-	// 위치관계에 따른 채널 정립. 이웃 찾기.  거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
+	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
 	// 채널 계산
 	// mobile-macro
 	for (int i = 0; i < MOBILE_NUM; i++)
@@ -292,7 +293,7 @@ int main()
 		rate_user_PA1[i]	=	0.0;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////  알고리즘 따라 연산  //////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////// 알고리즘 따라 연산 //////////////////////////////////////////////////////////////////////
 
 	// 출력 파일들
 	std::ofstream Savefile("eICIC.txt");
@@ -346,10 +347,10 @@ int main()
 			resource_nonABS_PA1[i]	= 0;
 		}
 
-		double object_value_es  = 0.0;
+		double object_value_es = 0.0;
 		double sum_rate_es		= 0.0;
 
-		/////////////////////////////////////////////////  제안하는 알고리즘을 바탕으로 솔루션 찾기.
+		///////////////////////////////////////////////// 제안하는 알고리즘을 바탕으로 솔루션 찾기.
 		// 변수 선언
 		int macro_user_PA[MACRO_NUM];
 		int macro_cover_pico_PA[MACRO_NUM];
@@ -357,7 +358,7 @@ int main()
 		int pico_ABS_user_PA2[PICO_NUM];
 		int pico_nA_user1_PA[PICO_NUM];
 		int pico_nA_user2_PA[PICO_NUM];
-		int pico_nA_01_PA[PICO_NUM];  // non-ABS 상황에서 몇번째 유저 할당되는지 indicator. 0 first, 1 second
+		int pico_nA_01_PA[PICO_NUM]; // non-ABS 상황에서 몇번째 유저 할당되는지 indicator. 0 first, 1 second
 
 		for (int i = 0; i < PICO_NUM; i++) pico_nA_user2_PA[i] = -1;
 
@@ -437,7 +438,7 @@ int main()
 				{
 					int user_temp_temp = pico_nA_user2_PA[mobiles[macros[i]->mobile_service[j]]->pico_service]; // second user num
 					double temp_temp;
-					if (user_temp_temp != -1)  temp_temp = (lambda[macros[i]->mobile_service[j]] * thrpt_macro[macros[i]->mobile_service[j]] - lambda[macros[i]->mobile_service[j]] * thrpt_nonABS[macros[i]->mobile_service[j]] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
+					if (user_temp_temp != -1) temp_temp = (lambda[macros[i]->mobile_service[j]] * thrpt_macro[macros[i]->mobile_service[j]] - lambda[macros[i]->mobile_service[j]] * thrpt_nonABS[macros[i]->mobile_service[j]] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
 					else temp_temp = (lambda[macros[i]->mobile_service[j]] * thrpt_macro[macros[i]->mobile_service[j]] - lambda[macros[i]->mobile_service[j]] * thrpt_nonABS[macros[i]->mobile_service[j]]);
 
 					if (temp_temp > temp_macro_PA)
@@ -500,7 +501,7 @@ int main()
 						//if ((thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i] >= 0.0)	//feasilbity
 							//&& (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
 			if ((abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
-				lambda_temp = lambda[i] - step_size  * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
+				lambda_temp = lambda[i] - step_size * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
 			else
 				lambda_temp = lambda[i] - step_size2 * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
 			lambda[i] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
@@ -508,7 +509,7 @@ int main()
 				//if ((log(rate_user_PA1[i]) >= mobiles[i]->QoS)
 					//&& (abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
 			if ((abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
-				mu_temp = mu[i] - step_size  * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
+				mu_temp = mu[i] - step_size * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
 			else
 				mu_temp = mu[i] - step_size2 * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
 			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
@@ -575,7 +576,7 @@ int main()
 			//if ((thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i] >= 0.0)	//feasilbity
 				//&& (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
 			if ( (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
-				lambda_temp = lambda[i] - step_size  * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
+				lambda_temp = lambda[i] - step_size * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
 			else
 				lambda_temp = lambda[i] - step_size2 * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
 			lambda[i] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
@@ -583,14 +584,14 @@ int main()
 			//if ((log(rate_user_PA1[i]) >= mobiles[i]->QoS)
 				//&& (abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
 			if ( (abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
-				mu_temp = mu[i] - step_size  * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
+				mu_temp = mu[i] - step_size * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
 			else
 				mu_temp = mu[i] - step_size2 * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
 			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/////////////////////////////////////////////////  값들 출력
+		///////////////////////////////////////////////// 값들 출력
 		if (t % 1000 == 0) printf("%s", ">");
 		
 		// PIINTF_TIME 주기로 출력. // 화면, eICIC.txt, lambda.txt, mu.txt 출력
@@ -898,7 +899,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 		{
 			for (int i = 0; i < (_user_num); i++)
 			{
-				if (((_state_temp[i] == 1) ) && (mobiles[_user_num]->macro_service == mobiles[i]->macro_service))  feasibility = 1; // 동일 매크로 내 다른 유저들
+				if (((_state_temp[i] == 1) ) && (mobiles[_user_num]->macro_service == mobiles[i]->macro_service)) feasibility = 1; // 동일 매크로 내 다른 유저들
 				else if ((_state_temp[i] == 2) && (macros[mobiles[_user_num]->macro_service]->pico_neighbor[mobiles[i]->pico_service] == 1)) feasibility = 1; // 이 매크로와 연관 있는 모든 피코들. 음...
 			}
 		}
@@ -906,7 +907,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 		{
 			for (int i = 0; i < (_user_num); i++)
 			{
-				if (((_state_temp[i] == 2) || (_state_temp[i] == 3)) && (mobiles[_user_num]->pico_service == mobiles[i]->pico_service))  feasibility = 1; // 동일 피코 내 다른 유저들
+				if (((_state_temp[i] == 2) || (_state_temp[i] == 3)) && (mobiles[_user_num]->pico_service == mobiles[i]->pico_service)) feasibility = 1; // 동일 피코 내 다른 유저들
 				else if ((_state_temp[i] == 1) && (macros[mobiles[i]->macro_service]->pico_neighbor[mobiles[_user_num]->pico_service] == 1)) feasibility = 1; // 이 모바일의 피코와 연관있는 매크로들.
 			}
 		}
@@ -914,7 +915,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 		{
 			for (int i = 0; i < (_user_num); i++)
 			{
-				if (((_state_temp[i] == 2) || (_state_temp[i] == 3)) && (mobiles[_user_num]->pico_service == mobiles[i]->pico_service))  feasibility = 1;
+				if (((_state_temp[i] == 2) || (_state_temp[i] == 3)) && (mobiles[_user_num]->pico_service == mobiles[i]->pico_service)) feasibility = 1;
 			}
 		}
 
@@ -1013,7 +1014,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	// for (i = 0; i < MACRO_NUM; i++) _state_temp[i] = 0;
 }
 
-void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_call_next_pico(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	for (int i = 0; i < 2; i++)
 	{

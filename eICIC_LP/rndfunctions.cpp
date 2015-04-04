@@ -62,7 +62,7 @@ double gaussian_1(double mean, double var){
 	}
 	tmp2=(double)uniform1();
 
-	x=sqrt((-2*log(tmp1))) *cos(2*PI*tmp2) *  sqrt(var) + mean;
+	x=sqrt((-2*log(tmp1))) *cos(2*PI*tmp2) * sqrt(var) + mean;
 
 	return x;
 }

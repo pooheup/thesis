@@ -12,7 +12,7 @@ public:
 	int num_mobile;
 	int mobile[MOBILE_NUM];
 
-	int num_service_mobile;  // # of set
+	int num_service_mobile; // # of set
 	int service_mobile_01[MOBILE_NUM]; // 1이 서비스
 	int service_mobile[MOBILE_NUM]; // 위에서 가져옴
 
