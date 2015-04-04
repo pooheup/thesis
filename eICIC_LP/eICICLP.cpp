@@ -30,9 +30,6 @@ int main()
 	savel.precision(5);
 	savem.precision(5);
 	results.precision(5);
-	
-	// noise
-	double no = BW_PER_RB * powl(10, (NOISE / 10));
 
 	// 위치 설정
 	point macro_loc_temp[MACRO_NUM];
@@ -364,15 +361,15 @@ int main()
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			// mobile[i].mobile_set_dist_macro( j, macro[j].location_x, macro[j].location_y, macro[j].tx_power, no );
-			mobile[i].mobile_set_dist_macro_1(j, mobile_macro_dist_temp[i][j], macro[j].tx_power, no);
+			// mobile[i].mobile_set_dist_macro( j, macro[j].location_x, macro[j].location_y, macro[j].tx_power, NOISE );
+			mobile[i].mobile_set_dist_macro_1(j, mobile_macro_dist_temp[i][j], macro[j].tx_power, NOISE);
 			mobile[i].macro_neighbor[j] = mobile_macro_neighbor_temp[i][j];
 			macro[j].mobile[i] = mobile_macro_neighbor_temp[i][j];
 		}
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile[i].mobile_set_dist_pico_1(j, mobile_pico_dist_temp[i][j], pico[j].tx_power, no);
+			mobile[i].mobile_set_dist_pico_1(j, mobile_pico_dist_temp[i][j], pico[j].tx_power, NOISE);
 			mobile[i].pico_neighbor[j] = mobile_pico_neighbor_temp[i][j];
 		}
 	}
@@ -553,19 +550,19 @@ int main()
 			// macro 평균 thrpt 계산
 			signal_temp			= mobile[i].channel_gain_macro[mobile[i].macro_service] *rayleigh() * log_normal();
 			interference_temp	= (mobile[i].macro_interference + mobile[i].pico_interference - mobile[i].channel_gain_macro[mobile[i].macro_service]) *rayleigh() * log_normal();
-			thrpt_macro[i]		= cal_thrpt_i(signal_temp, interference_temp, no) / 1000000.0;
+			thrpt_macro[i]		= cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
 			thrpt_macro[i] = thrpt_macro[i] / 10.0;
 
 			// pico ABS 평균 thrpt 계산
 			signal_temp			= mobile[i].channel_gain_pico[mobile[i].pico_service] *rayleigh() * log_normal();
 			interference_temp	= (mobile[i].pico_interference - mobile[i].channel_gain_pico[mobile[i].pico_service]) *rayleigh() * log_normal();
-			thrpt_ABS[i]		= cal_thrpt_i(signal_temp, interference_temp, no) / 1000000.0;
+			thrpt_ABS[i]		= cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
 			thrpt_ABS[i] = thrpt_ABS[i] / 10.0;
 
 			// pico non-ABS 평균 thrpt 계산
 			//signal_temp			= mobile[i].channel_gain_pico[mobile[i].pico_service] *rayleigh() * log_normal();
 			interference_temp	= interference_temp + (mobile[i].macro_interference ) *rayleigh() * log_normal();
-			thrpt_nonABS[i]		= cal_thrpt_i(signal_temp, interference_temp, no) / 1000000.0;
+			thrpt_nonABS[i]		= cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
 			thrpt_nonABS[i] = thrpt_nonABS[i] / 10.0;
 
 			// 할당 값 초기화

@@ -1,6 +1,8 @@
 #ifndef _PARAMETER_H_
 #define _PARAMETER_H_
 
+#include <math.h>
+
 #define PI					3.141592653589793238462643383279
 
 #define LOC_SETUP			1			/* 각 노드의 위치 지정에 대한 설정, 0: random 1: 직접 설정, 1일경우 eICIC.cpp에서 위치를 지정해주어야 함 */
@@ -28,7 +30,9 @@
 #define BW					20000000		// 전체 Bandwidth, Hz 단위
 #define	BW_PER_RB			15000		// 할당하는 단위 자원의 Bandwidth, Hz 단위, noise 계산시 사용
 
-#define NOISE				-174	/* dB */
+#define NOISE_FACTOR		-174	/* dB */
+
+#define NOISE				(BW_PER_RB * powl(10, (NOISE_FACTOR / 10)))
 
 #define	MACRO_TX_POWER		40		/* watt */
 #define PICO_TX_POWER		1		/* watt */
