@@ -199,7 +199,6 @@ int main()
 	int mobile_service_macro_temp[MOBILE_NUM];
 
 	double mobile_macro_dist_temp[MOBILE_NUM][MACRO_NUM];
-	double mobile_service_macro_dist_temp[MOBILE_NUM];
 
 	int mobile_macro_neighbor_temp[MOBILE_NUM][MACRO_NUM];
 
@@ -232,7 +231,6 @@ int main()
 		}
 		mobile_num_neighborBS_temp[i] = neighbor_temp;
 		mobile_service_macro_temp[i] = service_macro_temp;
-		mobile_service_macro_dist_temp[i] = service_dist_temp;
 	}
 
 	// pico-mobile 간 data를 취합하기 위한 pico temp data 초기화
