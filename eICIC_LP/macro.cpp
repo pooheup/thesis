@@ -1,28 +1,5 @@
 #include "macro.h"
 
-
-Macro::Macro()
-{
-	location.x = 0.0d;
-	location.y = 0.0d;
-
-	tx_power	= 0;
-
-	int i;
-
-	for ( i = 0; i < PICO_NUM; i++ )
-	{
-		pico_neighbor[i]	= -1;
-	}
-
-	for ( i = 0; i < MOBILE_NUM; i++ )
-	{
-		mobile[i]			= -1;
-		mobile_service[i]	= -1;
-		mobile_service_01[i]= 0;
-	}
-}
-
 Macro::Macro(point location, double t_pow)
 {
 	this->location = location;
@@ -40,12 +17,6 @@ Macro::Macro(point location, double t_pow)
 	{
 		mobile[i]			= -1;
 	}
-}
-
-void Macro::macro_set_initial(point location, double t_pow)
-{
-	this->location = location;
-	tx_power	= t_pow;
 }
 
 void Macro::macro_set_neighbor()

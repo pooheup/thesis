@@ -24,11 +24,9 @@ public:
 	// proposed algorithm 1
 	int selected_user_PA1;
 	int covered_pico_PA1;
-	////
-	Macro();
+
 	Macro(point location, double t_pow);
 
-	void macro_set_initial(point location, double t_pow);
 	void macro_set_neighbor();
 
 	void set_user_PA1(int _selected_user, int _covered_pico);
