@@ -24,6 +24,28 @@ Mobile::Mobile(point location, double qos)
 	}
 }
 
+void Mobile::locate_on_macro_of(int mac, Macro *macro)
+{
+	double distance = POINT_DISTANCE(macro->getLocation(), this->location);
+	int is_neighbor = distance < NEIGHBOR_DIST_M;
+
+	if (this->macro_service < 0)
+	{
+		this->macro_service = mac;
+	}
+	else
+	{
+		// 이번 macro가 이전 service macro보다 더 가까울 때
+		if (distance < this->distance_macro[this->macro_service])
+		{
+			this->macro_service = mac;
+		}
+	}
+
+	this->set_dist_macro(mac, distance, macro->getTxPower(), NOISE);
+	this->macro_neighbor[mac] = is_neighbor;
+}
+
 void Mobile::set_dist_macro(int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_macro[cell_num]        = dist_temp;

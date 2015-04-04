@@ -40,24 +40,7 @@ int main()
 	{
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			double distance = POINT_DISTANCE(mobiles[mob]->location, macros[mac]->getLocation());
-			int is_neighbor = distance < NEIGHBOR_DIST_M;
-
-			if (mobiles[mob]->macro_service < 0)
-			{
-				mobiles[mob]->macro_service = mac;
-			}
-			else
-			{
-				// 이번 macro가 이전 service macro보다 더 가까울 때
-				if (distance < mobiles[mob]->distance_macro[mobiles[mob]->macro_service])
-				{
-					mobiles[mob]->macro_service = mac;
-				}
-			}
-
-			mobiles[mob]->set_dist_macro(mac, distance, macros[mac]->getTxPower(), NOISE);
-			mobiles[mob]->macro_neighbor[mac] = is_neighbor;
+			mobiles[mob]->locate_on_macro_of(mac, macros[mac]);
 		}
 
 		macros[mobiles[mob]->macro_service]->register_mobile_to_service(mob);
