@@ -28,12 +28,8 @@ public:
 	int nA_user1_PA1;
 	int nA_user2_PA1;
 	int nA_mode;		// 0 first user: nA_user1_PA1, 1 second user: nA_user2_PA1
-	////
 
-	Pico();
 	Pico(point location, double t_pow);
-
-	void pico_set_initial(point location, double t_pow);
 
 	void set_neighbor();
 

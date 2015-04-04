@@ -2,26 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 
-Pico::Pico()
-{
-	location = { 0.0, 0.0 };
-
-	tx_power	= 0;
-
-	int i;
-
-	for ( i = 0; i < MACRO_NUM; i++ )
-	{
-		macro_neighbor[i]	= -1;
-	}
-
-	for ( i = 0; i < MOBILE_NUM; i++ )
-	{
-		mobile[i]			= -1;
-		service_mobile[i]	= -1;
-	}
-}
-
 Pico::Pico(point location, double t_pow)
 {
 	this->location = location;
@@ -41,13 +21,6 @@ Pico::Pico(point location, double t_pow)
 		service_mobile[i]	= -1;
 	}
 
-}
-
-void Pico::pico_set_initial(point location, double t_pow)
-{
-	this->location = location;
-
-	tx_power	= t_pow;
 }
 
 void Pico::set_neighbor()
