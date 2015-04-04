@@ -58,7 +58,7 @@ int main()
 		}
 
 		mobiles[mob]->macro_service = service_macro;
-		macros[mobiles[mob]->macro_service]->mobile_service_01[mob] = 1;
+		macros[mobiles[mob]->macro_service]->register_mobile_to_service(mob);
 
 	}
 
@@ -115,9 +115,6 @@ int main()
 
 	for (int pic = 0; pic < PICO_NUM; pic++)
 		picos[pic]->set_neighbor();
-
-	for (int mac = 0; mac < MACRO_NUM; mac++)
-		macros[mac]->set_neighbor();
 
 	// TODO 시간 반복문 안으로 이동해야 함
 	// 각 모바일이 겪는 interference calculation

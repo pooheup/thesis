@@ -16,7 +16,6 @@ private:
 public:
 
 	int mobile_service[MOBILE_NUM];
-	int mobile_service_01[MOBILE_NUM];
 
 	// proposed algorithm 1
 	int selected_user_PA1;
@@ -24,7 +23,7 @@ public:
 
 	Macro(point location, double t_pow);
 
-	void set_neighbor();
+	void register_mobile_to_service(int mob);
 
 	void set_user_PA1(int _selected_user, int _covered_pico);
 

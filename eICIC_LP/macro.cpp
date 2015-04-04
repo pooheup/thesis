@@ -7,11 +7,9 @@ Macro::Macro(point location, double t_pow)
 	this->num_mobile = 0;
 }
 
-void Macro::set_neighbor()
+void Macro::register_mobile_to_service(int mob)
 {
-	for (int i = 0; i < MOBILE_NUM; i++)
-		if (mobile_service_01[i] == 1)
-			mobile_service[this->num_mobile++] = i;
+	mobile_service[this->num_mobile++] = mob;
 }
 
 void Macro::set_user_PA1(int _selected_user, int _covered_pico)
