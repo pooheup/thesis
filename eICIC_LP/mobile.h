@@ -14,7 +14,6 @@ private:
 	double distance_macro[MACRO_NUM];
 	int macro_neighbor[MACRO_NUM];
 	double channel_gain_service_macro;
-	double macro_interference;
 
 public:
 
@@ -35,6 +34,7 @@ public:
 
 	double channel_gain_service_pico;
 
+	double macro_interference;
 	double pico_interference;
 
 	double distance_pico[PICO_NUM];
