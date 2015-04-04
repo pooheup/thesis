@@ -154,10 +154,10 @@ int main()
 	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		mobiles[i]->mobile_set_serviceBS_macro(mobile_service_macro_temp[i]);
+		mobiles[i]->set_serviceBS_macro(mobile_service_macro_temp[i]);
 
-		mobiles[i]->mobile_set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);
-		mobiles[i]->mobile_set_serviceBS_pico(mobile_service_pico_temp[i]);
+		mobiles[i]->set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);
+		mobiles[i]->set_serviceBS_pico(mobile_service_pico_temp[i]);
 
 		macros[mobile_service_macro_temp[i]]->mobile_service_01[i] = 1;
 	}
@@ -169,21 +169,21 @@ int main()
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobiles[i]->mobile_set_dist_macro(j, mobile_macro_dist_temp[i][j], macros[j]->tx_power, NOISE);
+			mobiles[i]->set_dist_macro(j, mobile_macro_dist_temp[i][j], macros[j]->tx_power, NOISE);
 			mobiles[i]->macro_neighbor[j] = mobile_macro_neighbor_temp[i][j];
 			macros[j]->mobile[i] = mobile_macro_neighbor_temp[i][j];
 		}
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobiles[i]->mobile_set_dist_pico_1(j, mobile_pico_dist_temp[i][j], picos[j]->tx_power, NOISE);
+			mobiles[i]->set_dist_pico_1(j, mobile_pico_dist_temp[i][j], picos[j]->tx_power, NOISE);
 			mobiles[i]->pico_neighbor[j] = mobile_pico_neighbor_temp[i][j];
 		}
 	}
 
 	// static 을 위해 cre bias를 통한 cell association
 	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
-	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->mobile_cell_association_static(cre_bias);
+	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->cell_association_static(cre_bias);
 
 	// pico 정보 넣기.
 	// pico--mobile
@@ -216,8 +216,8 @@ int main()
 	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		mobiles[i]->mobile_set_pico_interference(PICO_NUM);
-		mobiles[i]->mobile_set_macro_interference(MACRO_NUM);
+		mobiles[i]->set_pico_interference(PICO_NUM);
+		mobiles[i]->set_macro_interference(MACRO_NUM);
 	}
 	
 	// 시뮬레이션에서 필요한 각 변수들 선언
