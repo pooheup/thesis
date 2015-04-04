@@ -14,7 +14,7 @@ Macro::Macro(point location, double t_pow)
 	}
 }
 
-void Macro::macro_set_neighbor()
+void Macro::set_neighbor()
 {
 	int num_mobile_temp = 0;
 	for (int i = 0; i < MOBILE_NUM; i++)

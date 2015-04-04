@@ -24,7 +24,7 @@ public:
 
 	Macro(point location, double t_pow);
 
-	void macro_set_neighbor();
+	void set_neighbor();
 
 	void set_user_PA1(int _selected_user, int _covered_pico);
 
