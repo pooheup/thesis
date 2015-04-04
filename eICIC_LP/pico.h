@@ -20,7 +20,6 @@ public:
 
 	double tx_power;
 
-	double distance_mobile[MOBILE_NUM];
 	double distance_macro[MACRO_NUM];
 
 	// proposed algorithm 1

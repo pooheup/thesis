@@ -210,7 +210,6 @@ int main()
 		for (int j = 0; j < MOBILE_NUM; j++)
 		{
 			picos[i]->service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
-			picos[i]->distance_mobile[j] = mobile_pico_dist_temp[j][i];
 		}
 		// 매크로 이웃 정보
 		for (int j = 0; j < MACRO_NUM; j++)
