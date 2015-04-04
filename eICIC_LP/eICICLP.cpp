@@ -212,7 +212,7 @@ int main()
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobile_macro_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i], macro_loc_temp[j]);
+			mobile_macro_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], macro_loc_temp[j]);
 
 			if (mobile_macro_dist_temp[i][j] < NEIGHBOR_DIST_M)
 			{
@@ -272,7 +272,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(mobile_loc_temp[i], pico_loc_temp[j]);
+			mobile_pico_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], pico_loc_temp[j]);
 
 			if (mobile_pico_dist_temp[i][j] < NEIGHBOR_DIST_P)
 			{
@@ -315,7 +315,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			macro_pico_dist_temp[i][j] = mobile_set_dist_BS_temp(macro_loc_temp[i], pico_loc_temp[j]);
+			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macro_loc_temp[i], pico_loc_temp[j]);
 
 			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
 			{
@@ -1087,12 +1087,6 @@ int main()
 	system("pause");
 
 	return 0;
-}
-
-double mobile_set_dist_BS_temp(point src, point dst)
-{
-	double dist_temp = sqrt(pow((src.x - dst.x), 2) + pow((src.y - dst.y), 2));
-	return dist_temp;
 }
 
 double cal_thrpt_s(double _sinr, double _BW)

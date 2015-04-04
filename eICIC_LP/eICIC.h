@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 #include "parameters.h"
 
 #include "mobile.h"
@@ -11,7 +13,7 @@ typedef struct {
 	double y;
 } point;
 
-double mobile_set_dist_BS_temp(point src, point dst);
+#define POINT_DISTANCE(src, dst) sqrt(pow(((src).x - (dst).x), 2) + pow(((src).y - (dst).y), 2))
 
 double cal_thrpt_s(double _sinr, double _BW);
 
