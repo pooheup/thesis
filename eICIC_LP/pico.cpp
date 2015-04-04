@@ -50,11 +50,6 @@ void Pico::pico_set_initial(point location, double t_pow)
 	tx_power	= t_pow;
 }
 
-void Pico::set_channel_ratio(int mobile_num, double dist_macro, double macro_pow, double no)
-{
-	channel_gain_ratio[mobile_num] = log(1 + (tx_power * pow( (1/distance_mobile[mobile_num]), PATH_LOSS_EXPO ) / no ) ) / log(1 + (macro_pow * pow( (1/dist_macro), PATH_LOSS_EXPO ) / no ) );
-}
-
 void Pico::set_neighbor()
 {
 	int mobile_temp	= -1;

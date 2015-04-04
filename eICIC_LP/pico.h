@@ -21,9 +21,6 @@ public:
 	double tx_power;
 
 	double distance_mobile[MOBILE_NUM];
-
-	double channel_gain_ratio[MOBILE_NUM];
-
 	double distance_macro[MACRO_NUM];
 
 	// proposed algorithm 1
@@ -39,7 +36,6 @@ public:
 
 	void pico_set_initial(point location, double t_pow);
 
-	void set_channel_ratio(int mobile_num, double dist_macro, double macro_pow ,double no);
 	void set_neighbor();
 	void set_neighbor_1();
 
