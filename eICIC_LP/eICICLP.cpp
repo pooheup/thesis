@@ -23,6 +23,7 @@ int main()
 	Macro **macros = (Macro **) malloc(sizeof(Macro *) * MACRO_NUM);
 	Pico **picos = (Pico **) malloc(sizeof(Pico *) * PICO_NUM);
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
+	initialize(macros, picos, mobiles);
 
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
 	int mobile_service_macro_temp[MOBILE_NUM];
