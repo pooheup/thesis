@@ -296,54 +296,6 @@ int main()
 		rate_user_PA1[i]	=	0.0;
 	}
 
-	// static
-	double thrp_result_static[MOBILE_NUM];
-	double lambda_static[MOBILE_NUM];
-	double rate_user_static[MOBILE_NUM];
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		thrp_result_static[i]	= 0.0;
-		lambda_static[i]		= 1.0;
-		rate_user_static[i]		= 0.0;
-	}
-
-	// static_1
-	double thrp_result_static_1[MOBILE_NUM];
-	double lambda_static_1[MOBILE_NUM];
-	double rate_user_static_1[MOBILE_NUM];
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		thrp_result_static_1[i]	= 0.0;
-		lambda_static_1[i]		= 1.0;
-		rate_user_static_1[i]		= 0.0;
-	}
-
-	// static_2
-	double thrp_result_static_2[MOBILE_NUM];
-	double lambda_static_2[MOBILE_NUM];
-	double rate_user_static_2[MOBILE_NUM];
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		thrp_result_static_2[i]	= 0.0;
-		lambda_static_2[i]		= 1.0;
-		rate_user_static_2[i]		= 0.0;
-	}
-	
-	// static_3
-	double thrp_result_static_3[MOBILE_NUM];
-	double lambda_static_3[MOBILE_NUM];
-	double rate_user_static_3[MOBILE_NUM];
-
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		thrp_result_static_3[i]	= 0.0;
-		lambda_static_3[i]		= 1.0;
-		rate_user_static_3[i]		= 0.0;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////  알고리즘 따라 연산  //////////////////////////////////////////////////////////////////////
 
 	// 출력 파일들
