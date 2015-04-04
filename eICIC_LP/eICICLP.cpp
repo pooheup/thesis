@@ -33,10 +33,10 @@ int main()
 	results.precision(5);
 
 	// 위치 설정
-	point pico_loc_temp[PICO_NUM];
 	point mobile_loc_temp[MOBILE_NUM];
 
 	Macro **macros = (Macro **) malloc(sizeof(Macro *) * MACRO_NUM);
+	Pico **picos = (Pico **) malloc(sizeof(Pico *) * PICO_NUM);
 
 	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
 	if (LOC_SETUP == 1)
@@ -52,7 +52,11 @@ int main()
 		macros[6] = new Macro({ -500.0, -866.0 }, MACRO_TX_POWER);
 
 		for (int i = 0; i < PICO_NUM; i++)
-			pico_loc >> pico_loc_temp[i].x >> pico_loc_temp[i].y;
+		{
+			point location;
+			pico_loc >> location.x >> location.y;
+			picos[i] = new Pico(location, PICO_TX_POWER);
+		}
 
 		for (int i = 0; i < MOBILE_NUM; i++)
 			node >> mobile_loc_temp[i].x >> mobile_loc_temp[i].y;
@@ -75,8 +79,10 @@ int main()
 		{
 			double radius	= uniform() * AREA_RADIUS;
 			double angle	= uniform() * 2 * PI;
-			pico_loc_temp[i].x = radius * cos(angle);
-			pico_loc_temp[i].y = radius * sin(angle);
+			picos[i] = new Pico({
+				radius * cos(angle),
+				radius * sin(angle)
+			}, PICO_TX_POWER);
 		}
 
 		for (int i = 0; i < MOBILE_NUM; i++)
@@ -88,17 +94,6 @@ int main()
 		}
 
 	}
-
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		printf("%f\t%f\n", pico_loc_temp[i].x, pico_loc_temp[i].y);
-	}
-	printf("\n");
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-		printf("%f\t%f\n", mobile_loc_temp[i].x, mobile_loc_temp[i].y);
-	}
-	printf("\n");
 
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
 	int mobile_num_neighborBS_temp[MOBILE_NUM];
@@ -176,7 +171,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile_pico_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], pico_loc_temp[j]);
+			mobile_pico_dist_temp[i][j] = POINT_DISTANCE(mobile_loc_temp[i], picos[j]->location);
 
 			if (mobile_pico_dist_temp[i][j] < NEIGHBOR_DIST_P)
 			{
@@ -219,7 +214,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macros[i]->getLocation(), pico_loc_temp[j]);
+			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
 
 			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
 			{
@@ -235,16 +230,10 @@ int main()
 	}
 
 	// 객체 배열 생성: Macro, Pico, Mobile
-	Pico pico[PICO_NUM];
 	Mobile mobile[MOBILE_NUM];
 
 	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
-
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		pico[i].pico_set_initial(pico_loc_temp[i], PICO_TX_POWER);
-	}
 
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
@@ -273,7 +262,7 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			mobile[i].mobile_set_dist_pico_1(j, mobile_pico_dist_temp[i][j], pico[j].tx_power, NOISE);
+			mobile[i].mobile_set_dist_pico_1(j, mobile_pico_dist_temp[i][j], picos[j]->tx_power, NOISE);
 			mobile[i].pico_neighbor[j] = mobile_pico_neighbor_temp[i][j];
 		}
 	}
@@ -296,28 +285,28 @@ int main()
 	// pico 정보 넣기.
 	for (int i = 0; i < PICO_NUM; i++)
 	{
-		pico[i].num_macro = pico_num_neighborMacro_temp[i];
-		pico[i].num_mobile = pico_num_neighbormobile_temp[i];
+		picos[i]->num_macro = pico_num_neighborMacro_temp[i];
+		picos[i]->num_mobile = pico_num_neighbormobile_temp[i];
 
 		// mobile 이웃 정보
-		pico[i].num_service_mobile = pico_num_servicemobile_temp[i];
+		picos[i]->num_service_mobile = pico_num_servicemobile_temp[i];
 
 		for (int j = 0; j < MOBILE_NUM; j++)
 		{
-			pico[i].service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
-			pico[i].distance_mobile[j] = mobile_pico_dist_temp[j][i];
+			picos[i]->service_mobile_01[j] = pico_servicemobile_01_temp[j][i];
+			picos[i]->distance_mobile[j] = mobile_pico_dist_temp[j][i];
 		}
 		// 매크로 이웃 정보
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			pico[i].macro_neighbor[j] = macro_pico_neighbor_01_temp[j][i];
-			pico[i].distance_macro[j] = macro_pico_dist_temp[j][i];
+			picos[i]->macro_neighbor[j] = macro_pico_neighbor_01_temp[j][i];
+			picos[i]->distance_macro[j] = macro_pico_dist_temp[j][i];
 		}
 	}
 
 	// pico의 이웃 정보.
 	//for (int i = 0; i < PICO_NUM; i++) pico[i].set_neighbor();
-	for (int i = 0; i < PICO_NUM; i++) pico[i].set_neighbor_1();
+	for (int i = 0; i < PICO_NUM; i++) picos[i]->set_neighbor_1();
 	for (int i = 0; i < MACRO_NUM; i++) macros[i]->macro_set_neighbor();
 
 	// 각 모바일이 겪는 interference calculation
@@ -587,28 +576,28 @@ int main()
 			temp_pico_ABS_PA_user = -1;
 			temp_pico_ABS_PA_user2 = -1;
 
-			for (int j = 0; j < pico[i].num_service_mobile; j++)
+			for (int j = 0; j < picos[i]->num_service_mobile; j++)
 			{
 				// ABS best user 찾기
-				if (lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]] > temp_pico_ABS_PA)
+				if (lambda[picos[i]->service_mobile[j]] * thrpt_ABS[picos[i]->service_mobile[j]] > temp_pico_ABS_PA)
 				{
 					temp_pico_ABS_PA2 = temp_pico_ABS_PA;
 					temp_pico_ABS_PA_user2 = temp_pico_ABS_PA_user;
 
-					temp_pico_ABS_PA		= lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]];
-					temp_pico_ABS_PA_user	= pico[i].service_mobile[j];
+					temp_pico_ABS_PA		= lambda[picos[i]->service_mobile[j]] * thrpt_ABS[picos[i]->service_mobile[j]];
+					temp_pico_ABS_PA_user	= picos[i]->service_mobile[j];
 				} 
 				else // non-ABS second 찾기
 				{
-					if (lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]] > temp_pico_ABS_PA2)
+					if (lambda[picos[i]->service_mobile[j]] * thrpt_ABS[picos[i]->service_mobile[j]] > temp_pico_ABS_PA2)
 					{
-						temp_pico_ABS_PA2 = lambda[pico[i].service_mobile[j]] * thrpt_ABS[pico[i].service_mobile[j]];
-						temp_pico_ABS_PA_user2 = pico[i].service_mobile[j];
+						temp_pico_ABS_PA2 = lambda[picos[i]->service_mobile[j]] * thrpt_ABS[picos[i]->service_mobile[j]];
+						temp_pico_ABS_PA_user2 = picos[i]->service_mobile[j];
 					}
 				}
 
 				// non-ABS first 찾기
-				if (lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]] > temp_pico_nA_PA1)
+				if (lambda[picos[i]->service_mobile[j]] * thrpt_nonABS[picos[i]->service_mobile[j]] > temp_pico_nA_PA1)
 				{
 					//if (temp_pico_nA_PA1 >= temp_pico_nA_PA2)
 					//{
@@ -616,15 +605,15 @@ int main()
 					temp_pico_nA_PA2_user	= temp_pico_nA_PA1_user; 
 					//}
 						
-					temp_pico_nA_PA1		= lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]];
-					temp_pico_nA_PA1_user	= pico[i].service_mobile[j];
+					temp_pico_nA_PA1		= lambda[picos[i]->service_mobile[j]] * thrpt_nonABS[picos[i]->service_mobile[j]];
+					temp_pico_nA_PA1_user	= picos[i]->service_mobile[j];
 				}
 				else // non-ABS second 찾기
 				{
-					if (lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]] > temp_pico_nA_PA2)
+					if (lambda[picos[i]->service_mobile[j]] * thrpt_nonABS[picos[i]->service_mobile[j]] > temp_pico_nA_PA2)
 					{
-						temp_pico_nA_PA2		= lambda[pico[i].service_mobile[j]] * thrpt_nonABS[pico[i].service_mobile[j]];
-						temp_pico_nA_PA2_user	= pico[i].service_mobile[j];
+						temp_pico_nA_PA2		= lambda[picos[i]->service_mobile[j]] * thrpt_nonABS[picos[i]->service_mobile[j]];
+						temp_pico_nA_PA2_user	= picos[i]->service_mobile[j];
 					}
 				}
 			}
@@ -670,7 +659,7 @@ int main()
 		}
 
 		for (int i = 0; i < MACRO_NUM; i++) macros[i]->set_user_PA1(macro_user_PA[i], macro_cover_pico_PA[i]);
-		for (int i = 0; i < PICO_NUM; i++) pico[i].set_user_PA1(pico_ABS_user_PA[i], pico_ABS_user_PA2[i], pico_nA_user1_PA[i], pico_nA_user2_PA[i], pico_nA_01_PA[i]);
+		for (int i = 0; i < PICO_NUM; i++) picos[i]->set_user_PA1(pico_ABS_user_PA[i], pico_ABS_user_PA2[i], pico_nA_user1_PA[i], pico_nA_user2_PA[i], pico_nA_01_PA[i]);
 
 		int _macro_num = 0;
 		double objective_value_best_PA1 = -1.0;
@@ -686,7 +675,7 @@ int main()
 		for (int i = 0; i < MOBILE_NUM; i++) user_state_best_PA1[i] = 0;
 
 		// macro 들의 모든 조합에 대하여 최적의 값 선택
-		PA1_call_next_pico(_macro_num, &objective_value_best_PA1, state_temp_PA1, state_best_PA1, user_state_best_PA1, mobile, pico, macros, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
+		PA1_call_next_pico(_macro_num, &objective_value_best_PA1, state_temp_PA1, state_best_PA1, user_state_best_PA1, mobile, picos, macros, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
 		/*
 		// exhaustive 값과 비교
 		for (int i = 0; i < MOBILE_NUM; i++)
@@ -989,6 +978,10 @@ int main()
 		delete macros[i];
 	free(macros);
 
+	for (int i = 0; i < PICO_NUM; i++)
+		delete picos[i];
+	free(picos);
+
 	return 0;
 }
 
@@ -1077,7 +1070,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 
 }
 
-void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico *_pico, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	int i;
 	double _objective_temp = 0.0;
@@ -1100,29 +1093,29 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			if ((_pico[i].macro_neighbor[j] == 1) && (_state_temp[j] == 1))
+			if ((picos[i]->macro_neighbor[j] == 1) && (_state_temp[j] == 1))
 			{
 				ABS_indicator = 1;
 			}
 		}
 
-		if (ABS_indicator == 1 && _pico[i].nA_user1_PA1 != -1 && macros[_mobile[_pico[i].nA_user1_PA1].macro_service]->selected_user_PA1 == _pico[i].nA_user1_PA1) ABS_indicator = 2;
+		if (ABS_indicator == 1 && picos[i]->nA_user1_PA1 != -1 && macros[_mobile[picos[i]->nA_user1_PA1].macro_service]->selected_user_PA1 == picos[i]->nA_user1_PA1) ABS_indicator = 2;
 
 		if (ABS_indicator == 0)
 		{
-			if (_pico[i].ABS_user_PA1 != -1)
+			if (picos[i]->ABS_user_PA1 != -1)
 			{
-				if (_state_temp[_mobile[_pico[i].ABS_user_PA1].macro_service] == 0 || (_state_temp[_mobile[_pico[i].ABS_user_PA1].macro_service] == 1 && macros[_mobile[_pico[i].ABS_user_PA1].macro_service]->selected_user_PA1 != _pico[i].ABS_user_PA1))
+				if (_state_temp[_mobile[picos[i]->ABS_user_PA1].macro_service] == 0 || (_state_temp[_mobile[picos[i]->ABS_user_PA1].macro_service] == 1 && macros[_mobile[picos[i]->ABS_user_PA1].macro_service]->selected_user_PA1 != picos[i]->ABS_user_PA1))
 				{
-					_objective_temp = _objective_temp + _lambda[_pico[i].ABS_user_PA1] * _thrpt_ABS[_pico[i].ABS_user_PA1];
-					_user_state_temp[_pico[i].ABS_user_PA1] = 2;
+					_objective_temp = _objective_temp + _lambda[picos[i]->ABS_user_PA1] * _thrpt_ABS[picos[i]->ABS_user_PA1];
+					_user_state_temp[picos[i]->ABS_user_PA1] = 2;
 				}
-				else if (_pico[i].ABS_user2_PA1 != -1)
+				else if (picos[i]->ABS_user2_PA1 != -1)
 				{
-					if (_state_temp[_mobile[_pico[i].ABS_user2_PA1].macro_service] == 0 || (_state_temp[_mobile[_pico[i].ABS_user2_PA1].macro_service] == 1 && macros[_mobile[_pico[i].ABS_user2_PA1].macro_service]->selected_user_PA1 != _pico[i].ABS_user2_PA1))
+					if (_state_temp[_mobile[picos[i]->ABS_user2_PA1].macro_service] == 0 || (_state_temp[_mobile[picos[i]->ABS_user2_PA1].macro_service] == 1 && macros[_mobile[picos[i]->ABS_user2_PA1].macro_service]->selected_user_PA1 != picos[i]->ABS_user2_PA1))
 					{
-						_objective_temp = _objective_temp + _lambda[_pico[i].ABS_user2_PA1] * _thrpt_ABS[_pico[i].ABS_user2_PA1];
-						_user_state_temp[_pico[i].ABS_user2_PA1] = 2;
+						_objective_temp = _objective_temp + _lambda[picos[i]->ABS_user2_PA1] * _thrpt_ABS[picos[i]->ABS_user2_PA1];
+						_user_state_temp[picos[i]->ABS_user2_PA1] = 2;
 					}
 				}
 
@@ -1132,18 +1125,18 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 		}
 		else if (ABS_indicator == 1)
 		{
-			if (_pico[i].nA_user1_PA1 != -1)
+			if (picos[i]->nA_user1_PA1 != -1)
 			{
-				_objective_temp = _objective_temp + _lambda[_pico[i].nA_user1_PA1] * _thrpt_nonABS[_pico[i].nA_user1_PA1];
-				_user_state_temp[_pico[i].nA_user1_PA1] = 3;
+				_objective_temp = _objective_temp + _lambda[picos[i]->nA_user1_PA1] * _thrpt_nonABS[picos[i]->nA_user1_PA1];
+				_user_state_temp[picos[i]->nA_user1_PA1] = 3;
 			}
 		}
 		else
 		{
-			if ((_pico[i].nA_user2_PA1 != -1) && (_user_state_temp[_pico[i].nA_user2_PA1] != 1))
+			if ((picos[i]->nA_user2_PA1 != -1) && (_user_state_temp[picos[i]->nA_user2_PA1] != 1))
 			{
-				_objective_temp = _objective_temp + _lambda[_pico[i].nA_user2_PA1] * _thrpt_nonABS[_pico[i].nA_user2_PA1];
-				_user_state_temp[_pico[i].nA_user2_PA1] = 4;
+				_objective_temp = _objective_temp + _lambda[picos[i]->nA_user2_PA1] * _thrpt_nonABS[picos[i]->nA_user2_PA1];
+				_user_state_temp[picos[i]->nA_user2_PA1] = 4;
 			}
 		}
 	}
@@ -1158,12 +1151,12 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	// for (i = 0; i < MACRO_NUM; i++) _state_temp[i] = 0;
 }
 
-void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico *_pico, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	for (int i = 0; i < 2; i++)
 	{
 		_state_temp[_macro_num] = i;
-		if ((_macro_num + 1) < MACRO_NUM) PA1_call_next_pico((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, _mobile, _pico, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
-		else PA1_calculation((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, _mobile, _pico, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+		if ((_macro_num + 1) < MACRO_NUM) PA1_call_next_pico((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, _mobile, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+		else PA1_calculation((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, _mobile, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
 	}
 }
