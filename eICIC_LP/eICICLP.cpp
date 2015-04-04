@@ -21,48 +21,15 @@ int main()
 	
 	srand(starttime);
 
+	// /////////////////////////////////////////////////////////////////////////
+	// 초기화
+
 	Macro **macros = (Macro **) malloc(sizeof(Macro *) * MACRO_NUM);
 	Pico **picos = (Pico **) malloc(sizeof(Pico *) * PICO_NUM);
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
 	initialize(macros, picos, mobiles);
 
-	// pico--macro
-	for (int pic = 0; pic < PICO_NUM; pic++)
-	{
-		for (int mac = 0; mac < MACRO_NUM; mac++)
-		{
-			picos[pic]->locate_on_macro_of(mac, macros[mac]);
-		}
-	}
-
-	// mobile--macro
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
-		for (int mac = 0; mac < MACRO_NUM; mac++)
-		{
-			mobiles[mob]->locate_on_macro_of(mac, macros[mac]);
-		}
-		macros[mobiles[mob]->macro_service]->register_mobile_to_service(mob);
-	}
-
-	// 모바일 pico 거리, 이웃노드 수, service 설정      
-	// pico class에 저장하기 위해 pico 관련 데이터도 위의 temp data를 이용하여 동시에 처리
-	// 모두에 대해 0,1로 간섭유무 표현 1이면 간섭. 다 더해야 한다.
-
-	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
-	// 채널 계산
-	// mobile--pico
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
-		for (int pic = 0; pic < PICO_NUM; pic++)
-		{
-			mobiles[mob]->locate_on_pico_of(pic, picos[pic]);
-		}
-		picos[mobiles[mob]->pico_service]->register_mobile_to_service(mob);
-	}
-
-	// initial setting 각 클래스 초기화, 
-	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
+	// /////////////////////////////////////////////////////////////////////////
 
 	// TODO 아래코드 삭제 여부 확인
 	// static 을 위해 cre bias를 통한 cell association
@@ -624,11 +591,14 @@ int main()
 void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 {
 
-	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
+	// /////////////////////////////////////////////////////////////////////////
+	// 인스턴스 생성
 	if (LOC_SETUP == 1)
 	{
+
 		//double bias_x = 1000;
 		//double bias_y = 500;
+
 		macros[0] = new Macro({ 0.0, 0.0 }, MACRO_TX_POWER);
 		macros[1] = new Macro({ 1000.0, 0.0 }, MACRO_TX_POWER);
 		macros[2] = new Macro({ -1000.0, 0.0 }, MACRO_TX_POWER);
@@ -688,6 +658,38 @@ void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 			}, QOS);
 		}
 
+	}
+
+	// /////////////////////////////////////////////////////////////////////////
+	// Pico와 Macro 사이의 거리 등에 따른 값을 연산
+	for (int pic = 0; pic < PICO_NUM; pic++)
+	{
+		for (int mac = 0; mac < MACRO_NUM; mac++)
+		{
+			picos[pic]->locate_on_macro_of(mac, macros[mac]);
+		}
+	}
+
+	// /////////////////////////////////////////////////////////////////////////
+	// Mobile과 Macro 사이의 거리 등에 따른 값을 연산
+	for (int mob = 0; mob < MOBILE_NUM; mob++)
+	{
+		for (int mac = 0; mac < MACRO_NUM; mac++)
+		{
+			mobiles[mob]->locate_on_macro_of(mac, macros[mac]);
+		}
+		macros[mobiles[mob]->macro_service]->register_mobile_to_service(mob);
+	}
+
+	// /////////////////////////////////////////////////////////////////////////
+	// Mobile과 Pico 사이의 거리 등에 따른 값을 연산
+	for (int mob = 0; mob < MOBILE_NUM; mob++)
+	{
+		for (int pic = 0; pic < PICO_NUM; pic++)
+		{
+			mobiles[mob]->locate_on_pico_of(pic, picos[pic]);
+		}
+		picos[mobiles[mob]->pico_service]->register_mobile_to_service(mob);
 	}
 
 }
