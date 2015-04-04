@@ -157,7 +157,7 @@ int main()
 		picos[i]->set_neighbor();
 
 	for (int i = 0; i < MACRO_NUM; i++)
-		macros[i]->macro_set_neighbor();
+		macros[i]->set_neighbor();
 
 	// TODO 시간 반복문 안으로 이동해야 함
 	// 각 모바일이 겪는 interference calculation
