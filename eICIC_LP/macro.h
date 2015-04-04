@@ -12,7 +12,6 @@ private:
 
 public:
 
-	int num_pico;
 	int num_mobile;
 	int mobile[MOBILE_NUM];
 	int mobile_service[MOBILE_NUM];

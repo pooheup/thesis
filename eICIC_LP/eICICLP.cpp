@@ -133,23 +133,18 @@ int main()
 	// macro-pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
-		int neighbor_temp = 0;
-
 		for (int j = 0; j < PICO_NUM; j++)
 		{
 			picos[j]->distance_macro[i] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
 
 			if (picos[j]->distance_macro[i] < MP_INT_DIST)
 			{
-				neighbor_temp++;
 				pico_num_neighborMacro_temp[j]++;
-
 				macro_pico_neighbor_01_temp[i][j] = 1;
 			}
 			else
 				macro_pico_neighbor_01_temp[i][j] = 0;
 		}
-		macros[i]->num_pico = neighbor_temp;
 	}
 
 	// initial setting 각 클래스 초기화, 
