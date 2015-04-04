@@ -253,7 +253,7 @@ int main()
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
-		macro[i].macro_set_initial(macro_loc_temp[i].x, macro_loc_temp[i].y, MACRO_TX_POWER);
+		macro[i].macro_set_initial(macro_loc_temp[i], MACRO_TX_POWER);
 	}
 
 	for (int i = 0; i < PICO_NUM; i++)

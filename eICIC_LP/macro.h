@@ -1,6 +1,7 @@
 #pragma once
 
 #include "parameters.h"
+#include "point.h"
 
 class Macro
 {
@@ -13,8 +14,7 @@ public:
 	int mobile_service[MOBILE_NUM];
 	int mobile_service_01[MOBILE_NUM];
 
-	double location_x;
-	double location_y;
+	point location;
 
 	double tx_power;
 
@@ -23,9 +23,9 @@ public:
 	int covered_pico_PA1;
 	////
 	Macro();
-	Macro(double loc_x, double loc_y, double t_pow);
+	Macro(point location, double t_pow);
 
-	void macro_set_initial(double loc_x, double loc_y, double t_pow);
+	void macro_set_initial(point location, double t_pow);
 	void macro_set_neighbor();
 
 	void set_user_PA1(int _selected_user, int _covered_pico);

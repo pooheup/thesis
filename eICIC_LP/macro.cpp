@@ -3,8 +3,8 @@
 
 Macro::Macro()
 {
-	location_x	= 0;
-	location_y	= 0;
+	location.x = 0.0d;
+	location.y = 0.0d;
 
 	tx_power	= 0;
 
@@ -23,10 +23,9 @@ Macro::Macro()
 	}
 }
 
-Macro::Macro(double loc_x, double loc_y, double t_pow)
+Macro::Macro(point location, double t_pow)
 {
-	location_x	= loc_x;
-	location_y	= loc_y;
+	this->location = location;
 
 	tx_power	= t_pow;
 
@@ -43,11 +42,9 @@ Macro::Macro(double loc_x, double loc_y, double t_pow)
 	}
 }
 
-void Macro::macro_set_initial(double loc_x, double loc_y, double t_pow)
+void Macro::macro_set_initial(point location, double t_pow)
 {
-	location_x	= loc_x;
-	location_y	= loc_y;
-
+	this->location = location;
 	tx_power	= t_pow;
 }
 
