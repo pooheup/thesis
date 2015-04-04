@@ -34,8 +34,8 @@ public:
 
 	Pico(point location, double t_pow);
 
-	void locate_on_macro_of(int i, Macro *macro);
-	int is_neighbor_macro(int i);
+	void locate_on_macro_of(int mac, Macro *macro);
+	int is_neighbor_macro(int mac);
 
 	void set_neighbor();
 

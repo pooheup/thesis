@@ -21,10 +21,10 @@ Pico::Pico(point location, double t_pow)
 
 }
 
-void Pico::locate_on_macro_of(int i, Macro *macro)
+void Pico::locate_on_macro_of(int mac, Macro *macro)
 {
-	distance_macro[i] = POINT_DISTANCE(macro->getLocation(), location);
-	macro_neighbor[i] = distance_macro[i] < MP_INT_DIST;
+	distance_macro[mac] = POINT_DISTANCE(macro->getLocation(), location);
+	macro_neighbor[mac] = distance_macro[mac] < MP_INT_DIST;
 }
 
 int Pico::is_neighbor_macro(int i)
