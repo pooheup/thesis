@@ -1,7 +1,7 @@
 #include "macro.h"
 
 
-macro::macro()
+Macro::Macro()
 {
 	location_x	= 0;
 	location_y	= 0;
@@ -23,7 +23,7 @@ macro::macro()
 	}
 }
 
-macro::macro(double loc_x, double loc_y, double t_pow)
+Macro::Macro(double loc_x, double loc_y, double t_pow)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -43,7 +43,7 @@ macro::macro(double loc_x, double loc_y, double t_pow)
 	}
 }
 
-void macro::macro_set_initial(double loc_x, double loc_y, double t_pow)
+void Macro::macro_set_initial(double loc_x, double loc_y, double t_pow)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -51,7 +51,7 @@ void macro::macro_set_initial(double loc_x, double loc_y, double t_pow)
 	tx_power	= t_pow;
 }
 
-void macro::macro_set_neighbor()
+void Macro::macro_set_neighbor()
 {
 	int num_mobile_temp = 0;
 	for (int i = 0; i < MOBILE_NUM; i++)
@@ -65,7 +65,7 @@ void macro::macro_set_neighbor()
 	num_mobile = num_mobile_temp;
 }
 
-void macro::set_user_PA1(int _selected_user, int _covered_pico)
+void Macro::set_user_PA1(int _selected_user, int _covered_pico)
 {
 	selected_user_PA1	= _selected_user;
 	covered_pico_PA1	= _covered_pico;

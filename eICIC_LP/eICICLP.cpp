@@ -243,10 +243,10 @@ int main()
 		macro_num_neighborBS_temp_pico[i] = neighbor_temp;
 	}
 
-	// class 생성: macro, pico, mobile
-	macro macro[MACRO_NUM];
-	pico pico[PICO_NUM];
-	mobile mobile[MOBILE_NUM];
+	// 객체 배열 생성: Macro, Pico, Mobile
+	Macro macro[MACRO_NUM];
+	Pico pico[PICO_NUM];
+	Mobile mobile[MOBILE_NUM];
 
 	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
@@ -1014,7 +1014,7 @@ double cal_thrpt_i(double _channel_gain, double _interference, double _no )
 	return throughput;
 }
 
-void exhaustive_search_calculation(int _user_num, double _objective_value, double *_best_value, int *_state_temp, int *_state_best, mobile *_mobile, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_trhpt_nonABS)
+void exhaustive_search_calculation(int _user_num, double _objective_value, double *_best_value, int *_state_temp, int *_state_best, Mobile *_mobile, Macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_trhpt_nonABS)
 {
 	double _objective_value_temp = 0.0;
 	for (int j = 0; j < MOBILE_NUM; j++)
@@ -1035,7 +1035,7 @@ void exhaustive_search_calculation(int _user_num, double _objective_value, doubl
 	}
 }
 
-void exhaustive_search_call_next_user(int _user_num, double _objective_value, double *_best_value, int *_state_temp, int *_state_best, mobile *_mobile, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_trhpt_nonABS)
+void exhaustive_search_call_next_user(int _user_num, double _objective_value, double *_best_value, int *_state_temp, int *_state_best, Mobile *_mobile, Macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_trhpt_nonABS)
 {
 	// state
 	// 0: not use
@@ -1087,7 +1087,7 @@ void exhaustive_search_call_next_user(int _user_num, double _objective_value, do
 
 }
 
-void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, mobile *_mobile, pico *_pico, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico *_pico, Macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	int i;
 	double _objective_temp = 0.0;
@@ -1168,7 +1168,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	// for (i = 0; i < MACRO_NUM; i++) _state_temp[i] = 0;
 }
 
-void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, mobile *_mobile, pico *_pico, macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_call_next_pico(int _macro_num,  double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile *_mobile, Pico *_pico, Macro *_macro, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
 {
 	for (int i = 0; i < 2; i++)
 	{

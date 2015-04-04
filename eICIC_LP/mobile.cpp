@@ -1,6 +1,6 @@
 #include "mobile.h"
 
-mobile::mobile()
+Mobile::Mobile()
 {
 	location_x	= 0;
 	location_y	= 0;
@@ -40,7 +40,7 @@ mobile::mobile()
 	}
 }
 
-mobile::mobile(double loc_x, double loc_y, double qos)
+Mobile::Mobile(double loc_x, double loc_y, double qos)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -77,7 +77,7 @@ mobile::mobile(double loc_x, double loc_y, double qos)
 	}
 }
 
-void mobile::mobile_set_initial(double loc_x, double loc_y, double qos)
+void Mobile::mobile_set_initial(double loc_x, double loc_y, double qos)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -85,44 +85,44 @@ void mobile::mobile_set_initial(double loc_x, double loc_y, double qos)
 	QoS			= qos;
 }
 
-void mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no)
+void Mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_macro[cell_num]		= dist_temp;
 	channel_gain_macro[cell_num]	= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
 
-void mobile::mobile_set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
+void Mobile::mobile_set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_pico[cell_num]			= dist_temp;
 	channel_gain_pico[cell_num]		= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
 }
 
-void mobile::mobile_set_num_int_macro(int num_macro_temp)
+void Mobile::mobile_set_num_int_macro(int num_macro_temp)
 {
 	num_interferer_macro = num_macro_temp;
 }
 
-void mobile::mobile_set_num_int_pico(int num_pico_temp)
+void Mobile::mobile_set_num_int_pico(int num_pico_temp)
 {
 	num_interferer_pico  = num_pico_temp;
 }
 
-void mobile::mobile_set_serviceBS (int _serviceBS )
+void Mobile::mobile_set_serviceBS (int _serviceBS )
 {
 	service_BS = _serviceBS;
 }
 
-void mobile::mobile_set_serviceBS_macro (int macro_temp)
+void Mobile::mobile_set_serviceBS_macro (int macro_temp)
 {
 	macro_service				= macro_temp;
 }
 
-void mobile::mobile_set_serviceBS_pico (int pico_temp)
+void Mobile::mobile_set_serviceBS_pico (int pico_temp)
 {
 	pico_service = pico_temp;
 }
 
-void mobile::mobile_set_pico_interference(int pico_num)
+void Mobile::mobile_set_pico_interference(int pico_num)
 {
 	pico_interference = 0.0;
 
@@ -132,7 +132,7 @@ void mobile::mobile_set_pico_interference(int pico_num)
 	}
 }
 
-void mobile::mobile_set_macro_interference(int macro_num)
+void Mobile::mobile_set_macro_interference(int macro_num)
 {
 	macro_interference = 0.0;
 
@@ -142,7 +142,7 @@ void mobile::mobile_set_macro_interference(int macro_num)
 	}
 }
 
-void mobile::mobile_cell_association_static(double _cre_bias)
+void Mobile::mobile_cell_association_static(double _cre_bias)
 {
 	if (channel_gain_macro[macro_service] >= (_cre_bias * channel_gain_pico[pico_service])) associated_BS_static = 0;
 	else associated_BS_static = 1;

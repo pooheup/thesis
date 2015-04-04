@@ -2,7 +2,7 @@
 
 #include "parameters.h"
 
-class macro
+class Macro
 {
 public:
 
@@ -22,8 +22,8 @@ public:
 	int selected_user_PA1;
 	int covered_pico_PA1;
 	////
-	macro();
-	macro(double loc_x, double loc_y, double t_pow);
+	Macro();
+	Macro(double loc_x, double loc_y, double t_pow);
 
 	void macro_set_initial(double loc_x, double loc_y, double t_pow);
 	void macro_set_neighbor();

@@ -2,7 +2,7 @@
 
 #include "parameters.h"
 
-class pico
+class Pico
 {
 public:
 
@@ -34,8 +34,8 @@ public:
 	int nA_mode;		// 0 first user: nA_user1_PA1, 1 second user: nA_user2_PA1
 	////
 
-	pico();
-	pico(double loc_x, double loc_y, double t_pow);
+	Pico();
+	Pico(double loc_x, double loc_y, double t_pow);
 
 	void pico_set_initial(double loc_x, double loc_y, double t_pow);
 

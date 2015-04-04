@@ -3,7 +3,7 @@
 #include "parameters.h"
 #include <math.h>
 
-class mobile
+class Mobile
 {
 public:
 
@@ -37,8 +37,8 @@ public:
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
 
-	mobile();
-	mobile(double loc_x, double loc_y, double qos);
+	Mobile();
+	Mobile(double loc_x, double loc_y, double qos);
 
 	void mobile_set_initial(double loc_x, double loc_y, double qos);
 

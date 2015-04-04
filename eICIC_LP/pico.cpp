@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-pico::pico()
+Pico::Pico()
 {
 	location_x	= 0;
 	location_y	= 0;
@@ -23,7 +23,7 @@ pico::pico()
 	}
 }
 
-pico::pico(double loc_x, double loc_y, double t_pow)
+Pico::Pico(double loc_x, double loc_y, double t_pow)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -45,7 +45,7 @@ pico::pico(double loc_x, double loc_y, double t_pow)
 
 }
 
-void pico::pico_set_initial(double loc_x, double loc_y, double t_pow)
+void Pico::pico_set_initial(double loc_x, double loc_y, double t_pow)
 {
 	location_x	= loc_x;
 	location_y	= loc_y;
@@ -53,12 +53,12 @@ void pico::pico_set_initial(double loc_x, double loc_y, double t_pow)
 	tx_power	= t_pow;
 }
 
-void pico::set_channel_ratio(int mobile_num, double dist_macro, double macro_pow, double no)
+void Pico::set_channel_ratio(int mobile_num, double dist_macro, double macro_pow, double no)
 {
 	channel_gain_ratio[mobile_num] = log(1 + (tx_power * pow( (1/distance_mobile[mobile_num]), PATH_LOSS_EXPO ) / no ) ) / log(1 + (macro_pow * pow( (1/dist_macro), PATH_LOSS_EXPO ) / no ) );
 }
 
-void pico::set_neighbor()
+void Pico::set_neighbor()
 {
 	int mobile_temp	= -1;
 	double mobile_dist_temp = 0.0;
@@ -85,7 +85,7 @@ void pico::set_neighbor()
 	}
 }
 
-void pico::set_neighbor_1()
+void Pico::set_neighbor_1()
 {
 	int num_mobile_temp = 0;
 	for (int i = 0; i < MOBILE_NUM; i++)
@@ -99,7 +99,7 @@ void pico::set_neighbor_1()
 	num_service_mobile = num_mobile_temp;
 }
 
-void pico::set_user_PA1(int _ABS_user_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode)
+void Pico::set_user_PA1(int _ABS_user_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode)
 {
 	ABS_user2_PA1 = _ABS_user2_PA1;
 	ABS_user_PA1	= _ABS_user_PA1;
