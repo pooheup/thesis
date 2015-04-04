@@ -49,16 +49,19 @@ int main()
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
-
 	// 시뮬레이션에서 필요한 각 변수들 선언
-	// 매 timeslot에서의 평균 throughput
-	double thrpt_macro[MOBILE_NUM];
-	double thrpt_ABS[MOBILE_NUM];
-	double thrpt_nonABS[MOBILE_NUM];
 
-	int resource_macro[MOBILE_NUM];
-	int resource_ABS[MOBILE_NUM];
-	int resource_nonABS[MOBILE_NUM];
+	int abs_count_macro[MACRO_NUM];
+	for (int mac = 0; mac < MACRO_NUM; mac++)
+		abs_count_macro[mac] = 0;
+
+	// /////////////////////////////////
+
+	int abs_count_pico[PICO_NUM];
+	for (int pic = 0; pic < PICO_NUM; pic++)
+		abs_count_pico[pic] = 0;
+
+	// /////////////////////////////////
 
 	int num_allocated_macro[MOBILE_NUM];
 	int num_allocated_ABS[MOBILE_NUM];
@@ -67,59 +70,46 @@ int main()
 	// dual variable
 	double lambda[MOBILE_NUM];
 	double mu[MOBILE_NUM];
-
 	// 현재까지 얻은 평균 throughput
 	double thrp_result[MOBILE_NUM];
-
 	// Ru 값
 	double rate_user[MOBILE_NUM];
 
-	int abs_count_macro[MACRO_NUM];
-	int abs_count_pico[PICO_NUM];
+	double thrp_result_PA1[MOBILE_NUM];
+	double rate_user_PA1[MOBILE_NUM];
 
-	for (int mac = 0; mac < MACRO_NUM; mac++)
-		abs_count_macro[mac] = 0;
-
-	for (int pic = 0; pic < PICO_NUM; pic++)
-		abs_count_pico[pic] = 0;
-
-	// mobile!
+	// 변수 초기화
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
 	{
-		lambda[mob]             = 0.1;
-		thrp_result[mob]        = 0.0;
-		rate_user[mob]          = 0.0;
-
-		mu[mob]                 = 0.0;
-
 		num_allocated_macro[mob]  = 0;
 		num_allocated_ABS[mob]    = 0;
 		num_allocated_nonABS[mob] = 0;
-	}
 
-	// PA1
-	int resource_macro_PA1[MOBILE_NUM];
-	int resource_ABS_PA1[MOBILE_NUM];
-	int resource_nonABS_PA1[MOBILE_NUM];
+		lambda[mob]             = 0.1;
+		mu[mob]                 = 0.0;
+		thrp_result[mob]        = 0.0;
+		rate_user[mob]          = 0.0;
 
-	double thrp_result_PA1[MOBILE_NUM];
-	double rate_user_PA1[MOBILE_NUM];
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
 		thrp_result_PA1[mob] = 0.0;
 		rate_user_PA1[mob]   = 0.0;
 	}
 
-	////////////////////////////////////////////////////////////////////////////// 알고리즘 따라 연산 //////////////////////////////////////////////////////////////////////
+	// /////////////////////////////////
 
-	// 출력 파일들
+	// 출력 파일
 	std::ofstream Savefile("eICIC.txt");
+
 	std::ofstream savel("lambda.txt");
-	std::ofstream savem("mu.txt");
-	std::ofstream results("results.txt");
 	savel.precision(5);
+	
+	std::ofstream savem("mu.txt");
 	savem.precision(5);
+
+	std::ofstream results("results.txt");
 	results.precision(5);
+
+	// /////////////////////////////////////////////////////////////////////////
+	// 알고리즘 따라 연산
 
 	for (int t = 0; t < SIMULATION_TIME; t++)
 	{
@@ -131,13 +121,25 @@ int main()
 
 		//step_size2 = step_size;
 
-		double signal_temp;
-		double interference_temp;
+		// 매 timeslot에서의 평균 throughput
+		double thrpt_macro[MOBILE_NUM];
+		double thrpt_ABS[MOBILE_NUM];
+		double thrpt_nonABS[MOBILE_NUM];
+
+		int resource_macro[MOBILE_NUM];
+		int resource_ABS[MOBILE_NUM];
+		int resource_nonABS[MOBILE_NUM];
+
+		// PA1
+		int resource_macro_PA1[MOBILE_NUM];
+		int resource_ABS_PA1[MOBILE_NUM];
+		int resource_nonABS_PA1[MOBILE_NUM];
+
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
 			// macro 평균 thrpt 계산
-			signal_temp       = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
-			interference_temp = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
+			double signal_temp       = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
+			double interference_temp = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
 			thrpt_macro[mob]  = cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
 			thrpt_macro[mob]  = thrpt_macro[mob] / 10.0;
 
