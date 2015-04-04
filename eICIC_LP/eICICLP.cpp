@@ -65,6 +65,7 @@ int main()
 	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 
+	// TODO 아래코드 삭제 여부 확인
 	// static 을 위해 cre bias를 통한 cell association
 	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
