@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <float.h>
 
 #include "parameters.h"
 #include "rndfunctions.h"
@@ -28,19 +29,19 @@ int main()
 	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
-		int service_macro_temp;
-
-		double service_dist_temp = AREA_DIST * 2;
+		int service_macro = -1;
+		double service_distance = DBL_MAX;
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
 			double distance = POINT_DISTANCE(mobiles[i]->location, macros[j]->getLocation());
 			int is_neighbor = distance < NEIGHBOR_DIST_M;
 
-			if (distance < service_dist_temp)
+			// 더 가까운 macro를 찾았을 때
+			if (distance < service_distance)
 			{
-				service_dist_temp = distance;
-				service_macro_temp = j;
+				service_macro = j;
+				service_distance = distance;
 			}
 
 			mobiles[i]->set_dist_macro(j, distance, macros[j]->getTxPower(), NOISE);
@@ -49,7 +50,7 @@ int main()
 
 		}
 
-		mobiles[i]->set_serviceBS_macro(service_macro_temp);
+		mobiles[i]->set_serviceBS_macro(service_macro);
 		macros[mobiles[i]->macro_service]->mobile_service_01[i] = 1;
 
 	}
