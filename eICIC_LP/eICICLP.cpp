@@ -129,8 +129,6 @@ int main()
 
 	double macro_pico_dist_temp[MACRO_NUM][PICO_NUM];
 
-	int macro_pico_neighbor_temp[MACRO_NUM][PICO_NUM];
-
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
 	for (int i = 0; i < MACRO_NUM; i++)
@@ -143,7 +141,6 @@ int main()
 
 			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
 			{
-				macro_pico_neighbor_temp[i][neighbor_temp] = j;
 				neighbor_temp++;
 				pico_num_neighborMacro_temp[j]++;
 
