@@ -31,6 +31,7 @@ int main()
 
 	int mobile_macro_neighbor_temp[MOBILE_NUM][MACRO_NUM];
 
+	// mobile-macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		int service_macro_temp;
@@ -67,6 +68,7 @@ int main()
 
 	int pico_servicemobile_01_temp[MOBILE_NUM][PICO_NUM];
 
+	// pico, pico-mobile
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		pico_num_neighbormobile_temp[i] = 0;
@@ -87,6 +89,7 @@ int main()
 
 	int mobile_pico_neighbor_temp[MOBILE_NUM][PICO_NUM];
 
+	// mobile-pico
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		int neighbor_temp = 0;
@@ -129,6 +132,7 @@ int main()
 
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
+	// macro-pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
 		int neighbor_temp = 0;
@@ -152,6 +156,7 @@ int main()
 	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
 
+	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		mobiles[i]->mobile_set_serviceBS_macro(mobile_service_macro_temp[i]);
@@ -164,6 +169,7 @@ int main()
 
 	// 위치관계에 따른 채널 정립. 이웃 찾기.  거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
 	// 채널 계산
+	// mobile-macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
@@ -186,6 +192,7 @@ int main()
 	for (int i = 0; i < MOBILE_NUM; i++) mobiles[i]->mobile_cell_association_static(cre_bias);
 
 	// macro 정보 넣기. 이웃 수, 이웃 명단
+	// mobile-pico
 	for (int i = 0; i < MACRO_NUM; i++)
 	{
 		macros[i]->num_pico = macro_num_neighborBS_temp_pico[i];
@@ -197,6 +204,8 @@ int main()
 	}
 
 	// pico 정보 넣기.
+	// pico-mobile
+	// pico-macro
 	for (int i = 0; i < PICO_NUM; i++)
 	{
 		picos[i]->num_macro = pico_num_neighborMacro_temp[i];
@@ -222,6 +231,7 @@ int main()
 
 	// 각 모바일이 겪는 interference calculation
 	// 모든 기지국에 대한 간섭을 계산. 실제 이용시 자신이 할당받는 기지국의 신호는 제해야 함.
+	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		mobiles[i]->mobile_set_pico_interference(PICO_NUM);
@@ -252,22 +262,20 @@ int main()
 	// Ru 값
 	double rate_user[MOBILE_NUM];
 
-	// weight
-	double weight[MOBILE_NUM];
-
 	int abs_count_macro[MACRO_NUM];
 	int abs_count_pico[PICO_NUM];
 
 	for (int i=0; i < MACRO_NUM; i++) abs_count_macro[i] = 0;
 	for (int i=0; i < PICO_NUM; i++) abs_count_pico[i] = 0;
 
+	// mobile!
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
 		lambda[i]		= 0.1;
-		mu[i]			= 0.0;
 		thrp_result[i]	= 0.0;
 		rate_user[i]	= 0.0;
-		weight[i]		= 1.0;
+
+		mu[i]			= 0.0;
 
 		num_allocated_macro[i]	= 0;
 		num_allocated_ABS[i]	= 0;
@@ -455,8 +463,8 @@ int main()
 		for (int i = 0; i < MOBILE_NUM; i++)
 		{
 			if (lambda[i] == 0.0) rate_user[i] = RATE_MAX;
-			//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (weight[i] + mu[i]) / lambda[i];
-			else rate_user[i] = (weight[i] + mu[i]) / lambda[i];
+			//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (1.0 + mu[i]) / lambda[i];
+			else rate_user[i] = (1.0 + mu[i]) / lambda[i];
 		}
 
 		// object 값 계산
@@ -654,7 +662,7 @@ int main()
 		for (int i = 0; i < MOBILE_NUM; i++)
 		{
 			if (lambda[i] == 0.0) rate_user_PA1[i] = RATE_MAX;
-						//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (weight[i] + mu[i]) / lambda[i];
+						//else rate_user[i] = 0.8* rate_user[i] + 0.2 * (1.0 + mu[i]) / lambda[i];
 			else rate_user_PA1[i] = 0.8 * rate_user_PA1[i] + 0.2 * (1.0 + mu[i]) / lambda[i];
 		}
 
