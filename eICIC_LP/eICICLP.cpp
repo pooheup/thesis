@@ -127,8 +127,6 @@ int main()
 	// 매크로 피코 거리, 이웃노드 수					
 	int macro_num_neighborBS_temp_pico[MOBILE_NUM];
 
-	double macro_pico_dist_temp[MACRO_NUM][PICO_NUM];
-
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
 	for (int i = 0; i < MACRO_NUM; i++)
@@ -137,9 +135,9 @@ int main()
 
 		for (int j = 0; j < PICO_NUM; j++)
 		{
-			macro_pico_dist_temp[i][j] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
+			picos[j]->distance_macro[i] = POINT_DISTANCE(macros[i]->getLocation(), picos[j]->location);
 
-			if (macro_pico_dist_temp[i][j] < MP_INT_DIST)
+			if (picos[j]->distance_macro[i] < MP_INT_DIST)
 			{
 				neighbor_temp++;
 				pico_num_neighborMacro_temp[j]++;
@@ -215,7 +213,6 @@ int main()
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
 			picos[i]->macro_neighbor[j] = macro_pico_neighbor_01_temp[j][i];
-			picos[i]->distance_macro[j] = macro_pico_dist_temp[j][i];
 		}
 	}
 
