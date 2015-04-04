@@ -482,30 +482,6 @@ int main()
 		// 현재까지 얻은 throughput 입력
 		for (int i = 0; i < MOBILE_NUM; i++) thrp_result_PA1[i] = thrp_result_PA1[i] + thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i];
 
-		/*
-		// proposed algorithm update
-		// dual variable, lambda, mu 업데이트
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			double lambda_temp, mu_temp;
-						//if ((thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i] >= 0.0)	//feasilbity
-							//&& (abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
-			if ((abs(thrp_result_PA1[i] / (1 + t) - rate_user_PA1[i]) * lambda[i] < 0.05))
-				lambda_temp = lambda[i] - step_size * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
-			else
-				lambda_temp = lambda[i] - step_size2 * (thrpt_macro[i] * resource_macro_PA1[i] + thrpt_ABS[i] * resource_ABS_PA1[i] + thrpt_nonABS[i] * resource_nonABS_PA1[i] - rate_user_PA1[i]);
-			lambda[i] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
-
-				//if ((log(rate_user_PA1[i]) >= mobiles[i]->QoS)
-					//&& (abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
-			if ((abs(log(rate_user_PA1[i]) - mobiles[i]->QoS) * mu[i] < 0.01))
-				mu_temp = mu[i] - step_size * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
-			else
-				mu_temp = mu[i] - step_size2 * (log(rate_user_PA1[i]) - mobiles[i]->QoS);
-			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
-		}
-		*/
-
 		// 평균 rate Ru, rate_user[i], 업데이트
 		for (int i = 0; i < MOBILE_NUM; i++)
 		{
@@ -537,27 +513,6 @@ int main()
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// dual update
-		/*
-		// exhaustive search update
-		// dual variable, lambda, mu 업데이트
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			double lambda_temp, mu_temp;
-			if ((thrp_result[i] / (1 + t) - rate_user[i] >= 0)	//feasilbity
-				&& ((thrp_result[i] / (1 + t) - rate_user[i]) * lambda[i] < 0.01))
-				lambda_temp = lambda[i] - step_size* (thrpt_macro[i] * resource_macro[i] + thrpt_ABS[i] * resource_ABS[i] + thrpt_nonABS[i] * resource_nonABS[i] - rate_user[i]);
-			else
-				lambda_temp = lambda[i] - step_size2 * (thrpt_macro[i] * resource_macro[i] + thrpt_ABS[i] * resource_ABS[i] + thrpt_nonABS[i] * resource_nonABS[i] - rate_user[i]);
-			lambda[i] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
-
-			if ((log(rate_user[i]) >= mobiles[i]->QoS) 
-				&& ((log(rate_user[i]) - mobiles[i]->QoS) * mu[i] < 0.001))
-				mu_temp = mu[i] - step_size* (log(rate_user[i]) - mobiles[i]->QoS);
-			else
-				mu_temp = mu[i] - step_size2 * (log(rate_user[i]) - mobiles[i]->QoS);
-			mu[i] = (0.0 > mu_temp) ? 0.0 : mu_temp;
-		}
-		*/
 		// proposed algorithm update
 		// dual variable, lambda, mu 업데이트
 		for (int i = 0; i < MOBILE_NUM; i++)
