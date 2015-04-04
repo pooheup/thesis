@@ -31,8 +31,7 @@ int main()
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			picos[i]->distance_macro[j] = POINT_DISTANCE(macros[j]->getLocation(), picos[i]->location);
-			picos[i]->macro_neighbor[j] = picos[i]->distance_macro[j] < MP_INT_DIST;
+			picos[i]->locate_on_macro_of(j, macros[j]);
 		}
 	}
 
@@ -735,7 +734,7 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			if ((picos[i]->macro_neighbor[j] == 1) && (_state_temp[j] == 1))
+			if (picos[i]->is_neighbor_macro(j) && (_state_temp[j] == 1))
 			{
 				ABS_indicator = 1;
 			}
