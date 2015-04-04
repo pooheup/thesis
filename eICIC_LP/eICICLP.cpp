@@ -128,8 +128,8 @@ int main()
 		mobile_service_pico_temp[i]			= service_pico_temp;
 	}
 
-	// 매크로 피코 거리, 이웃노드 수					
-	int macro_num_neighborBS_temp_pico[MOBILE_NUM];
+	// 매크로 피코 거리, 이웃노드 수
+	int macro_num_neighborBS_temp_pico[MACRO_NUM];
 
 	int macro_pico_neighbor_01_temp[MACRO_NUM][PICO_NUM];
 
