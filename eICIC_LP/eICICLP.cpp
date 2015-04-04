@@ -72,8 +72,6 @@ int main()
 	// 모바일 pico 거리, 이웃노드 수, service 설정		
 	// pico class에 저장하기 위해 pico 관련 데이터도 위의 temp data를 이용하여 동시에 처리
 	// 모두에 대해 0,1로 간섭유무 표현 1이면 간섭. 다 더해야 한다.
-	int mobile_num_neighborBS_temp_pico[MOBILE_NUM];
-	int mobile_service_pico_temp[MOBILE_NUM];
 
 	// 위치관계에 따른 채널 정립. 이웃 찾기. 거리, 파워 기반 신호 세기.(간섭으로 써도 됨)
 	// 채널 계산
@@ -108,6 +106,9 @@ int main()
 
 		mobile_num_neighborBS_temp_pico[i]	= neighbor_count;
 		mobile_service_pico_temp[i]			= service_pico;
+		mobiles[i]->set_num_int_pico(neighbor_count);
+		mobiles[i]->set_serviceBS_pico(service_pico);
+
 	}
 
 	// macro--pico
@@ -122,15 +123,6 @@ int main()
 
 	// initial setting 각 클래스 초기화, 
 	// 각 클래스에 모바일 간섭 기지국 수, 서비스 기지국 저장
-
-	// mobile!
-	for (int i = 0; i < MOBILE_NUM; i++)
-	{
-
-		mobiles[i]->set_num_int_pico(mobile_num_neighborBS_temp_pico[i]);
-		mobiles[i]->set_serviceBS_pico(mobile_service_pico_temp[i]);
-
-	}
 
 	// static 을 위해 cre bias를 통한 cell association
 	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
