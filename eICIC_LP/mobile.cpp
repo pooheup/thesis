@@ -34,7 +34,7 @@ Mobile::Mobile(point location, double qos)
 	}
 }
 
-void Mobile::mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no)
+void Mobile::mobile_set_dist_macro(int cell_num, double dist_temp, double tx_pow, double no)
 {
 	distance_macro[cell_num]		= dist_temp;
 	channel_gain_macro[cell_num]	= tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );

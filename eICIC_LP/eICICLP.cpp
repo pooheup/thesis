@@ -169,7 +169,7 @@ int main()
 	{
 		for (int j = 0; j < MACRO_NUM; j++)
 		{
-			mobiles[i]->mobile_set_dist_macro_1(j, mobile_macro_dist_temp[i][j], macros[j]->tx_power, NOISE);
+			mobiles[i]->mobile_set_dist_macro(j, mobile_macro_dist_temp[i][j], macros[j]->tx_power, NOISE);
 			mobiles[i]->macro_neighbor[j] = mobile_macro_neighbor_temp[i][j];
 			macros[j]->mobile[i] = mobile_macro_neighbor_temp[i][j];
 		}

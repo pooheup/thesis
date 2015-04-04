@@ -39,7 +39,7 @@ public:
 
 	Mobile(point location, double qos);
 
-	void mobile_set_dist_macro_1(int cell_num, double dist_temp, double tx_pow, double no);
+	void mobile_set_dist_macro(int cell_num, double dist_temp, double tx_pow, double no);
 	void mobile_set_dist_pico(int cell_num, double loc_x, double loc_y, double tx_pow, double no);
 	void mobile_set_dist_pico_1 ( int cell_num, double dist_temp, double tx_pow, double no);
 
