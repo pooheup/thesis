@@ -113,8 +113,8 @@ int main()
 
 	for (int t = 0; t < SIMULATION_TIME; t++)
 	{
-		double step_size = 1.0 / ((double)(t + 1));
-		double step_size2
+		const double STEP_SIZE = 1.0 / ((double)(t + 1));
+		const double STEP_SIZE2
 			= (t > 100000)
 			? STEPSIZE4
 			:	( (t < 10000)
@@ -122,7 +122,7 @@ int main()
 				: STEPSIZE3
 				)
 		;
-		//step_size2 = step_size;
+		//step_size2 = STEP_SIZE;
 
 		// 매 timeslot에서의 평균 throughput
 		double thrpt_macro[MOBILE_NUM];
@@ -400,7 +400,7 @@ int main()
 			double TODO0 = log(rate_user_PA1[mob]) - mobiles[mob]->QoS;
 			double TODO1 = abs(TODO0) * mu[mob] < 0.01;
 			if (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05)
-				lambda_temp = lambda[mob] - step_size  * TODO1;
+				lambda_temp = lambda[mob] - STEP_SIZE  * TODO1;
 			else
 				lambda_temp = lambda[mob] - step_size2 * TODO1;
 			lambda[mob] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
@@ -408,9 +408,9 @@ int main()
 			//if ((log(rate_user_PA1[mob]) >= mobiles[mob]->QoS)
 			//  && (abs(TODO0) * mu[mob] < 0.01))
 			if (abs(TODO0) * mu[mob] < 0.01)
-				mu_temp = mu[mob] - step_size  * TODO0;
+				mu_temp = mu[mob] - STEP_SIZE  * TODO0;
 			else
-				mu_temp = mu[mob] - step_size2 * TODO0;
+				mu_temp = mu[mob] - STEP_SIZE2 * TODO0;
 			mu[mob] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
