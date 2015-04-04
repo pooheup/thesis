@@ -25,9 +25,6 @@ int main()
 	std::ofstream savel("lambda.txt");
 	std::ofstream savem("mu.txt");
 	std::ofstream results("results.txt");
-	//std::ifstream node("node.txt");
-	std::ifstream node("node_1.txt");
-	std::ifstream pico_loc("pico.txt");
 	savel.precision(5);
 	savem.precision(5);
 	results.precision(5);
@@ -35,69 +32,6 @@ int main()
 	Macro **macros = (Macro **) malloc(sizeof(Macro *) * MACRO_NUM);
 	Pico **picos = (Pico **) malloc(sizeof(Pico *) * PICO_NUM);
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
-
-	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
-	if (LOC_SETUP == 1)
-	{
-		//double bias_x = 1000;
-		//double bias_y = 500;
-		macros[0] = new Macro({ 0.0, 0.0 }, MACRO_TX_POWER);
-		macros[1] = new Macro({ 1000.0, 0.0 }, MACRO_TX_POWER);
-		macros[2] = new Macro({ -1000.0, 0.0 }, MACRO_TX_POWER);
-		macros[3] = new Macro({ 500.0, 866.0 }, MACRO_TX_POWER);
-		macros[4] = new Macro({ 500.0, -866.0 }, MACRO_TX_POWER);
-		macros[5] = new Macro({ -500.0, 866.0 }, MACRO_TX_POWER);
-		macros[6] = new Macro({ -500.0, -866.0 }, MACRO_TX_POWER);
-
-		for (int i = 0; i < PICO_NUM; i++)
-		{
-			point location;
-			pico_loc >> location.x >> location.y;
-			picos[i] = new Pico(location, PICO_TX_POWER);
-		}
-
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			point location;
-			node >> location.x >> location.y;
-			mobiles[i] = new Mobile(location, QOS);
-		}
-
-	}
-	else
-	{
-
-		for (int i = 0; i < MACRO_NUM; i++)
-		{
-			double radius	= uniform() * AREA_RADIUS;
-			double angle	= uniform() * 2 * PI;
-			macros[i] = new Macro({
-				radius * cos(angle),
-				radius * sin(angle)
-			}, MACRO_TX_POWER);
-		}
-
-		for (int i = 0; i < PICO_NUM; i++)
-		{
-			double radius	= uniform() * AREA_RADIUS;
-			double angle	= uniform() * 2 * PI;
-			picos[i] = new Pico({
-				radius * cos(angle),
-				radius * sin(angle)
-			}, PICO_TX_POWER);
-		}
-
-		for (int i = 0; i < MOBILE_NUM; i++)
-		{
-			double radius	= uniform() * AREA_RADIUS;
-			double angle	= uniform() * 2 * PI;
-			mobiles[i] = new Mobile({
-				radius * cos(angle),
-				radius * sin(angle)
-			}, QOS);
-		}
-
-	}
 
 	// 모바일 매크로 거리, 이웃노드 수, service BS 설정
 	int mobile_service_macro_temp[MOBILE_NUM];
@@ -982,6 +916,78 @@ int main()
 
 	return 0;
 }
+
+void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
+{
+
+	// 각 노드의 위치 직접 지정, 위치를 지정해줄 경우 아래에서 직접 입력, 직접 입력할 경우 parameter.h의 LOC_SETUP = 1 로 설정
+	if (LOC_SETUP == 1)
+	{
+		//double bias_x = 1000;
+		//double bias_y = 500;
+		macros[0] = new Macro({ 0.0, 0.0 }, MACRO_TX_POWER);
+		macros[1] = new Macro({ 1000.0, 0.0 }, MACRO_TX_POWER);
+		macros[2] = new Macro({ -1000.0, 0.0 }, MACRO_TX_POWER);
+		macros[3] = new Macro({ 500.0, 866.0 }, MACRO_TX_POWER);
+		macros[4] = new Macro({ 500.0, -866.0 }, MACRO_TX_POWER);
+		macros[5] = new Macro({ -500.0, 866.0 }, MACRO_TX_POWER);
+		macros[6] = new Macro({ -500.0, -866.0 }, MACRO_TX_POWER);
+
+		std::ifstream pico_loc("pico.txt");
+		for (int i = 0; i < PICO_NUM; i++)
+		{
+			point location;
+			pico_loc >> location.x >> location.y;
+			picos[i] = new Pico(location, PICO_TX_POWER);
+		}
+
+		//std::ifstream node("node.txt");
+		std::ifstream node("node_1.txt");
+		for (int i = 0; i < MOBILE_NUM; i++)
+		{
+			point location;
+			node >> location.x >> location.y;
+			mobiles[i] = new Mobile(location, QOS);
+		}
+
+	}
+	else
+	{
+
+		for (int i = 0; i < MACRO_NUM; i++)
+		{
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			macros[i] = new Macro({
+				radius * cos(angle),
+				radius * sin(angle)
+			}, MACRO_TX_POWER);
+		}
+
+		for (int i = 0; i < PICO_NUM; i++)
+		{
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			picos[i] = new Pico({
+				radius * cos(angle),
+				radius * sin(angle)
+			}, PICO_TX_POWER);
+		}
+
+		for (int i = 0; i < MOBILE_NUM; i++)
+		{
+			double radius	= uniform() * AREA_RADIUS;
+			double angle	= uniform() * 2 * PI;
+			mobiles[i] = new Mobile({
+				radius * cos(angle),
+				radius * sin(angle)
+			}, QOS);
+		}
+
+	}
+
+}
+
 
 double cal_thrpt_s(double _sinr, double _BW)
 {
