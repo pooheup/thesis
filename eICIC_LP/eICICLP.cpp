@@ -26,6 +26,16 @@ int main()
 	Mobile **mobiles = (Mobile **) malloc(sizeof(Mobile *) * MOBILE_NUM);
 	initialize(macros, picos, mobiles);
 
+	// pico--macro
+	for (int i = 0; i < PICO_NUM; i++)
+	{
+		for (int j = 0; j < MACRO_NUM; j++)
+		{
+			picos[i]->distance_macro[j] = POINT_DISTANCE(macros[j]->getLocation(), picos[i]->location);
+			picos[i]->macro_neighbor[j] = picos[i]->distance_macro[j] < MP_INT_DIST;
+		}
+	}
+
 	// mobile--macro
 	for (int i = 0; i < MOBILE_NUM; i++)
 	{
@@ -93,16 +103,6 @@ int main()
 		mobiles[i]->set_num_int_pico(neighbor_count);
 		mobiles[i]->set_serviceBS_pico(service_pico);
 
-	}
-
-	// pico--macro
-	for (int i = 0; i < PICO_NUM; i++)
-	{
-		for (int j = 0; j < MACRO_NUM; j++)
-		{
-			picos[i]->distance_macro[j] = POINT_DISTANCE(macros[j]->getLocation(), picos[i]->location);
-			picos[i]->macro_neighbor[j] = picos[i]->distance_macro[j] < MP_INT_DIST;
-		}
 	}
 
 	// initial setting 각 클래스 초기화, 
