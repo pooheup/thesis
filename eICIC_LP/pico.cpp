@@ -4,7 +4,7 @@
 
 Pico::Pico()
 {
-	location = { 0.0d, 0.0d };
+	location = { 0.0, 0.0 };
 
 	tx_power	= 0;
 

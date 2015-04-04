@@ -2,7 +2,7 @@
 
 Mobile::Mobile()
 {
-	location = { 0.0d, 0.0d };
+	location = { 0.0, 0.0 };
 
 	QoS			= 0.0;
 
