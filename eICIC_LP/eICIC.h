@@ -10,10 +10,6 @@
 
 void initialize(Macro **macros, Pico **picos, Mobile **mobiles);
 
-double cal_thrpt_s(double _sinr, double _BW);
-
-double cal_thrpt_i(double _channel_gain, double _interference, double _no );
-
 void PA1_calculation(
 	//int _macro_num, 
 	double *_best_value, 

@@ -1,4 +1,8 @@
+#include "rndfunctions.h"
 #include "mobile.h"
+
+#define cal_thrpt_i(channel_gain, interference, no) \
+	(BW * log(1 + ((channel_gain) / ((interference) + (no)))))
 
 Mobile::Mobile(point loc, double qos)
 : location(loc), QoS(qos)
@@ -82,6 +86,30 @@ void Mobile::locate_on_pico_of(int pic, Pico *pico)
 	this->channel_gain_pico[pic] = pico->tx_power * pow((1/distance), PATH_LOSS_EXPO);
 	this->pico_neighbor[pic]     = is_neighbor;
 }
+
+void Mobile::generate_channel_gain()
+{
+	double signal, interference;
+
+	// macro Æò±Õ thrpt °è»ê
+	signal           = this->channel_gain_macro[this->macro_service] *rayleigh() * log_normal();
+	interference     = (this->macro_interference + this->pico_interference - this->channel_gain_macro[this->macro_service]) *rayleigh() * log_normal();
+	this->thrpt_macro = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+	this->thrpt_macro = this->thrpt_macro / 10.0;
+
+	// pico ABS Æò±Õ thrpt °è»ê
+	signal         = this->channel_gain_pico[this->pico_service] *rayleigh() * log_normal();
+	interference   = (this->pico_interference - this->channel_gain_pico[this->pico_service]) *rayleigh() * log_normal();
+	this->thrpt_ABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+	this->thrpt_ABS = this->thrpt_ABS / 10.0;
+
+	// pico non-ABS Æò±Õ thrpt °è»ê
+	//signal            = this->channel_gain_pico[this->pico_service] *rayleigh() * log_normal();
+	interference      = interference + (this->macro_interference ) *rayleigh() * log_normal();
+	this->thrpt_nonABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+	this->thrpt_nonABS = this->thrpt_nonABS / 10.0;
+}
+
 
 void Mobile::set_serviceBS (int _serviceBS )
 {

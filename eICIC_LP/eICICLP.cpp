@@ -82,28 +82,7 @@ int main()
 		// 채널 값 계산
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			Mobile *mobile = mobiles[mob];
-
-			double signal, interference;
-
-			// macro 평균 thrpt 계산
-			signal           = mobile->channel_gain_macro[mobile->macro_service] *rayleigh() * log_normal();
-			interference     = (mobile->macro_interference + mobile->pico_interference - mobile->channel_gain_macro[mobile->macro_service]) *rayleigh() * log_normal();
-			mobile->thrpt_macro = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			mobile->thrpt_macro = mobile->thrpt_macro / 10.0;
-
-			// pico ABS 평균 thrpt 계산
-			signal         = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
-			interference   = (mobile->pico_interference - mobile->channel_gain_pico[mobile->pico_service]) *rayleigh() * log_normal();
-			mobile->thrpt_ABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			mobile->thrpt_ABS = mobile->thrpt_ABS / 10.0;
-
-			// pico non-ABS 평균 thrpt 계산
-			//signal            = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
-			interference      = interference + (mobile->macro_interference ) *rayleigh() * log_normal();
-			mobile->thrpt_nonABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			mobile->thrpt_nonABS = mobile->thrpt_nonABS / 10.0;
-
+			mobiles[mob]->generate_channel_gain();
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -580,18 +559,6 @@ void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 		picos[mobiles[mob]->pico_service]->register_mobile_to_service(mob);
 	}
 
-}
-
-double cal_thrpt_s(double _sinr, double _BW)
-{
-	double throughput = _BW * log(1 + _sinr);
-	return throughput;
-}
-
-double cal_thrpt_i(double _channel_gain, double _interference, double _no )
-{
-	double throughput = BW * log(1 + (_channel_gain / (_interference + _no )));
-	return throughput;
 }
 
 void PA1_calculation(

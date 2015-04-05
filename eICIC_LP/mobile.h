@@ -76,6 +76,8 @@ public:
 	void set_pico_interference(int pico_num);
 	void set_macro_interference(int macro_num);
 
+	void generate_channel_gain();
+
 	void set_serviceBS(int _serviceBS );
 
 	void increase_allocated_macro_count();
