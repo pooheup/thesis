@@ -122,24 +122,24 @@ int main()
 		// 채널 값 계산
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			double signal_temp, interference_temp;
+			double signal, interference;
 
 			// macro 평균 thrpt 계산
-			signal_temp       = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
-			interference_temp = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
-			thrpt_macro[mob]  = cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
-			thrpt_macro[mob]  = thrpt_macro[mob] / 10.0;
+			signal           = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
+			interference     = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
+			thrpt_macro[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+			thrpt_macro[mob] = thrpt_macro[mob] / 10.0;
 
 			// pico ABS 평균 thrpt 계산
-			signal_temp       = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
-			interference_temp = (mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service]) *rayleigh() * log_normal();
-			thrpt_ABS[mob]    = cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
-			thrpt_ABS[mob]    = thrpt_ABS[mob] / 10.0;
+			signal         = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
+			interference   = (mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service]) *rayleigh() * log_normal();
+			thrpt_ABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+			thrpt_ABS[mob] = thrpt_ABS[mob] / 10.0;
 
 			// pico non-ABS 평균 thrpt 계산
-			//signal_temp       = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
-			interference_temp = interference_temp + (mobiles[mob]->macro_interference ) *rayleigh() * log_normal();
-			thrpt_nonABS[mob] = cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
+			//signal            = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
+			interference      = interference + (mobiles[mob]->macro_interference ) *rayleigh() * log_normal();
+			thrpt_nonABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
 			thrpt_nonABS[mob] = thrpt_nonABS[mob] / 10.0;
 
 			// 할당 값 초기화
@@ -160,15 +160,15 @@ int main()
 		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
-			int temp_pico_ABS_PA_user  = -1;
-			int temp_pico_nA_PA1_user  = -1;
-			int temp_pico_nA_PA2_user  = -1;
-			int temp_pico_ABS_PA_user2 = -1;
+			int pico_ABS_PA_user  = -1;
+			int pico_nA_PA1_user  = -1;
+			int pico_nA_PA2_user  = -1;
+			int pico_ABS_PA_user2 = -1;
 
-			double temp_pico_ABS_PA = -10.0; // ABS best
-			double temp_pico_ABS_PA2 = -11.0; // ABS best
-			double temp_pico_nA_PA1 = -10.0; // non-ABS first
-			double temp_pico_nA_PA2 = -11.0; // non-ABS second
+			double pico_ABS_PA = -10.0; // ABS best
+			double pico_ABS_PA2 = -11.0; // ABS best
+			double pico_nA_PA1 = -10.0; // non-ABS first
+			double pico_nA_PA2 = -11.0; // non-ABS second
 
 			for (int j = 0; j < picos[pic]->num_service_mobile; j++)
 			{
@@ -177,20 +177,20 @@ int main()
 					* thrpt_ABS[picos[pic]->service_mobile[j]]
 				;
 				// ABS best user 찾기
-				if (TODO0 > temp_pico_ABS_PA)
+				if (TODO0 > pico_ABS_PA)
 				{
-					temp_pico_ABS_PA2 = temp_pico_ABS_PA;
-					temp_pico_ABS_PA_user2 = temp_pico_ABS_PA_user;
+					pico_ABS_PA2 = pico_ABS_PA;
+					pico_ABS_PA_user2 = pico_ABS_PA_user;
 
-					temp_pico_ABS_PA        = TODO0;
-					temp_pico_ABS_PA_user   = picos[pic]->service_mobile[j];
+					pico_ABS_PA        = TODO0;
+					pico_ABS_PA_user   = picos[pic]->service_mobile[j];
 				}
 				else // non-ABS second 찾기
 				{
-					if (TODO0 > temp_pico_ABS_PA2)
+					if (TODO0 > pico_ABS_PA2)
 					{
-						temp_pico_ABS_PA2 = TODO0;
-						temp_pico_ABS_PA_user2 = picos[pic]->service_mobile[j];
+						pico_ABS_PA2 = TODO0;
+						pico_ABS_PA_user2 = picos[pic]->service_mobile[j];
 					}
 				}
 
@@ -198,27 +198,27 @@ int main()
 					= lambda[picos[pic]->service_mobile[j]]
 					* thrpt_nonABS[picos[pic]->service_mobile[j]]
 				;
-				if (TODO1 > temp_pico_nA_PA1)
+				if (TODO1 > pico_nA_PA1)
 				{
 					// non-ABS first 찾기
-					//if (temp_pico_nA_PA1 >= temp_pico_nA_PA2)
+					//if (pico_nA_PA1 >= pico_nA_PA2)
 					//{
-					temp_pico_nA_PA2        = temp_pico_nA_PA1;
-					temp_pico_nA_PA2_user   = temp_pico_nA_PA1_user;
+					pico_nA_PA2        = pico_nA_PA1;
+					pico_nA_PA2_user   = pico_nA_PA1_user;
 					//}
 
-					temp_pico_nA_PA1        = TODO1;
-					temp_pico_nA_PA1_user   = picos[pic]->service_mobile[j];
+					pico_nA_PA1        = TODO1;
+					pico_nA_PA1_user   = picos[pic]->service_mobile[j];
 				}
-				else if (TODO1 > temp_pico_nA_PA2)
+				else if (TODO1 > pico_nA_PA2)
 				{
 					// non-ABS second 찾기
-					temp_pico_nA_PA2        = TODO1;
-					temp_pico_nA_PA2_user   = picos[pic]->service_mobile[j];
+					pico_nA_PA2        = TODO1;
+					pico_nA_PA2_user   = picos[pic]->service_mobile[j];
 				}
 			}
 
-			picos[pic]->set_user_PA1(temp_pico_ABS_PA_user, temp_pico_ABS_PA_user2, temp_pico_nA_PA1_user, temp_pico_nA_PA2_user);
+			picos[pic]->set_user_PA1(pico_ABS_PA_user, pico_ABS_PA_user2, pico_nA_PA1_user, pico_nA_PA2_user);
 		}
 
 		// /////////////////////////////////////////////////
@@ -230,8 +230,8 @@ int main()
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			int temp_macro_PA_user = -1;
-			double temp_macro_PA = -1000.0;
+			int macro_PA_user = -1;
+			double macro_PA = -1000.0;
 			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
 				if (macros[mac]->mobile_service[j] == picos[mobiles[macros[mac]->mobile_service[j]]->pico_service]->nA_user1_PA1)
@@ -241,23 +241,23 @@ int main()
 					if (user_temp_temp != -1) temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
 					else temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]]);
 
-					if (temp_temp > temp_macro_PA)
+					if (temp_temp > macro_PA)
 					{
-						temp_macro_PA       = temp_temp;
-						temp_macro_PA_user  = macros[mac]->mobile_service[j];
+						macro_PA       = temp_temp;
+						macro_PA_user  = macros[mac]->mobile_service[j];
 					}
 				}
 				else
 				{
-					if (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] > temp_macro_PA)
+					if (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] > macro_PA)
 					{
-						temp_macro_PA       = lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]];
-						temp_macro_PA_user  = macros[mac]->mobile_service[j];
+						macro_PA       = lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]];
+						macro_PA_user  = macros[mac]->mobile_service[j];
 					}
 				}
 			}
-			macro_user_PA[mac]        = temp_macro_PA_user;
-			macro_cover_pico_PA[mac]  = mobiles[temp_macro_PA_user]->pico_service;
+			macro_user_PA[mac]        = macro_PA_user;
+			macro_cover_pico_PA[mac]  = mobiles[macro_PA_user]->pico_service;
 		}
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
@@ -357,12 +357,12 @@ int main()
 		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			int resource_used_temp = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
+			int is_used_resource = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
 			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
-				if (resource_macro_PA1[macros[mac]->mobile_service[j]] == 1) resource_used_temp = 1;
+				if (resource_macro_PA1[macros[mac]->mobile_service[j]] == 1) is_used_resource = 1;
 			}
-			if (resource_used_temp == 0) abs_count_macro[mac]++;
+			if (is_used_resource == 0) abs_count_macro[mac]++;
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -549,12 +549,12 @@ int main()
 			printf("%f\n", QOS);
 			printf("\n\n");
 
-			double sum_utility_temp= 0.0;
+			double sum_utility = 0.0;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				sum_utility_temp = sum_utility_temp + log(thrp_result_PA1[mob] / (1 + t));
+				sum_utility = sum_utility + log(thrp_result_PA1[mob] / (1 + t));
 			}
-			printf("%s\t%f\n", "sum utility", sum_utility_temp);
+			printf("%s\t%f\n", "sum utility", sum_utility);
 
 		}
 
