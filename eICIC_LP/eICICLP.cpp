@@ -108,66 +108,19 @@ int main()
 		int user_state_best_PA1[MOBILE_NUM];
 		calculate(user_state_best_PA1, macros, picos, mobiles);
 
-		// TODO 컨텍스트로 분리
-
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
 			Mobile *mobile = mobiles[mob];
 
-			// /////////////////////////////////////////////
 			// resource 정보 입력
 			// best state 즉, 구한 자원 할당 값 입력
-			switch (user_state_best_PA1[mob])
-			{
-				case 0:
-					mobile->resource_macro_PA1  = 0;
-					mobile->resource_ABS_PA1    = 0;
-					mobile->resource_nonABS_PA1 = 0;
-					break;
-				case 1:
-					mobile->resource_macro_PA1  = 1;
-					mobile->resource_ABS_PA1    = 0;
-					mobile->resource_nonABS_PA1 = 0;
-					break;
-				case 2:
-					mobile->resource_macro_PA1  = 0;
-					mobile->resource_ABS_PA1    = 1;
-					mobile->resource_nonABS_PA1 = 0;
-					break;
-				case 3:
-				case 4:
-					mobile->resource_macro_PA1  = 0;
-					mobile->resource_ABS_PA1    = 0;
-					mobile->resource_nonABS_PA1 = 1;
-					break;
-			}
+			mobile->allocate_resource(user_state_best_PA1[mob]);
 
-			// /////////////////////////////////////////////
-			// 각 유저 어느 기지국 사용했는지 count
-			switch (user_state_best_PA1[mob])
-			{
-				case 1:
-					mobile->increase_allocated_macro_count();
-					break;
-				case 2:
-					mobile->increase_allocated_ABS_count();
-					break;
-				case 3:
-				case 4:
-					mobile->increase_allocated_nonABS_count();
-					break;
-			}
-
-			// /////////////////////////////////////////////
 			// 현재까지 얻은 throughput 입력
-			mobile->thrp_result_PA1
-				= mobile->thrp_result_PA1
-				+ mobile->thrpt_macro  * mobile->resource_macro_PA1
-				+ mobile->thrpt_ABS    * mobile->resource_ABS_PA1
-				+ mobile->thrpt_nonABS * mobile->resource_nonABS_PA1
-			;
+			mobile->calculate_throughput();
 
-			// /////////////////////////////////////////////
+			// 각 유저 어느 기지국 사용했는지 count
+			mobile->count_cell_association(user_state_best_PA1[mob]);
 
 		}
 

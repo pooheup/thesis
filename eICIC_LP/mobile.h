@@ -82,6 +82,9 @@ public:
 	void set_macro_interference(int macro_num);
 
 	void generate_channel_gain();
+	void allocate_resource(int user_state_best_PA1);
+	void calculate_throughput();
+	void count_cell_association(int user_state_best_PA1);
 
 	void set_serviceBS(int _serviceBS );
 

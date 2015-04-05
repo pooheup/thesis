@@ -114,6 +114,60 @@ void Mobile::generate_channel_gain()
 	this->thrpt_nonABS = this->thrpt_nonABS / 10.0;
 }
 
+void Mobile::allocate_resource(int user_state_best_PA1)
+{
+	switch (user_state_best_PA1)
+	{
+		case 0:
+			this->resource_macro_PA1  = 0;
+			this->resource_ABS_PA1    = 0;
+			this->resource_nonABS_PA1 = 0;
+			break;
+		case 1:
+			this->resource_macro_PA1  = 1;
+			this->resource_ABS_PA1    = 0;
+			this->resource_nonABS_PA1 = 0;
+			break;
+		case 2:
+			this->resource_macro_PA1  = 0;
+			this->resource_ABS_PA1    = 1;
+			this->resource_nonABS_PA1 = 0;
+			break;
+		case 3:
+		case 4:
+			this->resource_macro_PA1  = 0;
+			this->resource_ABS_PA1    = 0;
+			this->resource_nonABS_PA1 = 1;
+			break;
+	}
+}
+
+void Mobile::calculate_throughput()
+{
+	this->thrp_result_PA1
+		= this->thrp_result_PA1
+		+ this->thrpt_macro  * this->resource_macro_PA1
+		+ this->thrpt_ABS    * this->resource_ABS_PA1
+		+ this->thrpt_nonABS * this->resource_nonABS_PA1
+	;
+}
+
+void Mobile::count_cell_association(int user_state_best_PA1)
+{
+	switch (user_state_best_PA1)
+	{
+		case 1:
+			this->increase_allocated_macro_count();
+			break;
+		case 2:
+			this->increase_allocated_ABS_count();
+			break;
+		case 3:
+		case 4:
+			this->increase_allocated_nonABS_count();
+			break;
+	}
+}
 
 void Mobile::set_serviceBS (int _serviceBS )
 {
