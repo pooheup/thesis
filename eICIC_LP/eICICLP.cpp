@@ -171,6 +171,7 @@ int main()
 
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
+			Mobile *mobile = mobiles[mob];
 
 			// /////////////////////////////////////////////
 			// resource 정보 입력
@@ -200,21 +201,21 @@ int main()
 			switch (user_state_best_PA1[mob])
 			{
 				case 1:
-					mobiles[mob]->increase_allocated_macro_count();
+					mobile->increase_allocated_macro_count();
 					break;
 				case 2:
-					mobiles[mob]->increase_allocated_ABS_count();
+					mobile->increase_allocated_ABS_count();
 					break;
 				case 3:
 				case 4:
-					mobiles[mob]->increase_allocated_nonABS_count();
+					mobile->increase_allocated_nonABS_count();
 					break;
 			}
 
 			// /////////////////////////////////////////////
 			// 현재까지 얻은 throughput 입력
-			mobiles[mob]->thrp_result_PA1
-				= mobiles[mob]->thrp_result_PA1
+			mobile->thrp_result_PA1
+				= mobile->thrp_result_PA1
 				+ thrpt_macro[mob]  * resource_macro_PA1[mob]
 				+ thrpt_ABS[mob]    * resource_ABS_PA1[mob]
 				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
@@ -229,13 +230,15 @@ int main()
 		// 평균 rate Ru, mobiles[mob]->rate_user_PA1, 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			if (mobiles[mob]->lambda == 0.0)
-				mobiles[mob]->rate_user_PA1 = RATE_MAX;
+			Mobile *mobile = mobiles[mob];
+
+			if (mobile->lambda == 0.0)
+				mobile->rate_user_PA1 = RATE_MAX;
 			else
-				//mobiles[mob]->rate_user_PA1 = 0.8* mobiles[mob]->rate_user_PA1 + 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda;
-				mobiles[mob]->rate_user_PA1
-					= 0.8 * mobiles[mob]->rate_user_PA1
-					+ 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda
+				//mobile->rate_user_PA1 = 0.8* mobile->rate_user_PA1 + 0.2 * (1.0 + mobile->mu) / mobile->lambda;
+				mobile->rate_user_PA1
+					= 0.8 * mobile->rate_user_PA1
+					+ 0.2 * (1.0 + mobile->mu) / mobile->lambda
 				;
 		}
 
