@@ -224,10 +224,6 @@ int main()
 		// /////////////////////////////////////////////////
 		// 각 macro 유저 찾기
 		// mobile 번호: macro[mac].mobile_service[j]
-		
-		int macro_user_PA[MACRO_NUM];
-		int macro_cover_pico_PA[MACRO_NUM];
-
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
 			int macro_PA_user = -1;
@@ -256,12 +252,8 @@ int main()
 					}
 				}
 			}
-			macro_user_PA[mac]        = macro_PA_user;
-			macro_cover_pico_PA[mac]  = mobiles[macro_PA_user]->pico_service;
+			macros[mac]->set_user_PA1(macro_PA_user, mobiles[macro_PA_user]->pico_service);
 		}
-
-		for (int mac = 0; mac < MACRO_NUM; mac++)
-			macros[mac]->set_user_PA1(macro_user_PA[mac], macro_cover_pico_PA[mac]);
 
 		// /////////////////////////////////////////////////////////////////////
 
