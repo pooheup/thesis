@@ -4,10 +4,9 @@
 #include "pico.h"
 #include "mobile.h"
 
-Pico::Pico(point location, double t_pow)
+Pico::Pico(point loc, double tx_pow)
+: location(loc), tx_power(tx_pow)
 {
-	this->location = location;
-	this->tx_power = t_pow;
 
 	this->num_service_mobile = 0;
 

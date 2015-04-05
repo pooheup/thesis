@@ -21,9 +21,9 @@ public:
 	int num_service_mobile; // # of set
 	int service_mobile[MOBILE_NUM]; // 위에서 가져옴
 
-	point location;
+	const point location;
 
-	double tx_power;
+	const double tx_power;
 
 
 	// proposed algorithm 1

@@ -11,8 +11,8 @@ class Macro
 
 private:
 
-	point location;
-	double tx_power;
+	const point location;
+	const double tx_power;
 
 	int num_mobile;
 

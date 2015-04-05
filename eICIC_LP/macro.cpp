@@ -3,10 +3,9 @@
 #include "macro.h"
 #include "mobile.h"
 
-Macro::Macro(point location, double t_pow)
+Macro::Macro(point loc, double tx_pow)
+: location(loc), tx_power(tx_pow)
 {
-	this->location   = location;
-	this->tx_power   = t_pow;
 	this->num_mobile = 0;
 }
 
