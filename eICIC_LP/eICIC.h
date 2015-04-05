@@ -10,6 +10,8 @@
 
 void initialize(Macro **macros, Pico **picos, Mobile **mobiles);
 
+void calculate(int *user_state_best_PA1, Macro **macros, Pico **picos, Mobile **mobiles);
+
 void PA1_calculation(
 	//int _macro_num, 
 	double *_best_value, 

@@ -106,34 +106,7 @@ int main()
 		// /////////////////////////////////////////////////////////////////////
 
 		int user_state_best_PA1[MOBILE_NUM];
-		{
-
-		double objective_value_best_PA1 = -1.0;
-		int macro_state_PA1[MACRO_NUM];
-		int state_best_PA1[MACRO_NUM];
-
-		for (int mac = 0; mac < MACRO_NUM; mac++)
-		{
-			macro_state_PA1[mac] = 0;
-			state_best_PA1[mac] = 0;
-		}
-
-		for (int mob = 0; mob < MOBILE_NUM; mob++)
-			user_state_best_PA1[mob] = 0;
-
-		// macro 들의 모든 조합에 대하여 최적의 값 선택
-		PA1_call_next_pico(
-			0,
-			&objective_value_best_PA1,
-			macro_state_PA1,
-			state_best_PA1,
-			user_state_best_PA1,
-			mobiles,
-			picos,
-			macros
-		);
-
-		}
+		calculate(user_state_best_PA1, macros, picos, mobiles);
 
 		// TODO 컨텍스트로 분리
 		// PA1
@@ -558,6 +531,36 @@ void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 		}
 		picos[mobiles[mob]->pico_service]->register_mobile_to_service(mob);
 	}
+
+}
+
+void calculate(int *user_state_best_PA1, Macro **macros, Pico **picos, Mobile **mobiles)
+{
+
+	double objective_value_best_PA1 = -1.0;
+	int macro_state_PA1[MACRO_NUM];
+	int state_best_PA1[MACRO_NUM];
+
+	for (int mac = 0; mac < MACRO_NUM; mac++)
+	{
+		macro_state_PA1[mac] = 0;
+		state_best_PA1[mac] = 0;
+	}
+
+	for (int mob = 0; mob < MOBILE_NUM; mob++)
+		user_state_best_PA1[mob] = 0;
+
+	// macro 들의 모든 조합에 대하여 최적의 값 선택
+	PA1_call_next_pico(
+		0,
+		&objective_value_best_PA1,
+		macro_state_PA1,
+		state_best_PA1,
+		user_state_best_PA1,
+		mobiles,
+		picos,
+		macros
+	);
 
 }
 
