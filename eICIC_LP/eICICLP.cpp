@@ -86,23 +86,25 @@ int main()
 		// 채널 값 계산
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
+			Mobile *mobile = mobiles[mob];
+
 			double signal, interference;
 
 			// macro 평균 thrpt 계산
-			signal           = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
-			interference     = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
+			signal           = mobile->channel_gain_macro[mobile->macro_service] *rayleigh() * log_normal();
+			interference     = (mobile->macro_interference + mobile->pico_interference - mobile->channel_gain_macro[mobile->macro_service]) *rayleigh() * log_normal();
 			thrpt_macro[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
 			thrpt_macro[mob] = thrpt_macro[mob] / 10.0;
 
 			// pico ABS 평균 thrpt 계산
-			signal         = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
-			interference   = (mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service]) *rayleigh() * log_normal();
+			signal         = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
+			interference   = (mobile->pico_interference - mobile->channel_gain_pico[mobile->pico_service]) *rayleigh() * log_normal();
 			thrpt_ABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
 			thrpt_ABS[mob] = thrpt_ABS[mob] / 10.0;
 
 			// pico non-ABS 평균 thrpt 계산
-			//signal            = mobiles[mob]->channel_gain_pico[mobiles[mob]->pico_service] *rayleigh() * log_normal();
-			interference      = interference + (mobiles[mob]->macro_interference ) *rayleigh() * log_normal();
+			//signal            = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
+			interference      = interference + (mobile->macro_interference ) *rayleigh() * log_normal();
 			thrpt_nonABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
 			thrpt_nonABS[mob] = thrpt_nonABS[mob] / 10.0;
 
