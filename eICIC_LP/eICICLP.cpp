@@ -48,13 +48,6 @@ int main()
 		abs_count_macro[mac] = 0;
 
 	// /////////////////////////////////
-
-	int abs_count_pico[PICO_NUM];
-	for (int pic = 0; pic < PICO_NUM; pic++)
-		abs_count_pico[pic] = 0;
-
-	// /////////////////////////////////
-
 	// 출력 파일
 	std::ofstream Savefile("eICIC.txt");
 
