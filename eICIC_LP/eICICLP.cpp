@@ -329,14 +329,14 @@ int main()
 			switch (user_state_best_PA1[mob])
 			{
 				case 1:
-					resource_macro_PA1[mob] = 1;
+					resource_macro_PA1[mob]  = 1;
 					break;
 				case 2:
-					resource_ABS_PA1[mob]   = 1;
+					resource_ABS_PA1[mob]    = 1;
 					break;
 				case 3:
 				case 4:
-				resource_nonABS_PA1[mob]    = 1;
+					resource_nonABS_PA1[mob] = 1;
 					break;
 			}
 		}
@@ -720,7 +720,6 @@ void initialize(Macro **macros, Pico **picos, Mobile **mobiles)
 	}
 
 }
-
 
 double cal_thrpt_s(double _sinr, double _BW)
 {
