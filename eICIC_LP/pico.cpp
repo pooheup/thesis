@@ -42,10 +42,10 @@ void Pico::register_mobile_to_service(int mob)
 void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonABS)
 {
 
-	int pico_ABS_PA_user  = -1;
-	int pico_nA_PA1_user  = -1;
-	int pico_nA_PA2_user  = -1;
-	int pico_ABS_PA_user2 = -1;
+	this->ABS_user1_PA1 = -1;
+	this->ABS_user2_PA1 = -1;
+	this->nA_user1_PA1  = -1;
+	this->nA_user2_PA1  = -1;
 
 	double pico_ABS_PA = -10.0; // ABS best
 	double pico_ABS_PA2 = -11.0; // ABS best
@@ -63,17 +63,17 @@ void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonAB
 		if (TODO0 > pico_ABS_PA)
 		{
 			pico_ABS_PA2 = pico_ABS_PA;
-			pico_ABS_PA_user2 = pico_ABS_PA_user;
+			this->ABS_user2_PA1 = this->ABS_user1_PA1;
 
 			pico_ABS_PA        = TODO0;
-			pico_ABS_PA_user   = svc_mob;
+			this->ABS_user1_PA1   = svc_mob;
 		}
 		else // non-ABS second 찾기
 		{
 			if (TODO0 > pico_ABS_PA2)
 			{
 				pico_ABS_PA2 = TODO0;
-				pico_ABS_PA_user2 = svc_mob;
+				this->ABS_user2_PA1 = svc_mob;
 			}
 		}
 
@@ -85,29 +85,18 @@ void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonAB
 			//if (pico_nA_PA1 >= pico_nA_PA2)
 			//{
 			pico_nA_PA2        = pico_nA_PA1;
-			pico_nA_PA2_user   = pico_nA_PA1_user;
+			this->nA_user2_PA1   = this->nA_user1_PA1;
 			//}
 
 			pico_nA_PA1        = TODO1;
-			pico_nA_PA1_user   = svc_mob;
+			this->nA_user1_PA1   = svc_mob;
 		}
 		else if (TODO1 > pico_nA_PA2)
 		{
 			// non-ABS second 찾기
 			pico_nA_PA2        = TODO1;
-			pico_nA_PA2_user   = svc_mob;
+			this->nA_user2_PA1   = svc_mob;
 		}
 	}
 
-	this->set_user_PA1(pico_ABS_PA_user, pico_ABS_PA_user2, pico_nA_PA1_user, pico_nA_PA2_user);
-
 }
-
-void Pico::set_user_PA1(int _ABS_user1_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1)
-{
-	ABS_user2_PA1   = _ABS_user2_PA1;
-	ABS_user1_PA1   = _ABS_user1_PA1;
-	nA_user1_PA1    = _nA_user1_PA1;
-	nA_user2_PA1    = _nA_user2_PA1;
-}
-
