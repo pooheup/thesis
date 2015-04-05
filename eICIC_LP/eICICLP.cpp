@@ -140,42 +140,7 @@ int main()
 		// mobile ¹øÈ£: macro[mac].mobile_service[j]
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			Macro *macro = macros[mac];
-
-			int macro_PA_user = -1;
-			double macro_PA = DBL_MIN;
-
-			for (int j = 0; j < macro->getMobileCount(); j++)
-			{
-				const int svc_mob = macro->mobile_service[j];
-				Mobile *mobile = mobiles[svc_mob];
-
-				if (svc_mob == picos[mobile->pico_service]->nA_user1_PA1)
-				{
-					int user_temp_temp = picos[mobile->pico_service]->nA_user2_PA1; // second user num
-					double temp_temp;
-					if (user_temp_temp != -1)
-						temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob]
-							+ mobiles[user_temp_temp]->lambda * thrpt_nonABS[user_temp_temp];
-					else
-						temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob];
-
-					if (temp_temp > macro_PA)
-					{
-						macro_PA       = temp_temp;
-						macro_PA_user  = svc_mob;
-					}
-				}
-				else
-				{
-					if (mobile->lambda * thrpt_macro[svc_mob] > macro_PA)
-					{
-						macro_PA       = mobile->lambda * thrpt_macro[svc_mob];
-						macro_PA_user  = svc_mob;
-					}
-				}
-			}
-			macro->set_user_PA1(macro_PA_user, mobiles[macro_PA_user]->pico_service);
+			macros[mac]->select_users(mobiles, picos, thrpt_macro, thrpt_nonABS);
 		}
 
 		// /////////////////////////////////////////////////////////////////////

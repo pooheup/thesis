@@ -3,6 +3,9 @@
 #include "parameters.h"
 #include "point.h"
 
+class Mobile;
+class Pico;
+
 class Macro
 {
 
@@ -24,6 +27,8 @@ public:
 	Macro(point location, double t_pow);
 
 	void register_mobile_to_service(int mob);
+
+	void select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, double *thrpt_nonABS);
 
 	void set_user_PA1(int _selected_user, int _covered_pico);
 
