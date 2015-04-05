@@ -109,10 +109,6 @@ int main()
 		calculate(user_state_best_PA1, macros, picos, mobiles);
 
 		// TODO 컨텍스트로 분리
-		// PA1
-		int resource_macro_PA1[MOBILE_NUM];
-		int resource_ABS_PA1[MOBILE_NUM];
-		int resource_nonABS_PA1[MOBILE_NUM];
 
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
@@ -124,25 +120,25 @@ int main()
 			switch (user_state_best_PA1[mob])
 			{
 				case 0:
-					resource_macro_PA1[mob]  = 0;
-					resource_ABS_PA1[mob]    = 0;
-					resource_nonABS_PA1[mob] = 0;
+					mobile->resource_macro_PA1  = 0;
+					mobile->resource_ABS_PA1    = 0;
+					mobile->resource_nonABS_PA1 = 0;
 					break;
 				case 1:
-					resource_macro_PA1[mob]  = 1;
-					resource_ABS_PA1[mob]    = 0;
-					resource_nonABS_PA1[mob] = 0;
+					mobile->resource_macro_PA1  = 1;
+					mobile->resource_ABS_PA1    = 0;
+					mobile->resource_nonABS_PA1 = 0;
 					break;
 				case 2:
-					resource_macro_PA1[mob]  = 0;
-					resource_ABS_PA1[mob]    = 1;
-					resource_nonABS_PA1[mob] = 0;
+					mobile->resource_macro_PA1  = 0;
+					mobile->resource_ABS_PA1    = 1;
+					mobile->resource_nonABS_PA1 = 0;
 					break;
 				case 3:
 				case 4:
-					resource_macro_PA1[mob]  = 0;
-					resource_ABS_PA1[mob]    = 0;
-					resource_nonABS_PA1[mob] = 1;
+					mobile->resource_macro_PA1  = 0;
+					mobile->resource_ABS_PA1    = 0;
+					mobile->resource_nonABS_PA1 = 1;
 					break;
 			}
 
@@ -166,9 +162,9 @@ int main()
 			// 현재까지 얻은 throughput 입력
 			mobile->thrp_result_PA1
 				= mobile->thrp_result_PA1
-				+ mobile->thrpt_macro  * resource_macro_PA1[mob]
-				+ mobile->thrpt_ABS    * resource_ABS_PA1[mob]
-				+ mobile->thrpt_nonABS * resource_nonABS_PA1[mob]
+				+ mobile->thrpt_macro  * mobile->resource_macro_PA1
+				+ mobile->thrpt_ABS    * mobile->resource_ABS_PA1
+				+ mobile->thrpt_nonABS * mobile->resource_nonABS_PA1
 			;
 
 			// /////////////////////////////////////////////
@@ -198,7 +194,8 @@ int main()
 			int is_used_resource = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
 			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
-				if (resource_macro_PA1[macros[mac]->mobile_service[j]] == 1) is_used_resource = 1;
+				if (mobiles[macros[mac]->mobile_service[j]]->resource_macro_PA1 == 1)
+					is_used_resource = 1;
 			}
 			if (is_used_resource == 0) abs_count_macro[mac]++;
 		}
@@ -216,9 +213,9 @@ int main()
 			//if (     (mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1 >= 0.0)  //feasilbity
 			//	&& (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
 			if ( (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
-				lambda_temp = mobile->lambda - STEP_SIZE * (mobile->thrpt_macro * resource_macro_PA1[mob] + mobile->thrpt_ABS * resource_ABS_PA1[mob] + mobile->thrpt_nonABS * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
+				lambda_temp = mobile->lambda - STEP_SIZE * (mobile->thrpt_macro * mobile->resource_macro_PA1 + mobile->thrpt_ABS * mobile->resource_ABS_PA1 + mobile->thrpt_nonABS * mobile->resource_nonABS_PA1 - mobile->rate_user_PA1);
 			else
-				lambda_temp = mobile->lambda - STEP_SIZE2 * (mobile->thrpt_macro * resource_macro_PA1[mob] + mobile->thrpt_ABS * resource_ABS_PA1[mob] + mobile->thrpt_nonABS * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
+				lambda_temp = mobile->lambda - STEP_SIZE2 * (mobile->thrpt_macro * mobile->resource_macro_PA1 + mobile->thrpt_ABS * mobile->resource_ABS_PA1 + mobile->thrpt_nonABS * mobile->resource_nonABS_PA1 - mobile->rate_user_PA1);
 			mobile->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
 			//if ((log(mobile->rate_user_PA1) >= mobile->QoS)
@@ -363,7 +360,7 @@ int main()
 			/*
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%d\t%d\t%d\n", resource_macro_PA1[mob], resource_ABS_PA1[mob], resource_nonABS_PA1[mob]);
+				printf("%d\t%d\t%d\n", mobile->resource_macro_PA1, mobile->resource_ABS_PA1, mobile->resource_nonABS_PA1);
 				//Savefile << resource_macro[mob] << "\t" << resource_ABS[mob] << "\t" << resource_nonABS[mob] << std::endl;
 
 			}

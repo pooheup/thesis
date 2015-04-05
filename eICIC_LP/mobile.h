@@ -63,6 +63,11 @@ public:
 	double thrpt_ABS;
 	double thrpt_nonABS;
 
+	// PA1
+	int resource_macro_PA1;
+	int resource_ABS_PA1;
+	int resource_nonABS_PA1;
+
 	// /////////////////////////////////////////////////////////////////////////
 	// »ý¼ºÀÚ
 	Mobile(point location, double qos);

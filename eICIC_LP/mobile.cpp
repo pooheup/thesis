@@ -22,6 +22,10 @@ Mobile::Mobile(point loc, double qos)
 	this->thrp_result_PA1 = 0.0;
 	this->rate_user_PA1 = 0.0;
 
+	this->resource_macro_PA1 = 0;
+	this->resource_ABS_PA1 = 0;
+	this->resource_nonABS_PA1 = 0;
+
 	this->allocated_macro_count = 0;
 	this->allocated_ABS_count = 0;
 	this->allocated_nonABS_count = 0;
