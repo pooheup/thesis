@@ -227,12 +227,13 @@ int main()
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
 			Macro *macro = macros[mac];
-			const int svc_mob = macro->mobile_service[j];
 
 			int macro_PA_user = -1;
-			double macro_PA = -1000.0;
+			double macro_PA = DBL_MIN;
 			for (int j = 0; j < macro->getMobileCount(); j++)
 			{
+				const int svc_mob = macro->mobile_service[j];
+
 				if (svc_mob == picos[mobiles[svc_mob]->pico_service]->nA_user1_PA1)
 				{
 					int user_temp_temp = picos[mobiles[svc_mob]->pico_service]->nA_user2_PA1; // second user num
