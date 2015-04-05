@@ -1,9 +1,8 @@
 #include "mobile.h"
 
-Mobile::Mobile(point location, double qos)
+Mobile::Mobile(point loc, double qos)
+: location(loc), QoS(qos)
 {
-	this->location      = location;
-	this->QoS           = qos;
 
 	// 0: macro 1:pico
 	this->service_BS    = 0;
