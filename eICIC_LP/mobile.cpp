@@ -181,6 +181,32 @@ void Mobile::calculate_rate_user()
 		;
 }
 
+void Mobile::calculate_dual_variable(const int t, const double STEP_SIZE, const double STEP_SIZE2)
+{
+	double instant_rate
+		= this->thrpt_macro  * this->resource_macro_PA1
+		+ this->thrpt_ABS    * this->resource_ABS_PA1
+		+ this->thrpt_nonABS * this->resource_nonABS_PA1
+	;
+
+	double lambda_temp, mu_temp;
+	//if (     (this->thrp_result_PA1 / (1 + t) - this->rate_user_PA1 >= 0.0)  //feasilbity
+	//	&& (abs(this->thrp_result_PA1 / (1 + t) - this->rate_user_PA1) * this->lambda < 0.05))
+	if ( (abs(this->thrp_result_PA1 / (1 + t) - this->rate_user_PA1) * this->lambda < 0.05))
+		lambda_temp = this->lambda - STEP_SIZE * (instant_rate - this->rate_user_PA1);
+	else
+		lambda_temp = this->lambda - STEP_SIZE2 * (instant_rate - this->rate_user_PA1);
+	this->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
+
+	//if ((log(this->rate_user_PA1) >= this->QoS)
+		//&& (abs(log(this->rate_user_PA1) - this->QoS) * this->mu < 0.01))
+	if ( (abs(log(this->rate_user_PA1) - this->QoS) * this->mu < 0.01))
+		mu_temp = this->mu - STEP_SIZE * (log(this->rate_user_PA1) - this->QoS);
+	else
+		mu_temp = this->mu - STEP_SIZE2 * (log(this->rate_user_PA1) - this->QoS);
+	this->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
+}
+
 void Mobile::set_serviceBS (int _serviceBS )
 {
 	service_BS = _serviceBS;

@@ -65,18 +65,6 @@ int main()
 
 	for (int t = 0; t < SIMULATION_TIME; t++)
 	{
-		const double STEP_SIZE = 1.0 / ((double)(t + 1));
-		const double STEP_SIZE2
-			= (t > 100000)
-			? STEPSIZE4
-			:	( (t < 10000)
-				? STEPSIZE2
-				: STEPSIZE3
-				)
-		;
-		//STEP_SIZE2 = STEP_SIZE;
-
-		// TODO 컨텍스트로 분리
 
 		// /////////////////////////////////////////////////////////////////////
 		// 채널 값 계산
@@ -151,24 +139,17 @@ int main()
 		// dual variable, lambda, mu 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			Mobile *mobile = mobiles[mob];
-
-			double lambda_temp, mu_temp;
-			//if (     (mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1 >= 0.0)  //feasilbity
-			//	&& (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
-			if ( (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
-				lambda_temp = mobile->lambda - STEP_SIZE * (mobile->thrpt_macro * mobile->resource_macro_PA1 + mobile->thrpt_ABS * mobile->resource_ABS_PA1 + mobile->thrpt_nonABS * mobile->resource_nonABS_PA1 - mobile->rate_user_PA1);
-			else
-				lambda_temp = mobile->lambda - STEP_SIZE2 * (mobile->thrpt_macro * mobile->resource_macro_PA1 + mobile->thrpt_ABS * mobile->resource_ABS_PA1 + mobile->thrpt_nonABS * mobile->resource_nonABS_PA1 - mobile->rate_user_PA1);
-			mobile->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
-
-			//if ((log(mobile->rate_user_PA1) >= mobile->QoS)
-				//&& (abs(log(mobile->rate_user_PA1) - mobile->QoS) * mobile->mu < 0.01))
-			if ( (abs(log(mobile->rate_user_PA1) - mobile->QoS) * mobile->mu < 0.01))
-				mu_temp = mobile->mu - STEP_SIZE * (log(mobile->rate_user_PA1) - mobile->QoS);
-			else
-				mu_temp = mobile->mu - STEP_SIZE2 * (log(mobile->rate_user_PA1) - mobile->QoS);
-			mobile->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
+			const double STEP_SIZE = 1.0 / ((double)(t + 1));
+			const double STEP_SIZE2
+				= (t > 100000)
+				? STEPSIZE4
+				:	( (t < 10000)
+					? STEPSIZE2
+					: STEPSIZE3
+					)
+			;
+			//STEP_SIZE2 = STEP_SIZE;
+			mobiles[mob]->calculate_dual_variable(t, STEP_SIZE, STEP_SIZE2);
 		}
 
 		// /////////////////////////////////////////////////////////////////////

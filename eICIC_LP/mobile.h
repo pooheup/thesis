@@ -87,6 +87,7 @@ public:
 	void count_cell_association(int user_state_best_PA1);
 
 	void calculate_rate_user();
+	void calculate_dual_variable(const int t, const double STEP_SIZE, const double STEP_SIZE2);
 
 	void set_serviceBS(int _serviceBS );
 
