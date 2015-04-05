@@ -142,12 +142,15 @@ int main()
 			double pico_nA_PA1 = -10.0; // non-ABS first
 			double pico_nA_PA2 = -11.0; // non-ABS second
 
-			for (int j = 0; j < picos[pic]->num_service_mobile; j++)
+			Pico *pico = picos[pic];
+
+			for (int j = 0; j < pico->num_service_mobile; j++)
 			{
-				double TODO0
-					= mobiles[picos[pic]->service_mobile[j]]->lambda
-					* thrpt_ABS[picos[pic]->service_mobile[j]]
-				;
+				int svc_mob = pico->service_mobile[j];
+				Mobile *mobile = mobiles[svc_mob];
+
+				double TODO0 = mobile->lambda * thrpt_ABS[svc_mob];
+
 				// ABS best user 찾기
 				if (TODO0 > pico_ABS_PA)
 				{
@@ -155,20 +158,18 @@ int main()
 					pico_ABS_PA_user2 = pico_ABS_PA_user;
 
 					pico_ABS_PA        = TODO0;
-					pico_ABS_PA_user   = picos[pic]->service_mobile[j];
+					pico_ABS_PA_user   = svc_mob;
 				}
 				else // non-ABS second 찾기
 				{
 					if (TODO0 > pico_ABS_PA2)
 					{
 						pico_ABS_PA2 = TODO0;
-						pico_ABS_PA_user2 = picos[pic]->service_mobile[j];
+						pico_ABS_PA_user2 = svc_mob;
 					}
 				}
 
-				double TODO1
-					= mobiles[picos[pic]->service_mobile[j]]->lambda
-					* thrpt_nonABS[picos[pic]->service_mobile[j]]
+				double TODO1 = mobile->lambda * thrpt_nonABS[svc_mob]
 				;
 				if (TODO1 > pico_nA_PA1)
 				{
@@ -180,17 +181,17 @@ int main()
 					//}
 
 					pico_nA_PA1        = TODO1;
-					pico_nA_PA1_user   = picos[pic]->service_mobile[j];
+					pico_nA_PA1_user   = svc_mob;
 				}
 				else if (TODO1 > pico_nA_PA2)
 				{
 					// non-ABS second 찾기
 					pico_nA_PA2        = TODO1;
-					pico_nA_PA2_user   = picos[pic]->service_mobile[j];
+					pico_nA_PA2_user   = svc_mob;
 				}
 			}
 
-			picos[pic]->set_user_PA1(pico_ABS_PA_user, pico_ABS_PA_user2, pico_nA_PA1_user, pico_nA_PA2_user);
+			pico->set_user_PA1(pico_ABS_PA_user, pico_ABS_PA_user2, pico_nA_PA1_user, pico_nA_PA2_user);
 		}
 
 		// /////////////////////////////////////////////////
@@ -206,15 +207,17 @@ int main()
 			for (int j = 0; j < macro->getMobileCount(); j++)
 			{
 				const int svc_mob = macro->mobile_service[j];
+				Mobile *mobile = mobiles[svc_mob];
 
-				if (svc_mob == picos[mobiles[svc_mob]->pico_service]->nA_user1_PA1)
+				if (svc_mob == picos[mobile->pico_service]->nA_user1_PA1)
 				{
-					int user_temp_temp = picos[mobiles[svc_mob]->pico_service]->nA_user2_PA1; // second user num
+					int user_temp_temp = picos[mobile->pico_service]->nA_user2_PA1; // second user num
 					double temp_temp;
 					if (user_temp_temp != -1)
-						temp_temp = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] - mobiles[svc_mob]->lambda * thrpt_nonABS[svc_mob] + mobiles[user_temp_temp]->lambda * thrpt_nonABS[user_temp_temp];
+						temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob]
+							+ mobiles[user_temp_temp]->lambda * thrpt_nonABS[user_temp_temp];
 					else
-						temp_temp = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] - mobiles[svc_mob]->lambda * thrpt_nonABS[svc_mob];
+						temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob];
 
 					if (temp_temp > macro_PA)
 					{
@@ -224,9 +227,9 @@ int main()
 				}
 				else
 				{
-					if (mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] > macro_PA)
+					if (mobile->lambda * thrpt_macro[svc_mob] > macro_PA)
 					{
-						macro_PA       = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob];
+						macro_PA       = mobile->lambda * thrpt_macro[svc_mob];
 						macro_PA_user  = svc_mob;
 					}
 				}
