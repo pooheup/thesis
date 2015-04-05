@@ -39,7 +39,7 @@ void Pico::register_mobile_to_service(int mob)
 	this->service_mobile[this->num_service_mobile++] = mob;
 }
 
-void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonABS)
+void Pico::select_users(Mobile **mobiles)
 {
 
 	this->ABS_user1_PA1 = -1;
@@ -57,7 +57,7 @@ void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonAB
 		int svc_mob = this->service_mobile[j];
 		Mobile *mobile = mobiles[svc_mob];
 
-		double TODO0 = mobile->lambda * thrpt_ABS[svc_mob];
+		double TODO0 = mobile->lambda * mobile->thrpt_ABS;
 
 		// ABS best user 찾기
 		if (TODO0 > pico_ABS_PA)
@@ -77,8 +77,8 @@ void Pico::select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonAB
 			}
 		}
 
-		double TODO1 = mobile->lambda * thrpt_nonABS[svc_mob]
-		;
+		double TODO1 = mobile->lambda * mobile->thrpt_nonABS;
+
 		if (TODO1 > pico_nA_PA1)
 		{
 			// non-ABS first 찾기

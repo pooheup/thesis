@@ -39,6 +39,6 @@ public:
 
 	void register_mobile_to_service(int mob);
 
-	void select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonABS);
+	void select_users(Mobile **mobiles);
 
 };

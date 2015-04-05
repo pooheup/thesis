@@ -22,10 +22,8 @@ void PA1_calculation(
 	int *_user_state_best,
 	Mobile **mobiles,
 	Pico **picos,
-	Macro **macros,
-	double *_thrpt_macro,
-	double *_thrpt_ABS,
-	double *_thrpt_nonABS);
+	Macro **macros
+);
 
 void PA1_call_next_pico(
 	int _macro_num,
@@ -35,8 +33,5 @@ void PA1_call_next_pico(
 	int *_user_state_best,
 	Mobile **mobiles,
 	Pico **picos,
-	Macro **macros,
-	double *_thrpt_macro,
-	double *_thrpt_ABS,
-	double *_thrpt_nonABS
+	Macro **macros
 );

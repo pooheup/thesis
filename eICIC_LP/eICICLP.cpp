@@ -77,10 +77,6 @@ int main()
 		//STEP_SIZE2 = STEP_SIZE;
 
 		// TODO 컨텍스트로 분리
-		// 매 timeslot에서의 평균 throughput
-		double thrpt_macro[MOBILE_NUM];
-		double thrpt_ABS[MOBILE_NUM];
-		double thrpt_nonABS[MOBILE_NUM];
 
 		// /////////////////////////////////////////////////////////////////////
 		// 채널 값 계산
@@ -93,20 +89,20 @@ int main()
 			// macro 평균 thrpt 계산
 			signal           = mobile->channel_gain_macro[mobile->macro_service] *rayleigh() * log_normal();
 			interference     = (mobile->macro_interference + mobile->pico_interference - mobile->channel_gain_macro[mobile->macro_service]) *rayleigh() * log_normal();
-			thrpt_macro[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			thrpt_macro[mob] = thrpt_macro[mob] / 10.0;
+			mobile->thrpt_macro = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+			mobile->thrpt_macro = mobile->thrpt_macro / 10.0;
 
 			// pico ABS 평균 thrpt 계산
 			signal         = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
 			interference   = (mobile->pico_interference - mobile->channel_gain_pico[mobile->pico_service]) *rayleigh() * log_normal();
-			thrpt_ABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			thrpt_ABS[mob] = thrpt_ABS[mob] / 10.0;
+			mobile->thrpt_ABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+			mobile->thrpt_ABS = mobile->thrpt_ABS / 10.0;
 
 			// pico non-ABS 평균 thrpt 계산
 			//signal            = mobile->channel_gain_pico[mobile->pico_service] *rayleigh() * log_normal();
 			interference      = interference + (mobile->macro_interference ) *rayleigh() * log_normal();
-			thrpt_nonABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-			thrpt_nonABS[mob] = thrpt_nonABS[mob] / 10.0;
+			mobile->thrpt_nonABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
+			mobile->thrpt_nonABS = mobile->thrpt_nonABS / 10.0;
 
 		}
 
@@ -117,7 +113,7 @@ int main()
 		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
-			picos[pic]->select_users(mobiles, thrpt_ABS, thrpt_nonABS);
+			picos[pic]->select_users(mobiles);
 		}
 
 		// /////////////////////////////////////////////////
@@ -125,7 +121,7 @@ int main()
 		// mobile 번호: macro[mac].mobile_service[j]
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			macros[mac]->select_users(mobiles, picos, thrpt_macro, thrpt_nonABS);
+			macros[mac]->select_users(mobiles, picos);
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -155,10 +151,7 @@ int main()
 			user_state_best_PA1,
 			mobiles,
 			picos,
-			macros,
-			thrpt_macro,
-			thrpt_ABS,
-			thrpt_nonABS
+			macros
 		);
 
 		}
@@ -221,9 +214,9 @@ int main()
 			// 현재까지 얻은 throughput 입력
 			mobile->thrp_result_PA1
 				= mobile->thrp_result_PA1
-				+ thrpt_macro[mob]  * resource_macro_PA1[mob]
-				+ thrpt_ABS[mob]    * resource_ABS_PA1[mob]
-				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
+				+ mobile->thrpt_macro  * resource_macro_PA1[mob]
+				+ mobile->thrpt_ABS    * resource_ABS_PA1[mob]
+				+ mobile->thrpt_nonABS * resource_nonABS_PA1[mob]
 			;
 
 			// /////////////////////////////////////////////
@@ -271,9 +264,9 @@ int main()
 			//if (     (mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1 >= 0.0)  //feasilbity
 			//	&& (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
 			if ( (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
-				lambda_temp = mobile->lambda - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
+				lambda_temp = mobile->lambda - STEP_SIZE * (mobile->thrpt_macro * resource_macro_PA1[mob] + mobile->thrpt_ABS * resource_ABS_PA1[mob] + mobile->thrpt_nonABS * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
 			else
-				lambda_temp = mobile->lambda - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
+				lambda_temp = mobile->lambda - STEP_SIZE2 * (mobile->thrpt_macro * resource_macro_PA1[mob] + mobile->thrpt_ABS * resource_ABS_PA1[mob] + mobile->thrpt_nonABS * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
 			mobile->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
 			//if ((log(mobile->rate_user_PA1) >= mobile->QoS)
@@ -609,10 +602,7 @@ void PA1_calculation(
 	int *_user_state_best,
 	Mobile **mobiles,
 	Pico **picos,
-	Macro **macros,
-	double *_thrpt_macro,
-	double *_thrpt_ABS,
-	double *_thrpt_nonABS
+	Macro **macros
 )
 {
 	double _objective_temp = 0.0;
@@ -628,7 +618,7 @@ void PA1_calculation(
 			int selected_user = macros[mac]->selected_user_PA1;
 			_objective_temp
 				= _objective_temp
-				+ mobiles[selected_user]->lambda * _thrpt_macro[selected_user]
+				+ mobiles[selected_user]->lambda * mobiles[selected_user]->thrpt_macro
 			;
 			_user_state_temp[selected_user] = 1;
 		}
@@ -667,14 +657,14 @@ void PA1_calculation(
 			{
 				if (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user1_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user1_PA1))
 				{
-					_objective_temp = _objective_temp + mobiles[pico->ABS_user1_PA1]->lambda * _thrpt_ABS[pico->ABS_user1_PA1];
+					_objective_temp = _objective_temp + mobiles[pico->ABS_user1_PA1]->lambda * mobiles[pico->ABS_user1_PA1]->thrpt_ABS;
 					_user_state_temp[pico->ABS_user1_PA1] = 2;
 				}
 				else if (pico->ABS_user2_PA1 != -1)
 				{
 					if (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user2_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user2_PA1))
 					{
-						_objective_temp = _objective_temp + mobiles[pico->ABS_user2_PA1]->lambda * _thrpt_ABS[pico->ABS_user2_PA1];
+						_objective_temp = _objective_temp + mobiles[pico->ABS_user2_PA1]->lambda * mobiles[pico->ABS_user2_PA1]->thrpt_ABS;
 						_user_state_temp[pico->ABS_user2_PA1] = 2;
 					}
 				}
@@ -686,7 +676,7 @@ void PA1_calculation(
 		{
 			if (pico->nA_user1_PA1 != -1)
 			{
-				_objective_temp = _objective_temp + mobiles[pico->nA_user1_PA1]->lambda * _thrpt_nonABS[pico->nA_user1_PA1];
+				_objective_temp = _objective_temp + mobiles[pico->nA_user1_PA1]->lambda * mobiles[pico->nA_user1_PA1]->thrpt_nonABS;
 				_user_state_temp[pico->nA_user1_PA1] = 3;
 			}
 		}
@@ -694,7 +684,7 @@ void PA1_calculation(
 		{
 			if ((pico->nA_user2_PA1 != -1) && (_user_state_temp[pico->nA_user2_PA1] != 1))
 			{
-				_objective_temp = _objective_temp + mobiles[pico->nA_user2_PA1]->lambda * _thrpt_nonABS[pico->nA_user2_PA1];
+				_objective_temp = _objective_temp + mobiles[pico->nA_user2_PA1]->lambda * mobiles[pico->nA_user2_PA1]->thrpt_nonABS;
 				_user_state_temp[picos[pic]->nA_user2_PA1] = 4;
 			}
 		}
@@ -720,10 +710,7 @@ void PA1_call_next_pico(
 	int *_user_state_best,
 	Mobile **mobiles,
 	Pico **picos,
-	Macro **macros,
-	double *_thrpt_macro,
-	double *_thrpt_ABS,
-	double *_thrpt_nonABS
+	Macro **macros
 )
 {
 	for (int i = 0; i < 2; i++)
@@ -738,10 +725,7 @@ void PA1_call_next_pico(
 				_user_state_best,
 				mobiles,
 				picos,
-				macros,
-				_thrpt_macro,
-				_thrpt_ABS,
-				_thrpt_nonABS
+				macros
 			);
 		else
 			PA1_calculation(
@@ -752,10 +736,7 @@ void PA1_call_next_pico(
 				_user_state_best,
 				mobiles,
 				picos,
-				macros,
-				_thrpt_macro,
-				_thrpt_ABS,
-				_thrpt_nonABS
+				macros
 			);
 	}
 }

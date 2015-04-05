@@ -15,7 +15,7 @@ void Macro::register_mobile_to_service(int mob)
 	mobile_service[this->num_mobile++] = mob;
 }
 
-void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, double *thrpt_nonABS)
+void Macro::select_users(Mobile **mobiles, Pico **picos)
 {
 
 	this->selected_user_PA1 = -1;
@@ -31,10 +31,10 @@ void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, do
 			int user_temp_temp = picos[mobile->pico_service]->nA_user2_PA1; // second user num
 			double temp_temp;
 			if (user_temp_temp != -1)
-				temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob]
-					+ mobiles[user_temp_temp]->lambda * thrpt_nonABS[user_temp_temp];
+				temp_temp = mobile->lambda * mobile->thrpt_macro - mobile->lambda * mobile->thrpt_nonABS
+					+ mobiles[user_temp_temp]->lambda * mobiles[user_temp_temp]->thrpt_nonABS;
 			else
-				temp_temp = mobile->lambda * thrpt_macro[svc_mob] - mobile->lambda * thrpt_nonABS[svc_mob];
+				temp_temp = mobile->lambda * mobile->thrpt_macro - mobile->lambda * mobile->thrpt_nonABS;
 
 			if (temp_temp > macro_PA)
 			{
@@ -44,9 +44,9 @@ void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, do
 		}
 		else
 		{
-			if (mobile->lambda * thrpt_macro[svc_mob] > macro_PA)
+			if (mobile->lambda * mobile->thrpt_macro > macro_PA)
 			{
-				macro_PA       = mobile->lambda * thrpt_macro[svc_mob];
+				macro_PA       = mobile->lambda * mobile->thrpt_macro;
 				this->selected_user_PA1 = svc_mob;
 			}
 		}

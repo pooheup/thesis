@@ -28,7 +28,7 @@ public:
 
 	void register_mobile_to_service(int mob);
 
-	void select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, double *thrpt_nonABS);
+	void select_users(Mobile **mobiles, Pico **picos);
 
 	point getLocation();
 	double getTxPower();

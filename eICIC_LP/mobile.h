@@ -42,15 +42,33 @@ public:
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
 
+	// /////////////////////////////////////////////////////////////////////////
+	// 상태 변수
+
 	// dual variable
 	double lambda;
 	double mu;
+	
 	// 현재까지 얻은 평균 throughput
 	double thrp_result_PA1;
+	
 	// Ru 값
 	double rate_user_PA1;
 
+	// /////////////////////////////////////////////////////////////////////////
+	// 컨텍스트 변수
+
+	// 매 timeslot에서의 평균 throughput
+	double thrpt_macro;
+	double thrpt_ABS;
+	double thrpt_nonABS;
+
+	// /////////////////////////////////////////////////////////////////////////
+	// 생성자
 	Mobile(point location, double qos);
+
+	// /////////////////////////////////////////////////////////////////////////
+	// 함수
 
 	void locate_on_macro_of(int mac, Macro *macro);
 	void locate_on_pico_of(int pic, Pico *pico);
