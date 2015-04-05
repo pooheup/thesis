@@ -63,12 +63,10 @@ int main()
 	double lambda[MOBILE_NUM];
 	double mu[MOBILE_NUM];
 	// 현재까지 얻은 평균 throughput
-	double thrp_result[MOBILE_NUM];
-	// Ru 값
-	double rate_user[MOBILE_NUM];
-
 	double thrp_result_PA1[MOBILE_NUM];
+	// Ru 값
 	double rate_user_PA1[MOBILE_NUM];
+
 
 	// 변수 초기화
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
@@ -79,8 +77,6 @@ int main()
 
 		lambda[mob]                     = 0.1;
 		mu[mob]                         = 0.0;
-		thrp_result[mob]                = 0.0;
-		rate_user[mob]                  = 0.0;
 
 		thrp_result_PA1[mob]            = 0.0;
 		rate_user_PA1[mob]              = 0.0;
@@ -335,13 +331,13 @@ int main()
 				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
 			;
 
-		// 평균 rate Ru, rate_user[mob], 업데이트
+		// 평균 rate Ru, rate_user_PA1[mob], 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
 			if (lambda[mob] == 0.0)
 				rate_user_PA1[mob] = RATE_MAX;
 			else
-				//rate_user[mob] = 0.8* rate_user[mob] + 0.2 * (1.0 + mu[mob]) / lambda[mob];
+				//rate_user_PA1[mob] = 0.8* rate_user_PA1[mob] + 0.2 * (1.0 + mu[mob]) / lambda[mob];
 				rate_user_PA1[mob]
 					= 0.8 * rate_user_PA1[mob]
 					+ 0.2 * (1.0 + mu[mob]) / lambda[mob]
@@ -422,8 +418,8 @@ int main()
 			double function_result = 0.0;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t%f\t%f\t%f\n", rate_user[mob], log(rate_user[mob]), (thrp_result[mob] / (1 + t)), log(thrp_result[mob] / (1 + t)));
-				Savefile << rate_user[mob] << "\t" << log(rate_user[mob]) << "\t" << (thrp_result[mob] / (1 + t)) << "\t" << log(thrp_result[mob] / (1 + t)) << std::endl;
+				printf("%f\t%f\t%f\t%f\n", rate_user_PA1[mob], log(rate_user_PA1[mob]), (thrp_result_PA1[mob] / (1 + t)), log(thrp_result_PA1[mob] / (1 + t)));
+				Savefile << rate_user_PA1[mob] << "\t" << log(rate_user_PA1[mob]) << "\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t" << log(thrp_result_PA1[mob] / (1 + t)) << std::endl;
 			}
 			printf("\n%s\t\t", "lambda");
 			Savefile << std::endl << "lambda" << "\t" << "\t";
@@ -501,7 +497,7 @@ int main()
 					lambda[mob],
 					mu[mob]
 				);
-				//Savefile << rate_user[mob] << "\t" << log(rate_user[mob]) << "\t" << (thrp_result[mob] / (1 + t)) << "\t" << log(thrp_result[mob] / (1 + t)) << std::endl;
+				//Savefile << rate_user_PA1[mob] << "\t" << log(rate_user_PA1[mob]) << "\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t" << log(thrp_result_PA1[mob] / (1 + t)) << std::endl;
 			}
 			/*
 			printf("\n%s\t\t", "lambda");
@@ -577,7 +573,7 @@ int main()
 			results << "USER\t\t" << "Rate\t\t" << "Thrpt\t\t" << "Util Rate\t" << "Util Thrpt\t" << "QoS" << std::endl;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				results << "USER " << mob + 1 << "\t\t" << rate_user[mob] << "\t\t" << (thrp_result[mob] / (1 + t)) << "\t\t" << log(rate_user[mob]) << "\t\t" << log(thrp_result[mob] / (1 + t)) << "\t\t" << QOS << std::endl;
+				results << "USER " << mob + 1 << "\t\t" << rate_user_PA1[mob] << "\t\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t\t" << log(rate_user_PA1[mob]) << "\t\t" << log(thrp_result_PA1[mob] / (1 + t)) << "\t\t" << QOS << std::endl;
 			}
 		}
 
