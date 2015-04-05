@@ -18,7 +18,7 @@ void Macro::register_mobile_to_service(int mob)
 void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, double *thrpt_nonABS)
 {
 
-	int macro_PA_user = -1;
+	this->selected_user_PA1 = -1;
 	double macro_PA = DBL_MIN;
 
 	for (int j = 0; j < this->getMobileCount(); j++)
@@ -39,7 +39,7 @@ void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, do
 			if (temp_temp > macro_PA)
 			{
 				macro_PA       = temp_temp;
-				macro_PA_user  = svc_mob;
+				this->selected_user_PA1  = svc_mob;
 			}
 		}
 		else
@@ -47,17 +47,11 @@ void Macro::select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, do
 			if (mobile->lambda * thrpt_macro[svc_mob] > macro_PA)
 			{
 				macro_PA       = mobile->lambda * thrpt_macro[svc_mob];
-				macro_PA_user  = svc_mob;
+				this->selected_user_PA1 = svc_mob;
 			}
 		}
 	}
-	this->set_user_PA1(macro_PA_user, mobiles[macro_PA_user]->pico_service);
-}
-
-void Macro::set_user_PA1(int _selected_user, int _covered_pico)
-{
-	selected_user_PA1	= _selected_user;
-	covered_pico_PA1	= _covered_pico;
+	this->covered_pico_PA1	= mobiles[this->selected_user_PA1]->pico_service;
 }
 
 point Macro::getLocation()

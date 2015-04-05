@@ -30,8 +30,6 @@ public:
 
 	void select_users(Mobile **mobiles, Pico **picos, double *thrpt_macro, double *thrpt_nonABS);
 
-	void set_user_PA1(int _selected_user, int _covered_pico);
-
 	point getLocation();
 	double getTxPower();
 
