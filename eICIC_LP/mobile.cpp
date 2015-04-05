@@ -8,9 +8,6 @@ Mobile::Mobile(point loc, double qos)
 : location(loc), QoS(qos)
 {
 
-	// 0: macro 1:pico
-	this->service_BS    = 0;
-
 	this->macro_service = -1;
 	this->pico_service  = -1;
 
@@ -205,11 +202,6 @@ void Mobile::calculate_dual_variable(const int t, const double STEP_SIZE, const 
 	else
 		mu_temp = this->mu - STEP_SIZE2 * (log(this->rate_user_PA1) - this->QoS);
 	this->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
-}
-
-void Mobile::set_serviceBS (int _serviceBS )
-{
-	service_BS = _serviceBS;
 }
 
 void Mobile::set_pico_interference(int pico_num)

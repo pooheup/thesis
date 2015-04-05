@@ -31,8 +31,6 @@ public:
 
 	const double QoS;
 
-	int service_BS;					// 0: macro 1:pico
-
 	int macro_service;
 	int pico_service;
 
@@ -88,8 +86,6 @@ public:
 
 	void calculate_rate_user();
 	void calculate_dual_variable(const int t, const double STEP_SIZE, const double STEP_SIZE2);
-
-	void set_serviceBS(int _serviceBS );
 
 	void increase_allocated_macro_count();
 	void increase_allocated_ABS_count();
