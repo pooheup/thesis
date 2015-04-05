@@ -174,7 +174,6 @@ int main()
 		int pico_ABS_user_PA2[PICO_NUM];
 		int pico_nA_user1_PA[PICO_NUM];
 		int pico_nA_user2_PA[PICO_NUM];
-		int pico_nA_01_PA[PICO_NUM]; // non-ABS 상황에서 몇번째 유저 할당되는지 indicator. 0 first, 1 second
 
 		for (int pic = 0; pic < PICO_NUM; pic++)
 			pico_nA_user2_PA[pic] = -1;
@@ -242,11 +241,10 @@ int main()
 			pico_ABS_user_PA[pic]  = temp_pico_ABS_PA_user;
 			pico_nA_user1_PA[pic]  = temp_pico_nA_PA1_user;
 			pico_nA_user2_PA[pic]  = temp_pico_nA_PA2_user;
-			pico_nA_01_PA[pic]     = 0; // 초기화
 		}
 
 		for (int pic = 0; pic < PICO_NUM; pic++)
-			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic], pico_nA_01_PA[pic]);
+			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic]);
 
 		// /////////////////////////////////////////////////
 		// 각 macro 유저 찾기
@@ -285,7 +283,6 @@ int main()
 			}
 			macro_user_PA[mac]        = temp_macro_PA_user;
 			macro_cover_pico_PA[mac]  = mobiles[temp_macro_PA_user]->pico_service;
-			pico_nA_01_PA[mobiles[temp_macro_PA_user]->pico_service] = 1;
 		}
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)

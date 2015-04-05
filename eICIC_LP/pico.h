@@ -29,7 +29,6 @@ public:
 	int ABS_user2_PA1;
 	int nA_user1_PA1;
 	int nA_user2_PA1;
-	int nA_mode;		// 0 first user: nA_user1_PA1, 1 second user: nA_user2_PA1
 
 	Pico(point location, double t_pow);
 
@@ -38,6 +37,6 @@ public:
 
 	void register_mobile_to_service(int mob);
 
-	void set_user_PA1(int _ABS_user1_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
+	void set_user_PA1(int _ABS_user1_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1);
 };
 
