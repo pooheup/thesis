@@ -99,8 +99,8 @@ void Mobile::generate_channel_gain()
 	{
 		macro_channel[mac]
 			= this->channel_gain_macro[mac]
-			* rayleigh()
-			* log_normal()
+			* RAYLEIGH
+			* LOG_NORMAL
 		;
 		macro_channel_sum += macro_channel[mac];
 	}
@@ -112,8 +112,8 @@ void Mobile::generate_channel_gain()
 	{
 		pico_channel[pic]
 			= this->channel_gain_pico[pic]
-			* rayleigh()
-			* log_normal()
+			* RAYLEIGH
+			* LOG_NORMAL
 		;
 		pico_channel_sum += pico_channel[pic];
 	}

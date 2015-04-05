@@ -40,13 +40,3 @@ double gaussian(double mu, double sigma)
 
 	return (mu + sigma * (double) X1);
 }
-
-double rayleigh()
-{
-	return sqrt(pow(gaussian(0, 1/1.2533), 2) + pow(gaussian(0, 1/1.2533), 2));
-}
-
-double log_normal()
-{
-	return pow(10, gaussian(0, LN_SHAD) * 0.1);
-}
