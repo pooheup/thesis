@@ -25,6 +25,9 @@ private:
 	int allocated_ABS_count;
 	int allocated_nonABS_count;
 
+	double channel_gain_macro[MACRO_NUM];
+	double channel_gain_pico[PICO_NUM];
+
 public:
 
 	const point location;
@@ -33,9 +36,6 @@ public:
 
 	int macro_service;
 	int pico_service;
-
-	double channel_gain_macro[MACRO_NUM];
-	double channel_gain_pico[PICO_NUM];
 
 	// /////////////////////////////////////////////////////////////////////////
 	// 상태 변수
