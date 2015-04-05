@@ -283,7 +283,6 @@ int main()
 		for (int pic = 0; pic < PICO_NUM; pic++)
 			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic], pico_nA_01_PA[pic]);
 
-		int _macro_num = 0;
 		double objective_value_best_PA1 = -1.0;
 		int state_temp_PA1[MACRO_NUM];
 		int state_best_PA1[MACRO_NUM];
@@ -298,9 +297,10 @@ int main()
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 			user_state_best_PA1[mob] = 0;
 
+		int mac = 0;
 		// macro 들의 모든 조합에 대하여 최적의 값 선택
 		PA1_call_next_pico(
-			_macro_num,
+			mac,
 			&objective_value_best_PA1,
 			state_temp_PA1,
 			state_best_PA1,
@@ -726,7 +726,7 @@ double cal_thrpt_i(double _channel_gain, double _interference, double _no )
 }
 
 void PA1_calculation(
-	//int _macro_num,
+	//int mac,
 	double *_best_value,
 	int *_state_temp,
 	int *_state_best,
@@ -821,7 +821,7 @@ void PA1_calculation(
 }
 
 void PA1_call_next_pico(
-	int _macro_num,
+	int mac,
 	double *_best_value,
 	int *_state_temp,
 	int *_state_best,
@@ -837,10 +837,10 @@ void PA1_call_next_pico(
 {
 	for (int i = 0; i < 2; i++)
 	{
-		_state_temp[_macro_num] = i;
-		if ((_macro_num + 1) < MACRO_NUM)
+		_state_temp[mac] = i;
+		if ((mac + 1) < MACRO_NUM)
 			PA1_call_next_pico(
-				_macro_num + 1,
+				mac + 1,
 				_best_value,
 				_state_temp,
 				_state_best,
@@ -855,7 +855,7 @@ void PA1_call_next_pico(
 			);
 		else
 			PA1_calculation(
-				//_macro_num + 1,
+				//mac + 1,
 				_best_value,
 				_state_temp,
 				_state_best,
