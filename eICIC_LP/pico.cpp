@@ -37,10 +37,10 @@ void Pico::register_mobile_to_service(int mob)
 	this->service_mobile[this->num_service_mobile++] = mob;
 }
 
-void Pico::set_user_PA1(int _ABS_user_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode)
+void Pico::set_user_PA1(int _ABS_user1_PA1,int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode)
 {
 	ABS_user2_PA1   = _ABS_user2_PA1;
-	ABS_user_PA1    = _ABS_user_PA1;
+	ABS_user1_PA1   = _ABS_user1_PA1;
 	nA_user1_PA1    = _nA_user1_PA1;
 	nA_user2_PA1    = _nA_user2_PA1;
 	nA_mode         = _nA_mode;

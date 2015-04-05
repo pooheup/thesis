@@ -787,12 +787,12 @@ void PA1_calculation(
 
 		if (ABS_indicator == 0)
 		{
-			if (pico->ABS_user_PA1 != -1)
+			if (pico->ABS_user1_PA1 != -1)
 			{
-				if (macro_state_PA1[mobiles[pico->ABS_user_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user_PA1))
+				if (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user1_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user1_PA1))
 				{
-					_objective_temp = _objective_temp + _lambda[pico->ABS_user_PA1] * _thrpt_ABS[pico->ABS_user_PA1];
-					_user_state_temp[pico->ABS_user_PA1] = 2;
+					_objective_temp = _objective_temp + _lambda[pico->ABS_user1_PA1] * _thrpt_ABS[pico->ABS_user1_PA1];
+					_user_state_temp[pico->ABS_user1_PA1] = 2;
 				}
 				else if (pico->ABS_user2_PA1 != -1)
 				{

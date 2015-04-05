@@ -25,7 +25,7 @@ public:
 
 
 	// proposed algorithm 1
-	int ABS_user_PA1;
+	int ABS_user1_PA1;
 	int ABS_user2_PA1;
 	int nA_user1_PA1;
 	int nA_user2_PA1;
@@ -38,6 +38,6 @@ public:
 
 	void register_mobile_to_service(int mob);
 
-	void set_user_PA1(int _ABS_user_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
+	void set_user_PA1(int _ABS_user1_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1, int _nA_mode);
 };
 
