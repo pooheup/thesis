@@ -388,22 +388,19 @@ int main()
 		{
 			double lambda_temp, mu_temp;
 			//if (     (thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob] >= 0.0)  //feasilbity
-			//  && (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05))
-
-			double TODO0 = log(rate_user_PA1[mob]) - mobiles[mob]->QoS;
-			double TODO1 = abs(TODO0) * mu[mob] < 0.01;
-			if (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05)
-				lambda_temp = lambda[mob] - STEP_SIZE  * TODO1;
+			//	&& (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05))
+			if ( (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05))
+				lambda_temp = lambda[mob] - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - rate_user_PA1[mob]);
 			else
-				lambda_temp = lambda[mob] - STEP_SIZE2 * TODO1;
+				lambda_temp = lambda[mob] - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - rate_user_PA1[mob]);
 			lambda[mob] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
 			//if ((log(rate_user_PA1[mob]) >= mobiles[mob]->QoS)
-			//  && (abs(TODO0) * mu[mob] < 0.01))
-			if (abs(TODO0) * mu[mob] < 0.01)
-				mu_temp = mu[mob] - STEP_SIZE  * TODO0;
+				//&& (abs(log(rate_user_PA1[mob]) - mobiles[mob]->QoS) * mu[mob] < 0.01))
+			if ( (abs(log(rate_user_PA1[mob]) - mobiles[mob]->QoS) * mu[mob] < 0.01))
+				mu_temp = mu[mob] - STEP_SIZE * (log(rate_user_PA1[mob]) - mobiles[mob]->QoS);
 			else
-				mu_temp = mu[mob] - STEP_SIZE2 * TODO0;
+				mu_temp = mu[mob] - STEP_SIZE2 * (log(rate_user_PA1[mob]) - mobiles[mob]->QoS);
 			mu[mob] = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
