@@ -130,11 +130,15 @@ int main()
 		int resource_ABS_PA1[MOBILE_NUM];
 		int resource_nonABS_PA1[MOBILE_NUM];
 
+		// /////////////////////////////////////////////////////////////////////
+		// 채널 값 계산
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
+			double signal_temp, interference_temp;
+
 			// macro 평균 thrpt 계산
-			double signal_temp       = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
-			double interference_temp = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
+			signal_temp       = mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service] *rayleigh() * log_normal();
+			interference_temp = (mobiles[mob]->macro_interference + mobiles[mob]->pico_interference - mobiles[mob]->channel_gain_macro[mobiles[mob]->macro_service]) *rayleigh() * log_normal();
 			thrpt_macro[mob]  = cal_thrpt_i(signal_temp, interference_temp, NOISE) / 1000000.0;
 			thrpt_macro[mob]  = thrpt_macro[mob] / 10.0;
 
