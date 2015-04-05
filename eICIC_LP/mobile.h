@@ -16,6 +16,11 @@ private:
 	int macro_neighbor[MACRO_NUM];
 	double channel_gain_service_macro;
 
+	double distance_pico[PICO_NUM];
+	int pico_neighbor[PICO_NUM];
+	double channel_gain_service_pico;
+	int num_interferer_pico;
+
 	int allocated_macro_count;
 	int allocated_ABS_count;
 	int allocated_nonABS_count;
@@ -28,21 +33,11 @@ public:
 
 	int service_BS;					// 0: macro 1:pico
 
-	int num_interferer_pico;
-
-	int pico_neighbor[PICO_NUM];
-
 	int macro_service;
 	int pico_service;
 
-	int associated_BS_static;		// 0: macro 1: pico
-
-	double channel_gain_service_pico;
-
 	double macro_interference;
 	double pico_interference;
-
-	double distance_pico[PICO_NUM];
 
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
