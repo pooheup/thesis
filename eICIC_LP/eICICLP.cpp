@@ -132,66 +132,7 @@ int main()
 		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
-			int pico_ABS_PA_user  = -1;
-			int pico_nA_PA1_user  = -1;
-			int pico_nA_PA2_user  = -1;
-			int pico_ABS_PA_user2 = -1;
-
-			double pico_ABS_PA = -10.0; // ABS best
-			double pico_ABS_PA2 = -11.0; // ABS best
-			double pico_nA_PA1 = -10.0; // non-ABS first
-			double pico_nA_PA2 = -11.0; // non-ABS second
-
-			Pico *pico = picos[pic];
-
-			for (int j = 0; j < pico->num_service_mobile; j++)
-			{
-				int svc_mob = pico->service_mobile[j];
-				Mobile *mobile = mobiles[svc_mob];
-
-				double TODO0 = mobile->lambda * thrpt_ABS[svc_mob];
-
-				// ABS best user 찾기
-				if (TODO0 > pico_ABS_PA)
-				{
-					pico_ABS_PA2 = pico_ABS_PA;
-					pico_ABS_PA_user2 = pico_ABS_PA_user;
-
-					pico_ABS_PA        = TODO0;
-					pico_ABS_PA_user   = svc_mob;
-				}
-				else // non-ABS second 찾기
-				{
-					if (TODO0 > pico_ABS_PA2)
-					{
-						pico_ABS_PA2 = TODO0;
-						pico_ABS_PA_user2 = svc_mob;
-					}
-				}
-
-				double TODO1 = mobile->lambda * thrpt_nonABS[svc_mob]
-				;
-				if (TODO1 > pico_nA_PA1)
-				{
-					// non-ABS first 찾기
-					//if (pico_nA_PA1 >= pico_nA_PA2)
-					//{
-					pico_nA_PA2        = pico_nA_PA1;
-					pico_nA_PA2_user   = pico_nA_PA1_user;
-					//}
-
-					pico_nA_PA1        = TODO1;
-					pico_nA_PA1_user   = svc_mob;
-				}
-				else if (TODO1 > pico_nA_PA2)
-				{
-					// non-ABS second 찾기
-					pico_nA_PA2        = TODO1;
-					pico_nA_PA2_user   = svc_mob;
-				}
-			}
-
-			pico->set_user_PA1(pico_ABS_PA_user, pico_ABS_PA_user2, pico_nA_PA1_user, pico_nA_PA2_user);
+			picos[pic]->select_users(mobiles, thrpt_ABS, thrpt_nonABS);
 		}
 
 		// /////////////////////////////////////////////////

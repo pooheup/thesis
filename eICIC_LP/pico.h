@@ -4,6 +4,8 @@
 #include "point.h"
 #include "macro.h"
 
+class Mobile;
+
 class Pico
 {
 
@@ -37,6 +39,7 @@ public:
 
 	void register_mobile_to_service(int mob);
 
+	void select_users(Mobile **mobiles, double *thrpt_ABS, double *thrpt_nonABS);
+
 	void set_user_PA1(int _ABS_user1_PA1, int _ABS_user2_PA1, int _nA_user1_PA1, int _nA_user2_PA1);
 };
-
