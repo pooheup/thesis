@@ -120,18 +120,6 @@ int main()
 			mobiles[mob]->calculate_rate_user();
 		}
 
-		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
-		for (int mac = 0; mac < MACRO_NUM; mac++)
-		{
-			int is_used_resource = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
-			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
-			{
-				if (mobiles[macros[mac]->mobile_service[j]]->resource_macro_PA1 == 1)
-					is_used_resource = 1;
-			}
-			if (is_used_resource == 0) abs_count_macro[mac]++;
-		}
-
 		// /////////////////////////////////////////////////////////////////////
 		// dual update
 
@@ -150,6 +138,21 @@ int main()
 			;
 			//STEP_SIZE2 = STEP_SIZE;
 			mobiles[mob]->calculate_dual_variable(t, STEP_SIZE, STEP_SIZE2);
+		}
+
+		// /////////////////////////////////////////////////////////////////////
+
+		// /////////////////////////////////////////////////////////////////////
+		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
+		for (int mac = 0; mac < MACRO_NUM; mac++)
+		{
+			int is_used_resource = 0; // 자원 할당 여부. 1이면 사용, 0이면 사용 안함
+			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
+			{
+				if (mobiles[macros[mac]->mobile_service[j]]->resource_macro_PA1 == 1)
+					is_used_resource = 1;
+			}
+			if (is_used_resource == 0) abs_count_macro[mac]++;
 		}
 
 		// /////////////////////////////////////////////////////////////////////
