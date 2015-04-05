@@ -1,8 +1,8 @@
 #include "rndfunctions.h"
 #include "mobile.h"
 
-#define cal_thrpt_i(channel_gain, interference, no) \
-	(BW * log(1 + ((channel_gain) / ((interference) + (no)))))
+#define cal_thrpt_i(channel_gain, interference, noise) \
+	(BW * log(1 + ((channel_gain) / ((interference) + (noise)))))
 
 Mobile::Mobile(point loc, double qos)
 : location(loc), QoS(qos)
