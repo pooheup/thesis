@@ -771,16 +771,19 @@ void PA1_calculation(
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			if (pico->is_neighbor_macro(mac) && (macro_state_PA1[mac] == 1))
+			if (pico->is_neighbor_macro(mac) == 1 && (macro_state_PA1[mac] == 1))
 			{
-				ABS_indicator = 1;
+				if (pico->nA_user1_PA1 != -1
+					&&
+					macro_state_PA1[mobiles[pico->nA_user1_PA1]->macro_service] == 1
+					&&
+					pico->nA_user1_PA1 == macros[mobiles[pico->nA_user1_PA1]->macro_service]->selected_user_PA1)
+					ABS_indicator = 2;
+				else
+					ABS_indicator = 1;
+				break;
 			}
 		}
-
-		if (ABS_indicator == 1
-			&& pico->nA_user1_PA1 != -1
-			&& pico->nA_user1_PA1 == macros[mobiles[pico->nA_user1_PA1]->macro_service]->selected_user_PA1)
-			ABS_indicator = 2;
 
 		if (ABS_indicator == 0)
 		{
