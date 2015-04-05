@@ -226,33 +226,36 @@ int main()
 		// mobile ¹øÈ£: macro[mac].mobile_service[j]
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
+			Macro *macro = macros[mac];
+			const int svc_mob = macro->mobile_service[j];
+
 			int macro_PA_user = -1;
 			double macro_PA = -1000.0;
-			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
+			for (int j = 0; j < macro->getMobileCount(); j++)
 			{
-				if (macros[mac]->mobile_service[j] == picos[mobiles[macros[mac]->mobile_service[j]]->pico_service]->nA_user1_PA1)
+				if (svc_mob == picos[mobiles[svc_mob]->pico_service]->nA_user1_PA1)
 				{
-					int user_temp_temp = picos[mobiles[macros[mac]->mobile_service[j]]->pico_service]->nA_user2_PA1; // second user num
+					int user_temp_temp = picos[mobiles[svc_mob]->pico_service]->nA_user2_PA1; // second user num
 					double temp_temp;
-					if (user_temp_temp != -1) temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
-					else temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]]);
+					if (user_temp_temp != -1) temp_temp = (lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
+					else temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob];
 
 					if (temp_temp > macro_PA)
 					{
 						macro_PA       = temp_temp;
-						macro_PA_user  = macros[mac]->mobile_service[j];
+						macro_PA_user  = svc_mob;
 					}
 				}
 				else
 				{
-					if (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] > macro_PA)
+					if (lambda[svc_mob] * thrpt_macro[svc_mob] > macro_PA)
 					{
-						macro_PA       = lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]];
-						macro_PA_user  = macros[mac]->mobile_service[j];
+						macro_PA       = lambda[svc_mob] * thrpt_macro[svc_mob];
+						macro_PA_user  = svc_mob;
 					}
 				}
 			}
-			macros[mac]->set_user_PA1(macro_PA_user, mobiles[macro_PA_user]->pico_service);
+			macro->set_user_PA1(macro_PA_user, mobiles[macro_PA_user]->pico_service);
 		}
 
 		// /////////////////////////////////////////////////////////////////////
