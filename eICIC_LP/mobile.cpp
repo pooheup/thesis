@@ -154,14 +154,14 @@ void Mobile::count_cell_association(int user_state_best_PA1)
 	switch (user_state_best_PA1)
 	{
 		case 1:
-			this->increase_allocated_macro_count();
+			this->allocated_macro_count++;
 			break;
 		case 2:
-			this->increase_allocated_ABS_count();
+			this->allocated_ABS_count++;
 			break;
 		case 3:
 		case 4:
-			this->increase_allocated_nonABS_count();
+			this->allocated_nonABS_count++;
 			break;
 	}
 }
@@ -223,10 +223,6 @@ void Mobile::set_macro_interference(int macro_num)
 		macro_interference = macro_interference + channel_gain_macro[i];
 	}
 }
-
-void Mobile::increase_allocated_macro_count()  { this->allocated_macro_count++; }
-void Mobile::increase_allocated_ABS_count()    { this->allocated_ABS_count++; }
-void Mobile::increase_allocated_nonABS_count() { this->allocated_nonABS_count++; }
 
 int Mobile::get_allocated_macro_count()  { return this->allocated_macro_count; }
 int Mobile::get_allocated_ABS_count()    { return this->allocated_ABS_count; }

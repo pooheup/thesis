@@ -87,10 +87,6 @@ public:
 	void calculate_rate_user();
 	void calculate_dual_variable(const int t, const double STEP_SIZE, const double STEP_SIZE2);
 
-	void increase_allocated_macro_count();
-	void increase_allocated_ABS_count();
-	void increase_allocated_nonABS_count();
-
 	int get_allocated_macro_count();
 	int get_allocated_ABS_count();
 	int get_allocated_nonABS_count();
