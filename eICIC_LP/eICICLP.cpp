@@ -237,8 +237,10 @@ int main()
 				{
 					int user_temp_temp = picos[mobiles[svc_mob]->pico_service]->nA_user2_PA1; // second user num
 					double temp_temp;
-					if (user_temp_temp != -1) temp_temp = (lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
-					else temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob];
+					if (user_temp_temp != -1)
+						temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp];
+					else
+						temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob];
 
 					if (temp_temp > macro_PA)
 					{
