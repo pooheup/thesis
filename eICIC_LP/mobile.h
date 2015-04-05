@@ -22,9 +22,9 @@ private:
 
 public:
 
-	point location;
+	const point location;
 
-	double QoS;
+	const double QoS;
 
 	int service_BS;					// 0: macro 1:pico
 
