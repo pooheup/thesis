@@ -81,15 +81,6 @@ int main()
 		double thrpt_ABS[MOBILE_NUM];
 		double thrpt_nonABS[MOBILE_NUM];
 
-		int resource_macro[MOBILE_NUM];
-		int resource_ABS[MOBILE_NUM];
-		int resource_nonABS[MOBILE_NUM];
-
-		// PA1
-		int resource_macro_PA1[MOBILE_NUM];
-		int resource_ABS_PA1[MOBILE_NUM];
-		int resource_nonABS_PA1[MOBILE_NUM];
-
 		// /////////////////////////////////////////////////////////////////////
 		// 채널 값 계산
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
@@ -114,15 +105,6 @@ int main()
 			thrpt_nonABS[mob] = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
 			thrpt_nonABS[mob] = thrpt_nonABS[mob] / 10.0;
 
-			// 할당 값 초기화
-			resource_macro[mob]  = 0;
-			resource_ABS[mob]    = 0;
-			resource_nonABS[mob] = 0;
-
-			// 할당 값 초기화 PA1
-			resource_macro_PA1[mob]  = 0;
-			resource_ABS_PA1[mob]    = 0;
-			resource_nonABS_PA1[mob] = 0;
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -174,50 +156,39 @@ int main()
 			thrpt_nonABS
 		);
 
-		// resource 정보 입력
-		// best state 즉, 구한 자원 할당 값 입력
+		// PA1
+		int resource_macro_PA1[MOBILE_NUM];
+		int resource_ABS_PA1[MOBILE_NUM];
+		int resource_nonABS_PA1[MOBILE_NUM];
+
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
+
+			// /////////////////////////////////////////////
+			// resource 정보 입력
+			// best state 즉, 구한 자원 할당 값 입력
 			switch (user_state_best_PA1[mob])
 			{
 				case 1:
 					resource_macro_PA1[mob]  = 1;
+					resource_ABS_PA1[mob]    = 0;
+					resource_nonABS_PA1[mob] = 0;
 					break;
 				case 2:
+					resource_macro_PA1[mob]  = 0;
 					resource_ABS_PA1[mob]    = 1;
+					resource_nonABS_PA1[mob] = 0;
 					break;
 				case 3:
 				case 4:
+					resource_macro_PA1[mob]  = 0;
+					resource_ABS_PA1[mob]    = 0;
 					resource_nonABS_PA1[mob] = 1;
 					break;
 			}
-		}
 
-		// 현재까지 얻은 throughput 입력
-		for (int mob = 0; mob < MOBILE_NUM; mob++)
-			mobiles[mob]->thrp_result_PA1
-				= mobiles[mob]->thrp_result_PA1
-				+ thrpt_macro[mob]  * resource_macro_PA1[mob]
-				+ thrpt_ABS[mob]    * resource_ABS_PA1[mob]
-				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
-			;
-
-		// 평균 rate Ru, mobiles[mob]->rate_user_PA1, 업데이트
-		for (int mob = 0; mob < MOBILE_NUM; mob++)
-		{
-			if (mobiles[mob]->lambda == 0.0)
-				mobiles[mob]->rate_user_PA1 = RATE_MAX;
-			else
-				//mobiles[mob]->rate_user_PA1 = 0.8* mobiles[mob]->rate_user_PA1 + 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda;
-				mobiles[mob]->rate_user_PA1
-					= 0.8 * mobiles[mob]->rate_user_PA1
-					+ 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda
-				;
-		}
-
-		// 각 유저 어느 기지국 사용했는지 count
-		for (int mob = 0; mob < MOBILE_NUM; mob++)
-		{
+			// /////////////////////////////////////////////
+			// 각 유저 어느 기지국 사용했는지 count
 			switch (user_state_best_PA1[mob])
 			{
 				case 1:
@@ -231,6 +202,33 @@ int main()
 					mobiles[mob]->increase_allocated_nonABS_count();
 					break;
 			}
+
+			// /////////////////////////////////////////////
+			// 현재까지 얻은 throughput 입력
+			mobiles[mob]->thrp_result_PA1
+				= mobiles[mob]->thrp_result_PA1
+				+ thrpt_macro[mob]  * resource_macro_PA1[mob]
+				+ thrpt_ABS[mob]    * resource_ABS_PA1[mob]
+				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
+			;
+
+			// /////////////////////////////////////////////
+
+		}
+
+		// /////////////////////////////////////////////////////////////////////
+
+		// 평균 rate Ru, mobiles[mob]->rate_user_PA1, 업데이트
+		for (int mob = 0; mob < MOBILE_NUM; mob++)
+		{
+			if (mobiles[mob]->lambda == 0.0)
+				mobiles[mob]->rate_user_PA1 = RATE_MAX;
+			else
+				//mobiles[mob]->rate_user_PA1 = 0.8* mobiles[mob]->rate_user_PA1 + 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda;
+				mobiles[mob]->rate_user_PA1
+					= 0.8 * mobiles[mob]->rate_user_PA1
+					+ 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda
+				;
 		}
 
 		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
