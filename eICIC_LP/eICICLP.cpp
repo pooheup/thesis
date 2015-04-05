@@ -31,14 +31,6 @@ int main()
 
 	// /////////////////////////////////////////////////////////////////////////
 
-	// TODO 아래코드 삭제 여부 확인
-	// static 을 위해 cre bias를 통한 cell association
-	double cre_bias = pow(10.0, CRE_STATIC / 10.0);
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-		mobiles[mob]->cell_association_static(cre_bias);
-
-	// /////////////////////////////////////////////////////////////////////////
-
 	// TODO 시간 반복문 안으로 이동해야 함
 	// 각 모바일이 겪는 interference calculation
 	// 모든 기지국에 대한 간섭을 계산. 실제 이용시 자신이 할당받는 기지국의 신호는 제해야 함.
