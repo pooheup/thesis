@@ -12,6 +12,9 @@ class Mobile
 
 private:
 
+	const point location;
+	const double QoS;
+
 	double distance_macro[MACRO_NUM];
 	int macro_neighbor[MACRO_NUM];
 	double channel_gain_service_macro;
@@ -29,10 +32,6 @@ private:
 	double channel_gain_pico[PICO_NUM];
 
 public:
-
-	const point location;
-
-	const double QoS;
 
 	int macro_service;
 	int pico_service;
