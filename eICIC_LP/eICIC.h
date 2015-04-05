@@ -14,6 +14,31 @@ double cal_thrpt_s(double _sinr, double _BW);
 
 double cal_thrpt_i(double _channel_gain, double _interference, double _no );
 
-void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS);
+void PA1_calculation(
+	//int _macro_num, 
+	double *_best_value, 
+	int *_state_temp,
+	int *_state_best,
+	int *_user_state_best,
+	Mobile **mobiles,
+	Pico **picos,
+	Macro **macros,
+	double *_lambda,
+	double *_thrpt_macro,
+	double *_thrpt_ABS,
+	double *_thrpt_nonABS);
 
-void PA1_call_next_pico(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS);
+void PA1_call_next_pico(
+	int _macro_num,
+	double *_best_value,
+	int *_state_temp,
+	int *_state_best,
+	int *_user_state_best,
+	Mobile **mobiles,
+	Pico **picos,
+	Macro **macros,
+	double *_lambda,
+	double *_thrpt_macro,
+	double *_thrpt_ABS,
+	double *_thrpt_nonABS
+);

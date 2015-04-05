@@ -307,7 +307,20 @@ int main()
 			user_state_best_PA1[mob] = 0;
 
 		// macro 들의 모든 조합에 대하여 최적의 값 선택
-		PA1_call_next_pico(_macro_num, &objective_value_best_PA1, state_temp_PA1, state_best_PA1, user_state_best_PA1, mobiles, picos, macros, lambda, thrpt_macro, thrpt_ABS, thrpt_nonABS);
+		PA1_call_next_pico(
+			_macro_num,
+			&objective_value_best_PA1,
+			state_temp_PA1,
+			state_best_PA1,
+			user_state_best_PA1,
+			mobiles,
+			picos,
+			macros,
+			lambda,
+			thrpt_macro,
+			thrpt_ABS,
+			thrpt_nonABS
+		);
 
 		// resource 정보 입력
 		// best state 즉, 구한 자원 할당 값 입력
@@ -721,7 +734,20 @@ double cal_thrpt_i(double _channel_gain, double _interference, double _no )
 	return throughput;
 }
 
-void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_calculation(
+	//int _macro_num,
+	double *_best_value,
+	int *_state_temp,
+	int *_state_best,
+	int *_user_state_best,
+	Mobile **mobiles,
+	Pico **picos,
+	Macro **macros,
+	double *_lambda,
+	double *_thrpt_macro,
+	double *_thrpt_ABS,
+	double *_thrpt_nonABS
+)
 {
 	double _objective_temp = 0.0;
 	int _user_state_temp[MOBILE_NUM];
@@ -772,7 +798,6 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 
 			}
 
-
 		}
 		else if (ABS_indicator == 1)
 		{
@@ -804,14 +829,53 @@ void PA1_calculation(int _macro_num, double *_best_value, int *_state_temp, int 
 	// for (mac = 0; mac < MACRO_NUM; mac++) _state_temp[mac] = 0;
 }
 
-void PA1_call_next_pico(int _macro_num, double *_best_value, int *_state_temp, int *_state_best, int *_user_state_best, Mobile **mobiles, Pico **picos, Macro **macros, double *_lambda, double *_thrpt_macro, double *_thrpt_ABS, double *_thrpt_nonABS)
+void PA1_call_next_pico(
+	int _macro_num,
+	double *_best_value,
+	int *_state_temp,
+	int *_state_best,
+	int *_user_state_best,
+	Mobile **mobiles,
+	Pico **picos,
+	Macro **macros,
+	double *_lambda,
+	double *_thrpt_macro,
+	double *_thrpt_ABS,
+	double *_thrpt_nonABS
+)
 {
 	for (int i = 0; i < 2; i++)
 	{
 		_state_temp[_macro_num] = i;
 		if ((_macro_num + 1) < MACRO_NUM)
-			PA1_call_next_pico((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+			PA1_call_next_pico(
+				_macro_num + 1,
+				_best_value,
+				_state_temp,
+				_state_best,
+				_user_state_best,
+				mobiles,
+				picos,
+				macros,
+				_lambda,
+				_thrpt_macro,
+				_thrpt_ABS,
+				_thrpt_nonABS
+			);
 		else
-			PA1_calculation((_macro_num + 1), _best_value, _state_temp, _state_best, _user_state_best, mobiles, picos, macros, _lambda, _thrpt_macro, _thrpt_ABS, _thrpt_nonABS);
+			PA1_calculation(
+				//_macro_num + 1,
+				_best_value,
+				_state_temp,
+				_state_best,
+				_user_state_best,
+				mobiles,
+				picos,
+				macros,
+				_lambda,
+				_thrpt_macro,
+				_thrpt_ABS,
+				_thrpt_nonABS
+			);
 	}
 }
