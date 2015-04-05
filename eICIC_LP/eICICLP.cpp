@@ -284,13 +284,13 @@ int main()
 			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic], pico_nA_01_PA[pic]);
 
 		double objective_value_best_PA1 = -1.0;
-		int state_temp_PA1[MACRO_NUM];
+		int macro_state_PA1[MACRO_NUM];
 		int state_best_PA1[MACRO_NUM];
 		int user_state_best_PA1[MOBILE_NUM];
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			state_temp_PA1[mac] = 0;
+			macro_state_PA1[mac] = 0;
 			state_best_PA1[mac] = 0;
 		}
 
@@ -301,7 +301,7 @@ int main()
 		PA1_call_next_pico(
 			0,
 			&objective_value_best_PA1,
-			state_temp_PA1,
+			macro_state_PA1,
 			state_best_PA1,
 			user_state_best_PA1,
 			mobiles,
@@ -727,7 +727,7 @@ double cal_thrpt_i(double _channel_gain, double _interference, double _no )
 void PA1_calculation(
 	//int mac,
 	double *_best_value,
-	int *_state_temp,
+	int *macro_state_PA1,
 	int *_state_best,
 	int *_user_state_best,
 	Mobile **mobiles,
@@ -747,7 +747,7 @@ void PA1_calculation(
 	// macro 값 계산
 	for (int mac = 0; mac < MACRO_NUM; mac++)
 	{
-		if (_state_temp[mac] == 1)
+		if (macro_state_PA1[mac] == 1)
 		{
 			int selected_user = macros[mac]->selected_user_PA1;
 			_objective_temp
@@ -771,7 +771,7 @@ void PA1_calculation(
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
-			if (pico->is_neighbor_macro(mac) && (_state_temp[mac] == 1))
+			if (pico->is_neighbor_macro(mac) && (macro_state_PA1[mac] == 1))
 			{
 				ABS_indicator = 1;
 			}
@@ -786,14 +786,14 @@ void PA1_calculation(
 		{
 			if (pico->ABS_user_PA1 != -1)
 			{
-				if (_state_temp[mobiles[pico->ABS_user_PA1]->macro_service] == 0 || (_state_temp[mobiles[pico->ABS_user_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user_PA1))
+				if (macro_state_PA1[mobiles[pico->ABS_user_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user_PA1))
 				{
 					_objective_temp = _objective_temp + _lambda[pico->ABS_user_PA1] * _thrpt_ABS[pico->ABS_user_PA1];
 					_user_state_temp[pico->ABS_user_PA1] = 2;
 				}
 				else if (pico->ABS_user2_PA1 != -1)
 				{
-					if (_state_temp[mobiles[pico->ABS_user2_PA1]->macro_service] == 0 || (_state_temp[mobiles[pico->ABS_user2_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user2_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user2_PA1))
+					if (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user2_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user2_PA1))
 					{
 						_objective_temp = _objective_temp + _lambda[pico->ABS_user2_PA1] * _thrpt_ABS[pico->ABS_user2_PA1];
 						_user_state_temp[pico->ABS_user2_PA1] = 2;
@@ -824,19 +824,19 @@ void PA1_calculation(
 	{
 		*_best_value = _objective_temp;
 		for (int mac = 0; mac < MACRO_NUM; mac++)
-			_state_best[mac] = _state_temp[mac];
+			_state_best[mac] = macro_state_PA1[mac];
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 			_user_state_best[mob] = _user_state_temp[mob];
 	}
 
-	//_state_temp 초기화
-	// for (mac = 0; mac < MACRO_NUM; mac++) _state_temp[mac] = 0;
+	//macro_state_PA1 초기화
+	// for (mac = 0; mac < MACRO_NUM; mac++) macro_state_PA1[mac] = 0;
 }
 
 void PA1_call_next_pico(
 	int mac,
 	double *_best_value,
-	int *_state_temp,
+	int *macro_state_PA1,
 	int *_state_best,
 	int *_user_state_best,
 	Mobile **mobiles,
@@ -850,12 +850,12 @@ void PA1_call_next_pico(
 {
 	for (int i = 0; i < 2; i++)
 	{
-		_state_temp[mac] = i;
+		macro_state_PA1[mac] = i;
 		if ((mac + 1) < MACRO_NUM)
 			PA1_call_next_pico(
 				mac + 1,
 				_best_value,
-				_state_temp,
+				macro_state_PA1,
 				_state_best,
 				_user_state_best,
 				mobiles,
@@ -870,7 +870,7 @@ void PA1_call_next_pico(
 			PA1_calculation(
 				//mac + 1,
 				_best_value,
-				_state_temp,
+				macro_state_PA1,
 				_state_best,
 				_user_state_best,
 				mobiles,

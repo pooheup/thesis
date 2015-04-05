@@ -17,7 +17,7 @@ double cal_thrpt_i(double _channel_gain, double _interference, double _no );
 void PA1_calculation(
 	//int _macro_num, 
 	double *_best_value, 
-	int *_state_temp,
+	int *macro_state_PA1,
 	int *_state_best,
 	int *_user_state_best,
 	Mobile **mobiles,
@@ -31,7 +31,7 @@ void PA1_calculation(
 void PA1_call_next_pico(
 	int _macro_num,
 	double *_best_value,
-	int *_state_temp,
+	int *macro_state_PA1,
 	int *_state_best,
 	int *_user_state_best,
 	Mobile **mobiles,
