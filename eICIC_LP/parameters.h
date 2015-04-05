@@ -22,7 +22,8 @@
 #define NEIGHBOR_DIST_P		1000		// 모바일과 피코
 #define MP_INT_DIST			1000		// 매크로와 피코
 
-#define QOS					-10.0		// 각 유저가 갖는 utility의 QoS 값
+#define _QOS				0.0001		// 각 유저가 갖는 utility의 QoS 값
+#define QOS					log(_QOS)	// 각 유저가 갖는 utility의 QoS 값
 #define STEPSIZE2			0.0005
 #define STEPSIZE3			0.0001
 #define STEPSIZE4			0.00005
