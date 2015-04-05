@@ -23,7 +23,6 @@ void PA1_calculation(
 	Mobile **mobiles,
 	Pico **picos,
 	Macro **macros,
-	double *_lambda,
 	double *_thrpt_macro,
 	double *_thrpt_ABS,
 	double *_thrpt_nonABS);
@@ -37,7 +36,6 @@ void PA1_call_next_pico(
 	Mobile **mobiles,
 	Pico **picos,
 	Macro **macros,
-	double *_lambda,
 	double *_thrpt_macro,
 	double *_thrpt_ABS,
 	double *_thrpt_nonABS

@@ -42,6 +42,14 @@ public:
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
 
+	// dual variable
+	double lambda;
+	double mu;
+	// 현재까지 얻은 평균 throughput
+	double thrp_result_PA1;
+	// Ru 값
+	double rate_user_PA1;
+
 	Mobile(point location, double qos);
 
 	void locate_on_macro_of(int mac, Macro *macro);

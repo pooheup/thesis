@@ -55,27 +55,6 @@ int main()
 
 	// /////////////////////////////////
 
-	// dual variable
-	double lambda[MOBILE_NUM];
-	double mu[MOBILE_NUM];
-	// 현재까지 얻은 평균 throughput
-	double thrp_result_PA1[MOBILE_NUM];
-	// Ru 값
-	double rate_user_PA1[MOBILE_NUM];
-
-
-	// 변수 초기화
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
-		lambda[mob]                     = 0.1;
-		mu[mob]                         = 0.0;
-
-		thrp_result_PA1[mob]            = 0.0;
-		rate_user_PA1[mob]              = 0.0;
-	}
-
-	// /////////////////////////////////
-
 	// 출력 파일
 	std::ofstream Savefile("eICIC.txt");
 
@@ -173,7 +152,7 @@ int main()
 			for (int j = 0; j < picos[pic]->num_service_mobile; j++)
 			{
 				double TODO0
-					= lambda[picos[pic]->service_mobile[j]]
+					= mobiles[picos[pic]->service_mobile[j]]->lambda
 					* thrpt_ABS[picos[pic]->service_mobile[j]]
 				;
 				// ABS best user 찾기
@@ -195,7 +174,7 @@ int main()
 				}
 
 				double TODO1
-					= lambda[picos[pic]->service_mobile[j]]
+					= mobiles[picos[pic]->service_mobile[j]]->lambda
 					* thrpt_nonABS[picos[pic]->service_mobile[j]]
 				;
 				if (TODO1 > pico_nA_PA1)
@@ -230,6 +209,7 @@ int main()
 
 			int macro_PA_user = -1;
 			double macro_PA = DBL_MIN;
+
 			for (int j = 0; j < macro->getMobileCount(); j++)
 			{
 				const int svc_mob = macro->mobile_service[j];
@@ -239,9 +219,9 @@ int main()
 					int user_temp_temp = picos[mobiles[svc_mob]->pico_service]->nA_user2_PA1; // second user num
 					double temp_temp;
 					if (user_temp_temp != -1)
-						temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp];
+						temp_temp = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] - mobiles[svc_mob]->lambda * thrpt_nonABS[svc_mob] + mobiles[user_temp_temp]->lambda * thrpt_nonABS[user_temp_temp];
 					else
-						temp_temp = lambda[svc_mob] * thrpt_macro[svc_mob] - lambda[svc_mob] * thrpt_nonABS[svc_mob];
+						temp_temp = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] - mobiles[svc_mob]->lambda * thrpt_nonABS[svc_mob];
 
 					if (temp_temp > macro_PA)
 					{
@@ -251,9 +231,9 @@ int main()
 				}
 				else
 				{
-					if (lambda[svc_mob] * thrpt_macro[svc_mob] > macro_PA)
+					if (mobiles[svc_mob]->lambda * thrpt_macro[svc_mob] > macro_PA)
 					{
-						macro_PA       = lambda[svc_mob] * thrpt_macro[svc_mob];
+						macro_PA       = mobiles[svc_mob]->lambda * thrpt_macro[svc_mob];
 						macro_PA_user  = svc_mob;
 					}
 				}
@@ -287,7 +267,6 @@ int main()
 			mobiles,
 			picos,
 			macros,
-			lambda,
 			thrpt_macro,
 			thrpt_ABS,
 			thrpt_nonABS
@@ -314,23 +293,23 @@ int main()
 
 		// 현재까지 얻은 throughput 입력
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
-			thrp_result_PA1[mob]
-				= thrp_result_PA1[mob]
+			mobiles[mob]->thrp_result_PA1
+				= mobiles[mob]->thrp_result_PA1
 				+ thrpt_macro[mob]  * resource_macro_PA1[mob]
 				+ thrpt_ABS[mob]    * resource_ABS_PA1[mob]
 				+ thrpt_nonABS[mob] * resource_nonABS_PA1[mob]
 			;
 
-		// 평균 rate Ru, rate_user_PA1[mob], 업데이트
+		// 평균 rate Ru, mobiles[mob]->rate_user_PA1, 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			if (lambda[mob] == 0.0)
-				rate_user_PA1[mob] = RATE_MAX;
+			if (mobiles[mob]->lambda == 0.0)
+				mobiles[mob]->rate_user_PA1 = RATE_MAX;
 			else
-				//rate_user_PA1[mob] = 0.8* rate_user_PA1[mob] + 0.2 * (1.0 + mu[mob]) / lambda[mob];
-				rate_user_PA1[mob]
-					= 0.8 * rate_user_PA1[mob]
-					+ 0.2 * (1.0 + mu[mob]) / lambda[mob]
+				//mobiles[mob]->rate_user_PA1 = 0.8* mobiles[mob]->rate_user_PA1 + 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda;
+				mobiles[mob]->rate_user_PA1
+					= 0.8 * mobiles[mob]->rate_user_PA1
+					+ 0.2 * (1.0 + mobiles[mob]->mu) / mobiles[mob]->lambda
 				;
 		}
 
@@ -371,21 +350,21 @@ int main()
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
 			double lambda_temp, mu_temp;
-			//if (     (thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob] >= 0.0)  //feasilbity
-			//	&& (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05))
-			if ( (abs(thrp_result_PA1[mob] / (1 + t) - rate_user_PA1[mob]) * lambda[mob] < 0.05))
-				lambda_temp = lambda[mob] - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - rate_user_PA1[mob]);
+			//if (     (mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1 >= 0.0)  //feasilbity
+			//	&& (abs(mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1) * mobiles[mob]->lambda < 0.05))
+			if ( (abs(mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1) * mobiles[mob]->lambda < 0.05))
+				lambda_temp = mobiles[mob]->lambda - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobiles[mob]->rate_user_PA1);
 			else
-				lambda_temp = lambda[mob] - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - rate_user_PA1[mob]);
-			lambda[mob] = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
+				lambda_temp = mobiles[mob]->lambda - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobiles[mob]->rate_user_PA1);
+			mobiles[mob]->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
 
-			//if ((log(rate_user_PA1[mob]) >= mobiles[mob]->QoS)
-				//&& (abs(log(rate_user_PA1[mob]) - mobiles[mob]->QoS) * mu[mob] < 0.01))
-			if ( (abs(log(rate_user_PA1[mob]) - mobiles[mob]->QoS) * mu[mob] < 0.01))
-				mu_temp = mu[mob] - STEP_SIZE * (log(rate_user_PA1[mob]) - mobiles[mob]->QoS);
+			//if ((log(mobiles[mob]->rate_user_PA1) >= mobiles[mob]->QoS)
+				//&& (abs(log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS) * mobiles[mob]->mu < 0.01))
+			if ( (abs(log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS) * mobiles[mob]->mu < 0.01))
+				mu_temp = mobiles[mob]->mu - STEP_SIZE * (log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS);
 			else
-				mu_temp = mu[mob] - STEP_SIZE2 * (log(rate_user_PA1[mob]) - mobiles[mob]->QoS);
-			mu[mob] = (0.0 > mu_temp) ? 0.0 : mu_temp;
+				mu_temp = mobiles[mob]->mu - STEP_SIZE2 * (log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS);
+			mobiles[mob]->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -408,8 +387,8 @@ int main()
 			double function_result = 0.0;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t%f\t%f\t%f\n", rate_user_PA1[mob], log(rate_user_PA1[mob]), (thrp_result_PA1[mob] / (1 + t)), log(thrp_result_PA1[mob] / (1 + t)));
-				Savefile << rate_user_PA1[mob] << "\t" << log(rate_user_PA1[mob]) << "\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t" << log(thrp_result_PA1[mob] / (1 + t)) << std::endl;
+				printf("%f\t%f\t%f\t%f\n", mobiles[mob]->rate_user_PA1, log(mobiles[mob]->rate_user_PA1), (mobiles[mob]->thrp_result_PA1 / (1 + t)), log(mobiles[mob]->thrp_result_PA1 / (1 + t)));
+				Savefile << mobiles[mob]->rate_user_PA1 << "\t" << log(mobiles[mob]->rate_user_PA1) << "\t" << (mobiles[mob]->thrp_result_PA1 / (1 + t)) << "\t" << log(mobiles[mob]->thrp_result_PA1 / (1 + t)) << std::endl;
 			}
 			printf("\n%s\t\t", "lambda");
 			Savefile << std::endl << "lambda" << "\t" << "\t";
@@ -417,18 +396,18 @@ int main()
 			savem << t << "\t"; // Number of Simulation
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t", lambda[mob]);
-				Savefile << lambda[mob] << "\t";
-				savel << lambda[mob] << "\t";
+				printf("%f\t", mobiles[mob]->lambda);
+				Savefile << mobile[mob]->lambda << "\t";
+				savel << mobiles[mob]->lambda << "\t";
 			}
 			printf("\n%s\t\t", "mu");
 			Savefile << std::endl << "mu" << "\t" << "\t";
 
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t", mu[mob]);
-				Savefile << mu[mob] << "\t";
-				savem << mu[mob] << "\t";
+				printf("%f\t", mobiles[mob]->mu);
+				Savefile << mobiles[mob]->mu << "\t";
+				savem << mobiles[mob]->mu << "\t";
 
 			}
 			printf("\n");
@@ -478,16 +457,16 @@ int main()
 			double function_result = 0.0;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				//printf("%f\t%f\t%f\t%f\n", rate_user_PA1[mob], log(rate_user_PA1[mob]), (thrp_result_PA1[mob] / (1 + t)), log(thrp_result_PA1[mob] / (1 + t)));
+				//printf("%f\t%f\t%f\t%f\n", mobiles[mob]->rate_user_PA1, log(mobiles[mob]->rate_user_PA1), (mobiles[mob]->thrp_result_PA1 / (1 + t)), log(mobiles[mob]->thrp_result_PA1 / (1 + t)));
 				printf("%f\t%f\t%f\t%f\t%f\t%f\n",
-					rate_user_PA1[mob],
-					(thrp_result_PA1[mob] / (1 + t)),
-					log(rate_user_PA1[mob]),
-					log(thrp_result_PA1[mob] / (1 + t)),
-					lambda[mob],
-					mu[mob]
+					mobiles[mob]->rate_user_PA1,
+					(mobiles[mob]->thrp_result_PA1 / (1 + t)),
+					log(mobiles[mob]->rate_user_PA1),
+					log(mobiles[mob]->thrp_result_PA1 / (1 + t)),
+					mobiles[mob]->lambda,
+					mobiles[mob]->mu
 				);
-				//Savefile << rate_user_PA1[mob] << "\t" << log(rate_user_PA1[mob]) << "\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t" << log(thrp_result_PA1[mob] / (1 + t)) << std::endl;
+				//Savefile << mobiles[mob]->rate_user_PA1 << "\t" << log(mobiles[mob]->rate_user_PA1) << "\t" << (mobiles[mob]->thrp_result_PA1 / (1 + t)) << "\t" << log(mobiles[mob]->thrp_result_PA1 / (1 + t)) << std::endl;
 			}
 			/*
 			printf("\n%s\t\t", "lambda");
@@ -496,18 +475,18 @@ int main()
 			savem << t << "\t"; // Number of Simulation
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t", lambda[mob]);
-				Savefile << lambda[mob] << "\t";
-				savel << lambda[mob] << "\t";
+				printf("%f\t", mobiles[mob]->lambda);
+				Savefile << mobiles[mob]->lambda_temp << "\t";
+				savel << mobiles[mob]->lambda << "\t";
 			}
 			printf("\n%s\t\t", "mu");
 			Savefile << std::endl << "mu" << "\t" << "\t";
 
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%f\t", mu[mob]);
-				Savefile << mu[mob] << "\t";
-				savem << mu[mob] << "\t";
+				printf("%f\t", mobiles[mob]->mu);
+				Savefile << mobiles[mob]->mu << "\t";
+				savem << mobiles[mob]->mu << "\t";
 
 			}
 			printf("\n");
@@ -550,7 +529,7 @@ int main()
 			double sum_utility = 0.0;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				sum_utility = sum_utility + log(thrp_result_PA1[mob] / (1 + t));
+				sum_utility = sum_utility + log(mobiles[mob]->thrp_result_PA1 / (1 + t));
 			}
 			printf("%s\t%f\n", "sum utility", sum_utility);
 
@@ -563,7 +542,7 @@ int main()
 			results << "USER\t\t" << "Rate\t\t" << "Thrpt\t\t" << "Util Rate\t" << "Util Thrpt\t" << "QoS" << std::endl;
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				results << "USER " << mob + 1 << "\t\t" << rate_user_PA1[mob] << "\t\t" << (thrp_result_PA1[mob] / (1 + t)) << "\t\t" << log(rate_user_PA1[mob]) << "\t\t" << log(thrp_result_PA1[mob] / (1 + t)) << "\t\t" << QOS << std::endl;
+				results << "USER " << mob + 1 << "\t\t" << mobiles[mob]->rate_user_PA1 << "\t\t" << (mobiles[mob]->thrp_result_PA1 / (1 + t)) << "\t\t" << log(mobiles[mob]->rate_user_PA1) << "\t\t" << log(mobiles[mob]->thrp_result_PA1 / (1 + t)) << "\t\t" << QOS << std::endl;
 			}
 		}
 
@@ -713,7 +692,6 @@ void PA1_calculation(
 	Mobile **mobiles,
 	Pico **picos,
 	Macro **macros,
-	double *_lambda,
 	double *_thrpt_macro,
 	double *_thrpt_ABS,
 	double *_thrpt_nonABS
@@ -732,7 +710,7 @@ void PA1_calculation(
 			int selected_user = macros[mac]->selected_user_PA1;
 			_objective_temp
 				= _objective_temp
-				+ _lambda[selected_user] * _thrpt_macro[selected_user]
+				+ mobiles[selected_user]->lambda * _thrpt_macro[selected_user]
 			;
 			_user_state_temp[selected_user] = 1;
 		}
@@ -771,14 +749,14 @@ void PA1_calculation(
 			{
 				if (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user1_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user1_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user1_PA1))
 				{
-					_objective_temp = _objective_temp + _lambda[pico->ABS_user1_PA1] * _thrpt_ABS[pico->ABS_user1_PA1];
+					_objective_temp = _objective_temp + mobiles[pico->ABS_user1_PA1]->lambda * _thrpt_ABS[pico->ABS_user1_PA1];
 					_user_state_temp[pico->ABS_user1_PA1] = 2;
 				}
 				else if (pico->ABS_user2_PA1 != -1)
 				{
 					if (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 0 || (macro_state_PA1[mobiles[pico->ABS_user2_PA1]->macro_service] == 1 && macros[mobiles[pico->ABS_user2_PA1]->macro_service]->selected_user_PA1 != pico->ABS_user2_PA1))
 					{
-						_objective_temp = _objective_temp + _lambda[pico->ABS_user2_PA1] * _thrpt_ABS[pico->ABS_user2_PA1];
+						_objective_temp = _objective_temp + mobiles[pico->ABS_user2_PA1]->lambda * _thrpt_ABS[pico->ABS_user2_PA1];
 						_user_state_temp[pico->ABS_user2_PA1] = 2;
 					}
 				}
@@ -790,7 +768,7 @@ void PA1_calculation(
 		{
 			if (pico->nA_user1_PA1 != -1)
 			{
-				_objective_temp = _objective_temp + _lambda[pico->nA_user1_PA1] * _thrpt_nonABS[pico->nA_user1_PA1];
+				_objective_temp = _objective_temp + mobiles[pico->nA_user1_PA1]->lambda * _thrpt_nonABS[pico->nA_user1_PA1];
 				_user_state_temp[pico->nA_user1_PA1] = 3;
 			}
 		}
@@ -798,7 +776,7 @@ void PA1_calculation(
 		{
 			if ((pico->nA_user2_PA1 != -1) && (_user_state_temp[pico->nA_user2_PA1] != 1))
 			{
-				_objective_temp = _objective_temp + _lambda[pico->nA_user2_PA1] * _thrpt_nonABS[pico->nA_user2_PA1];
+				_objective_temp = _objective_temp + mobiles[pico->nA_user2_PA1]->lambda * _thrpt_nonABS[pico->nA_user2_PA1];
 				_user_state_temp[picos[pic]->nA_user2_PA1] = 4;
 			}
 		}
@@ -825,7 +803,6 @@ void PA1_call_next_pico(
 	Mobile **mobiles,
 	Pico **picos,
 	Macro **macros,
-	double *_lambda,
 	double *_thrpt_macro,
 	double *_thrpt_ABS,
 	double *_thrpt_nonABS
@@ -844,7 +821,6 @@ void PA1_call_next_pico(
 				mobiles,
 				picos,
 				macros,
-				_lambda,
 				_thrpt_macro,
 				_thrpt_ABS,
 				_thrpt_nonABS
@@ -859,7 +835,6 @@ void PA1_call_next_pico(
 				mobiles,
 				picos,
 				macros,
-				_lambda,
 				_thrpt_macro,
 				_thrpt_ABS,
 				_thrpt_nonABS

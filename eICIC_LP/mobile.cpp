@@ -12,6 +12,12 @@ Mobile::Mobile(point loc, double qos)
 
 	this->num_interferer_pico = 0;
 
+	this->lambda = 0.1;
+	this->mu = 0.0;
+
+	this->thrp_result_PA1 = 0.0;
+	this->rate_user_PA1 = 0.0;
+
 	this->allocated_macro_count = 0;
 	this->allocated_ABS_count = 0;
 	this->allocated_nonABS_count = 0;
