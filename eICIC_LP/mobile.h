@@ -56,5 +56,6 @@ public:
 
 	void set_serviceBS(int _serviceBS );
 
+	void cell_association_static(double _cre_bias);
 };
 

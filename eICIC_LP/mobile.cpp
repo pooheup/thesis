@@ -103,3 +103,9 @@ void Mobile::set_macro_interference(int macro_num)
 		macro_interference = macro_interference + channel_gain_macro[i];
 	}
 }
+
+void Mobile::cell_association_static(double _cre_bias)
+{
+	if (channel_gain_macro[macro_service] >= (_cre_bias * channel_gain_pico[pico_service])) associated_BS_static = 0;
+	else associated_BS_static = 1;
+}
