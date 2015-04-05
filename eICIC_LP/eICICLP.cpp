@@ -170,14 +170,6 @@ int main()
 
 		// /////////////////////////////////////////////////
 		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
-		int pico_ABS_user_PA[PICO_NUM];
-		int pico_ABS_user_PA2[PICO_NUM];
-		int pico_nA_user1_PA[PICO_NUM];
-		int pico_nA_user2_PA[PICO_NUM];
-
-		for (int pic = 0; pic < PICO_NUM; pic++)
-			pico_nA_user2_PA[pic] = -1;
-
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
 			int temp_pico_ABS_PA_user  = -1;
@@ -237,14 +229,9 @@ int main()
 					temp_pico_nA_PA2_user   = picos[pic]->service_mobile[j];
 				}
 			}
-			pico_ABS_user_PA2[pic] = temp_pico_ABS_PA_user2;
-			pico_ABS_user_PA[pic]  = temp_pico_ABS_PA_user;
-			pico_nA_user1_PA[pic]  = temp_pico_nA_PA1_user;
-			pico_nA_user2_PA[pic]  = temp_pico_nA_PA2_user;
-		}
 
-		for (int pic = 0; pic < PICO_NUM; pic++)
-			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic]);
+			picos[pic]->set_user_PA1(temp_pico_ABS_PA_user, temp_pico_ABS_PA_user2, temp_pico_nA_PA1_user, temp_pico_nA_PA2_user);
+		}
 
 		// /////////////////////////////////////////////////
 		// 각 macro 유저 찾기
@@ -259,9 +246,9 @@ int main()
 			double temp_macro_PA = -1000.0;
 			for (int j = 0; j < macros[mac]->getMobileCount(); j++)
 			{
-				if (macros[mac]->mobile_service[j] == pico_nA_user1_PA[mobiles[macros[mac]->mobile_service[j]]->pico_service])
+				if (macros[mac]->mobile_service[j] == picos[mobiles[macros[mac]->mobile_service[j]]->pico_service]->nA_user1_PA1)
 				{
-					int user_temp_temp = pico_nA_user2_PA[mobiles[macros[mac]->mobile_service[j]]->pico_service]; // second user num
+					int user_temp_temp = picos[mobiles[macros[mac]->mobile_service[j]]->pico_service]->nA_user2_PA1; // second user num
 					double temp_temp;
 					if (user_temp_temp != -1) temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]] + lambda[user_temp_temp] * thrpt_nonABS[user_temp_temp]);
 					else temp_temp = (lambda[macros[mac]->mobile_service[j]] * thrpt_macro[macros[mac]->mobile_service[j]] - lambda[macros[mac]->mobile_service[j]] * thrpt_nonABS[macros[mac]->mobile_service[j]]);
