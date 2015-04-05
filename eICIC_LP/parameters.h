@@ -14,6 +14,8 @@
 #define MACRO_NUM			7		/* Number of macro BS */
 #define PICO_NUM			15	/* Number of pico BS */
 
+#define RB_NUM				100 // Number of Resource Blocks
+
 #define AREA_DIST			2000	/* 시뮬레이션 전체 영역 크기, AREA_DIST*ARE_DIST 로 정의, random하게 위치 정할때 사용, 위치 지정할 경우 의미 없음 */
 
 #define AREA_RADIUS			1500	/* 전체 영역 반경 r, theata 로 생성할때 이용. 7 셀 기준 1500 */
