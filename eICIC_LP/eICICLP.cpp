@@ -168,9 +168,8 @@ int main()
 		// /////////////////////////////////////////////////////////////////////
 		// 제안하는 알고리즘을 바탕으로 솔루션 찾기.
 
-		// 변수 선언
-		int macro_user_PA[MACRO_NUM];
-		int macro_cover_pico_PA[MACRO_NUM];
+		// /////////////////////////////////////////////////
+		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		int pico_ABS_user_PA[PICO_NUM];
 		int pico_ABS_user_PA2[PICO_NUM];
 		int pico_nA_user1_PA[PICO_NUM];
@@ -180,7 +179,6 @@ int main()
 		for (int pic = 0; pic < PICO_NUM; pic++)
 			pico_nA_user2_PA[pic] = -1;
 
-		// 각 pico 에서 ABS best user, non-ABS first.second user 선택
 		for (int pic = 0; pic < PICO_NUM; pic++)
 		{
 			int temp_pico_ABS_PA_user  = -1;
@@ -247,7 +245,16 @@ int main()
 			pico_nA_01_PA[pic]     = 0; // 초기화
 		}
 
-		// 각 macro 유저 찾기 // mobile 번호: macro[mac].mobile_service[j]
+		for (int pic = 0; pic < PICO_NUM; pic++)
+			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic], pico_nA_01_PA[pic]);
+
+		// /////////////////////////////////////////////////
+		// 각 macro 유저 찾기
+		// mobile 번호: macro[mac].mobile_service[j]
+		
+		int macro_user_PA[MACRO_NUM];
+		int macro_cover_pico_PA[MACRO_NUM];
+
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
 			int temp_macro_PA_user = -1;
@@ -284,8 +291,7 @@ int main()
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 			macros[mac]->set_user_PA1(macro_user_PA[mac], macro_cover_pico_PA[mac]);
 
-		for (int pic = 0; pic < PICO_NUM; pic++)
-			picos[pic]->set_user_PA1(pico_ABS_user_PA[pic], pico_ABS_user_PA2[pic], pico_nA_user1_PA[pic], pico_nA_user2_PA[pic], pico_nA_01_PA[pic]);
+		// /////////////////////////////////////////////////////////////////////
 
 		double objective_value_best_PA1 = -1.0;
 		int macro_state_PA1[MACRO_NUM];
