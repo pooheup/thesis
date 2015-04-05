@@ -297,10 +297,9 @@ int main()
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 			user_state_best_PA1[mob] = 0;
 
-		int mac = 0;
 		// macro 들의 모든 조합에 대하여 최적의 값 선택
 		PA1_call_next_pico(
-			mac,
+			0,
 			&objective_value_best_PA1,
 			state_temp_PA1,
 			state_best_PA1,
