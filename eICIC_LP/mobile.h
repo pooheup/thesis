@@ -16,6 +16,10 @@ private:
 	int macro_neighbor[MACRO_NUM];
 	double channel_gain_service_macro;
 
+	int allocated_macro_count;
+	int allocated_ABS_count;
+	int allocated_nonABS_count;
+
 public:
 
 	point location;
@@ -55,6 +59,14 @@ public:
 	void set_macro_interference(int macro_num);
 
 	void set_serviceBS(int _serviceBS );
+
+	void increase_allocated_macro_count();
+	void increase_allocated_ABS_count();
+	void increase_allocated_nonABS_count();
+
+	int get_allocated_macro_count();
+	int get_allocated_ABS_count();
+	int get_allocated_nonABS_count();
 
 };
 

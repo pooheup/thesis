@@ -55,10 +55,6 @@ int main()
 
 	// /////////////////////////////////
 
-	int num_allocated_macro[MOBILE_NUM];
-	int num_allocated_ABS[MOBILE_NUM];
-	int num_allocated_nonABS[MOBILE_NUM];
-
 	// dual variable
 	double lambda[MOBILE_NUM];
 	double mu[MOBILE_NUM];
@@ -71,10 +67,6 @@ int main()
 	// 변수 초기화
 	for (int mob = 0; mob < MOBILE_NUM; mob++)
 	{
-		num_allocated_macro[mob]        = 0;
-		num_allocated_ABS[mob]          = 0;
-		num_allocated_nonABS[mob]       = 0;
-
 		lambda[mob]                     = 0.1;
 		mu[mob]                         = 0.0;
 
@@ -350,14 +342,14 @@ int main()
 			switch (user_state_best_PA1[mob])
 			{
 				case 1:
-					num_allocated_macro[mob]  = num_allocated_macro[mob] + 1;
+					mobiles[mob]->increase_allocated_macro_count();
 					break;
 				case 2:
-					num_allocated_ABS[mob]    = num_allocated_ABS[mob] + 1;
+					mobiles[mob]->increase_allocated_ABS_count();
 					break;
 				case 3:
 				case 4:
-					num_allocated_nonABS[mob] = num_allocated_nonABS[mob] + 1;
+					mobiles[mob]->increase_allocated_nonABS_count();
 					break;
 			}
 		}
@@ -457,8 +449,8 @@ int main()
 			}
 			for (int mob = 0; mob < MOBILE_NUM; mob++)
 			{
-				printf("%d\t%d\t%d\n", num_allocated_macro[mob], num_allocated_ABS[mob], num_allocated_nonABS[mob]);
-				Savefile << num_allocated_macro[mob] << "\t" << num_allocated_ABS[mob] << "\t" << num_allocated_nonABS[mob] << std::endl;
+				printf("%d\t%d\t%d\n", mobiles[mob]->get_allocated_macro_count(), mobiles[mob]->get_allocated_ABS_count(), mobiles[mob]->get_allocated_nonABS_count());
+				Savefile << mobiles[mob]->get_allocated_macro_count() << "\t" << mobiles[mob]->get_allocated_ABS_count() << "\t" << mobiles[mob]->get_allocated_nonABS_count() << std::endl;
 			}
 			printf("\n");
 			for (int mac = 0; mac < MACRO_NUM; mac++)
@@ -538,8 +530,8 @@ int main()
 			*/
 			//for (int mob = 0; mob < MOBILE_NUM; mob++)
 			//{
-				//printf("%d\t%d\t%d\n", num_allocated_macro[mob], num_allocated_ABS[mob], num_allocated_nonABS[mob]);
-				//Savefile << num_allocated_macro[mob] << "\t" << num_allocated_ABS[mob] << "\t" << num_allocated_nonABS[mob] << std::endl;
+				//printf("%d\t%d\t%d\n", mobiles[mob]->get_allocated_macro_count(), mobiles[mob]->get_allocated_ABS_count(), mobiles[mob]->get_allocated_nonABS_count());
+				//Savefile << mobiles[mob]->get_allocated_macro_count() << "\t" << mobiles[mob]->get_allocated_ABS_count() << "\t" << mobiles[mob]->get_allocated_nonABS_count() << std::endl;
 			//}
 
 			printf("\n");

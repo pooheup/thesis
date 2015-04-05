@@ -13,6 +13,10 @@ Mobile::Mobile(point location, double qos)
 
 	this->num_interferer_pico = 0;
 
+	this->allocated_macro_count = 0;
+	this->allocated_ABS_count = 0;
+	this->allocated_nonABS_count = 0;
+
 	for (int mac = 0; mac < MACRO_NUM; mac++)
 	{
 		macro_neighbor[mac] = -1;
@@ -103,3 +107,11 @@ void Mobile::set_macro_interference(int macro_num)
 		macro_interference = macro_interference + channel_gain_macro[i];
 	}
 }
+
+void Mobile::increase_allocated_macro_count()  { this->allocated_macro_count++; }
+void Mobile::increase_allocated_ABS_count()    { this->allocated_ABS_count++; }
+void Mobile::increase_allocated_nonABS_count() { this->allocated_nonABS_count++; }
+
+int Mobile::get_allocated_macro_count()  { return this->allocated_macro_count; }
+int Mobile::get_allocated_ABS_count()    { return this->allocated_ABS_count; }
+int Mobile::get_allocated_nonABS_count() { return this->allocated_nonABS_count; }
