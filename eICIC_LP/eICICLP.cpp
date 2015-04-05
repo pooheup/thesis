@@ -749,14 +749,22 @@ void PA1_calculation(
 	{
 		if (_state_temp[mac] == 1)
 		{
-			_objective_temp = _objective_temp + _lambda[macros[mac]->selected_user_PA1] * _thrpt_macro[macros[mac]->selected_user_PA1];
-			_user_state_temp[macros[mac]->selected_user_PA1] = 1;
+			int selected_user = macros[mac]->selected_user_PA1;
+			_objective_temp
+				= _objective_temp
+				+ _lambda[selected_user] * _thrpt_macro[selected_user]
+			;
+			_user_state_temp[selected_user] = 1;
 		}
 	}
+
 	// pico °ª °è»ê
 	for (int pic = 0; pic < PICO_NUM; pic++)
 	{
-		int ABS_indicator = 0; // 0 ABS, 1 non-ABS, 2 non-ABS & second user
+		// 0: ABS
+		// 1: non-ABS
+		// 2: non-ABS & second user
+		int ABS_indicator = 0;
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
@@ -766,7 +774,8 @@ void PA1_calculation(
 			}
 		}
 
-		if (ABS_indicator == 1 && picos[pic]->nA_user1_PA1 != -1 && macros[mobiles[picos[pic]->nA_user1_PA1]->macro_service]->selected_user_PA1 == picos[pic]->nA_user1_PA1) ABS_indicator = 2;
+		if (ABS_indicator == 1 && picos[pic]->nA_user1_PA1 != -1 && macros[mobiles[picos[pic]->nA_user1_PA1]->macro_service]->selected_user_PA1 == picos[pic]->nA_user1_PA1)
+			ABS_indicator = 2;
 
 		if (ABS_indicator == 0)
 		{
