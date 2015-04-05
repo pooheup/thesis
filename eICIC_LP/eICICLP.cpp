@@ -30,17 +30,6 @@ int main()
 	initialize(macros, picos, mobiles);
 
 	// /////////////////////////////////////////////////////////////////////////
-
-	// TODO 시간 반복문 안으로 이동해야 함
-	// 각 모바일이 겪는 interference calculation
-	// 모든 기지국에 대한 간섭을 계산. 실제 이용시 자신이 할당받는 기지국의 신호는 제해야 함.
-	for (int mob = 0; mob < MOBILE_NUM; mob++)
-	{
-		mobiles[mob]->set_pico_interference(PICO_NUM);
-		mobiles[mob]->set_macro_interference(MACRO_NUM);
-	}
-
-	// /////////////////////////////////////////////////////////////////////////
 	// 시뮬레이션에서 필요한 각 변수들 선언
 
 	int abs_count_macro[MACRO_NUM];

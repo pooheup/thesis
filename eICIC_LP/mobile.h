@@ -34,9 +34,6 @@ public:
 	int macro_service;
 	int pico_service;
 
-	double macro_interference;
-	double pico_interference;
-
 	double channel_gain_macro[MACRO_NUM];
 	double channel_gain_pico[PICO_NUM];
 

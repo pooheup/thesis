@@ -92,23 +92,50 @@ void Mobile::generate_channel_gain()
 {
 	double signal, interference;
 
-	// macro 평균 thrpt 계산
-	signal           = this->channel_gain_macro[this->macro_service] *rayleigh() * log_normal();
-	interference     = (this->macro_interference + this->pico_interference - this->channel_gain_macro[this->macro_service]) *rayleigh() * log_normal();
-	this->thrpt_macro = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-	this->thrpt_macro = this->thrpt_macro / 10.0;
+	// 각 매크로에 대한 채널
+	double macro_channel[MACRO_NUM];
+	double macro_channel_sum = 0.0;
+	for (int mac = 0; mac < MACRO_NUM; mac++)
+	{
+		macro_channel[mac]
+			= this->channel_gain_macro[mac]
+			* rayleigh()
+			* log_normal()
+		;
+		macro_channel_sum += macro_channel[mac];
+	}
 
-	// pico ABS 평균 thrpt 계산
-	signal         = this->channel_gain_pico[this->pico_service] *rayleigh() * log_normal();
-	interference   = (this->pico_interference - this->channel_gain_pico[this->pico_service]) *rayleigh() * log_normal();
-	this->thrpt_ABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-	this->thrpt_ABS = this->thrpt_ABS / 10.0;
+	// 각 피코에 대한 채널
+	double pico_channel[PICO_NUM];
+	double pico_channel_sum = 0.0;
+	for (int pic = 0; pic < PICO_NUM; pic++)
+	{
+		pico_channel[pic]
+			= this->channel_gain_pico[pic]
+			* rayleigh()
+			* log_normal()
+		;
+		pico_channel_sum += pico_channel[pic];
+	}
 
-	// pico non-ABS 평균 thrpt 계산
-	//signal            = this->channel_gain_pico[this->pico_service] *rayleigh() * log_normal();
-	interference      = interference + (this->macro_interference ) *rayleigh() * log_normal();
-	this->thrpt_nonABS = cal_thrpt_i(signal, interference, NOISE) / 1000000.0;
-	this->thrpt_nonABS = this->thrpt_nonABS / 10.0;
+	this->thrpt_macro = cal_thrpt_i(
+		macro_channel[this->macro_service],
+		macro_channel_sum + pico_channel_sum - macro_channel[this->macro_service],
+		NOISE
+	) / MEGA;
+
+	this->thrpt_ABS = cal_thrpt_i(
+		pico_channel[this->pico_service],
+		pico_channel_sum - pico_channel[this->pico_service],
+		NOISE
+	) / MEGA;
+
+	this->thrpt_nonABS = cal_thrpt_i(
+		pico_channel[this->pico_service],
+		macro_channel_sum + pico_channel_sum - pico_channel[this->pico_service],
+		NOISE
+	) / MEGA;
+
 }
 
 void Mobile::allocate_resource(int user_state_best_PA1)
@@ -202,26 +229,6 @@ void Mobile::calculate_dual_variable(const int t, const double STEP_SIZE, const 
 	else
 		mu_temp = this->mu - STEP_SIZE2 * (log(this->rate_user_PA1) - this->QoS);
 	this->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
-}
-
-void Mobile::set_pico_interference(int pico_num)
-{
-	pico_interference = 0.0;
-
-	for (int i = 0; i < pico_num; i++)
-	{
-		pico_interference = pico_interference + channel_gain_pico[i];
-	}
-}
-
-void Mobile::set_macro_interference(int macro_num)
-{
-	macro_interference = 0.0;
-
-	for (int i = 0; i < macro_num; i++)
-	{
-		macro_interference = macro_interference + channel_gain_macro[i];
-	}
 }
 
 int Mobile::get_allocated_macro_count()  { return this->allocated_macro_count; }

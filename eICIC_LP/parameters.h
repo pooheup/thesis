@@ -48,5 +48,7 @@
 #define ABS_STATIC			40		// static 비교용, abs 값, % 0~100
 #define CRE_STATIC			12		// static 비교용, cre 값, dB
 
+#define MEGA				1048576.0 // 메가bps
+
 #endif /* _PARAMETER_H_ */
 
