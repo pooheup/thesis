@@ -345,22 +345,24 @@ int main()
 		// dual variable, lambda, mu 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			double lambda_temp, mu_temp;
-			//if (     (mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1 >= 0.0)  //feasilbity
-			//	&& (abs(mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1) * mobiles[mob]->lambda < 0.05))
-			if ( (abs(mobiles[mob]->thrp_result_PA1 / (1 + t) - mobiles[mob]->rate_user_PA1) * mobiles[mob]->lambda < 0.05))
-				lambda_temp = mobiles[mob]->lambda - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobiles[mob]->rate_user_PA1);
-			else
-				lambda_temp = mobiles[mob]->lambda - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobiles[mob]->rate_user_PA1);
-			mobiles[mob]->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
+			Mobile *mobile = mobiles[mob];
 
-			//if ((log(mobiles[mob]->rate_user_PA1) >= mobiles[mob]->QoS)
-				//&& (abs(log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS) * mobiles[mob]->mu < 0.01))
-			if ( (abs(log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS) * mobiles[mob]->mu < 0.01))
-				mu_temp = mobiles[mob]->mu - STEP_SIZE * (log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS);
+			double lambda_temp, mu_temp;
+			//if (     (mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1 >= 0.0)  //feasilbity
+			//	&& (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
+			if ( (abs(mobile->thrp_result_PA1 / (1 + t) - mobile->rate_user_PA1) * mobile->lambda < 0.05))
+				lambda_temp = mobile->lambda - STEP_SIZE * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
 			else
-				mu_temp = mobiles[mob]->mu - STEP_SIZE2 * (log(mobiles[mob]->rate_user_PA1) - mobiles[mob]->QoS);
-			mobiles[mob]->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
+				lambda_temp = mobile->lambda - STEP_SIZE2 * (thrpt_macro[mob] * resource_macro_PA1[mob] + thrpt_ABS[mob] * resource_ABS_PA1[mob] + thrpt_nonABS[mob] * resource_nonABS_PA1[mob] - mobile->rate_user_PA1);
+			mobile->lambda = (0.0 > lambda_temp) ? 0.0 : lambda_temp;
+
+			//if ((log(mobile->rate_user_PA1) >= mobile->QoS)
+				//&& (abs(log(mobile->rate_user_PA1) - mobile->QoS) * mobile->mu < 0.01))
+			if ( (abs(log(mobile->rate_user_PA1) - mobile->QoS) * mobile->mu < 0.01))
+				mu_temp = mobile->mu - STEP_SIZE * (log(mobile->rate_user_PA1) - mobile->QoS);
+			else
+				mu_temp = mobile->mu - STEP_SIZE2 * (log(mobile->rate_user_PA1) - mobile->QoS);
+			mobile->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
 		}
 
 		// /////////////////////////////////////////////////////////////////////
