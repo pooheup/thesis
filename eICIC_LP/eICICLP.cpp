@@ -76,6 +76,7 @@ int main()
 		;
 		//STEP_SIZE2 = STEP_SIZE;
 
+		// TODO 컨텍스트로 분리
 		// 매 timeslot에서의 평균 throughput
 		double thrpt_macro[MOBILE_NUM];
 		double thrpt_ABS[MOBILE_NUM];
@@ -127,10 +128,12 @@ int main()
 
 		// /////////////////////////////////////////////////////////////////////
 
+		int user_state_best_PA1[MOBILE_NUM];
+		{
+
 		double objective_value_best_PA1 = -1.0;
 		int macro_state_PA1[MACRO_NUM];
 		int state_best_PA1[MACRO_NUM];
-		int user_state_best_PA1[MOBILE_NUM];
 
 		for (int mac = 0; mac < MACRO_NUM; mac++)
 		{
@@ -156,6 +159,9 @@ int main()
 			thrpt_nonABS
 		);
 
+		}
+
+		// TODO 컨텍스트로 분리
 		// PA1
 		int resource_macro_PA1[MOBILE_NUM];
 		int resource_ABS_PA1[MOBILE_NUM];
