@@ -178,6 +178,11 @@ int main()
 			// best state 즉, 구한 자원 할당 값 입력
 			switch (user_state_best_PA1[mob])
 			{
+				case 0:
+					resource_macro_PA1[mob]  = 0;
+					resource_ABS_PA1[mob]    = 0;
+					resource_nonABS_PA1[mob] = 0;
+					break;
 				case 1:
 					resource_macro_PA1[mob]  = 1;
 					resource_ABS_PA1[mob]    = 0;
