@@ -169,6 +169,18 @@ void Mobile::count_cell_association(int user_state_best_PA1)
 	}
 }
 
+void Mobile::calculate_rate_user()
+{
+	if (this->lambda == 0.0)
+		this->rate_user_PA1 = RATE_MAX;
+	else
+		//this->rate_user_PA1 = 0.8* this->rate_user_PA1 + 0.2 * (1.0 + this->mu) / this->lambda;
+		this->rate_user_PA1
+			= 0.8 * this->rate_user_PA1
+			+ 0.2 * (1.0 + this->mu) / this->lambda
+		;
+}
+
 void Mobile::set_serviceBS (int _serviceBS )
 {
 	service_BS = _serviceBS;

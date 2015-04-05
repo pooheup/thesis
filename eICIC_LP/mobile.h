@@ -86,6 +86,8 @@ public:
 	void calculate_throughput();
 	void count_cell_association(int user_state_best_PA1);
 
+	void calculate_rate_user();
+
 	void set_serviceBS(int _serviceBS );
 
 	void increase_allocated_macro_count();

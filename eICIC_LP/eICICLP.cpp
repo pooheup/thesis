@@ -129,16 +129,7 @@ int main()
 		// 평균 rate Ru, mobiles[mob]->rate_user_PA1, 업데이트
 		for (int mob = 0; mob < MOBILE_NUM; mob++)
 		{
-			Mobile *mobile = mobiles[mob];
-
-			if (mobile->lambda == 0.0)
-				mobile->rate_user_PA1 = RATE_MAX;
-			else
-				//mobile->rate_user_PA1 = 0.8* mobile->rate_user_PA1 + 0.2 * (1.0 + mobile->mu) / mobile->lambda;
-				mobile->rate_user_PA1
-					= 0.8 * mobile->rate_user_PA1
-					+ 0.2 * (1.0 + mobile->mu) / mobile->lambda
-				;
+			mobiles[mob]->calculate_rate_user();
 		}
 
 		// 각 기지국별 자원 사용했는지 여부 count // 사용한 유저가 없을경우 해당 기지국은 ABS. abs_count 증가
