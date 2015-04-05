@@ -72,14 +72,9 @@ void Mobile::locate_on_pico_of(int pic, Pico *pico)
 		}
 	}
 
-	this->set_dist_pico_1(pic, distance, pico->tx_power, NOISE);
-	this->pico_neighbor[pic] = is_neighbor;
-}
-
-void Mobile::set_dist_pico_1( int cell_num, double dist_temp, double tx_pow, double no)
-{
-	distance_pico[cell_num]         = dist_temp;
-	channel_gain_pico[cell_num]     = tx_pow * pow( (1/dist_temp), PATH_LOSS_EXPO );
+	this->distance_pico[pic]     = distance;
+	this->channel_gain_pico[pic] = pico->tx_power * pow((1/distance), PATH_LOSS_EXPO);
+	this->pico_neighbor[pic]     = is_neighbor;
 }
 
 void Mobile::set_serviceBS (int _serviceBS )
